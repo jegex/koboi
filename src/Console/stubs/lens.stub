@@ -1,0 +1,82 @@
+<?php
+
+namespace {{ namespace }};
+
+use Illuminate\Contracts\Database\Eloquent\Builder;
+use Illuminate\Contracts\Pagination\Paginator;
+use Jegex\Koboi\Fields\ID;
+use Jegex\Koboi\Fields\Text;
+use Jegex\Koboi\Http\Requests\LensRequest;
+use Jegex\Koboi\Http\Requests\NovaRequest;
+use Jegex\Koboi\Lenses\Lens;
+use Jegex\Koboi\Nova;
+
+class {{ class }} extends Lens
+{
+    /**
+     * The columns that should be searched.
+     *
+     * @var array
+     */
+    public static $search = [];
+
+    /**
+     * Get the query builder / paginator for the lens.
+     */
+    public static function query(LensRequest $request, Builder $query): Builder|Paginator
+    {
+        return $request->withOrdering($request->withFilters(
+            $query
+        ));
+    }
+
+    /**
+     * Get the fields available to the lens.
+     *
+     * @return array<int, \Jegex\Koboi\Fields\Field>
+     */
+    public function fields(NovaRequest $request): array
+    {
+        return [
+            ID::make(Nova::__('ID'), 'id')->sortable(),
+        ];
+    }
+
+    /**
+     * Get the cards available on the lens.
+     *
+     * @return array<int, \Jegex\Koboi\Card>
+     */
+    public function cards(NovaRequest $request): array
+    {
+        return [];
+    }
+
+    /**
+     * Get the filters available for the lens.
+     *
+     * @return array<int, \Jegex\Koboi\Filters\Filter>
+     */
+    public function filters(NovaRequest $request): array
+    {
+        return [];
+    }
+
+    /**
+     * Get the actions available on the lens.
+     *
+     * @return array<int, \Jegex\Koboi\Actions\Action>
+     */
+    public function actions(NovaRequest $request): array
+    {
+        return parent::actions($request);
+    }
+
+    /**
+     * Get the URI key for the lens.
+     */
+    public function uriKey(): string
+    {
+        return 'uri-key';
+    }
+}

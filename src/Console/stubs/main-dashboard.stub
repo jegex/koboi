@@ -1,0 +1,21 @@
+<?php
+
+namespace App\Nova\Dashboards;
+
+use Jegex\Koboi\Cards\Help;
+use Jegex\Koboi\Dashboards\Main as Dashboard;
+
+class Main extends Dashboard
+{
+    /**
+     * Get the cards for the dashboard.
+     *
+     * @return array<int, \Jegex\Koboi\Card>
+     */
+    public function cards(): array
+    {
+        return [
+            new Help,
+        ];
+    }
+}

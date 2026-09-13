@@ -1,0 +1,15 @@
+<?php
+
+namespace {{ namespace }};
+
+use Jegex\Koboi\Fields\Field;
+
+class {{ class }} extends Field
+{
+    /**
+     * The field's component.
+     *
+     * @var string
+     */
+    public $component = '{{ component }}';
+}

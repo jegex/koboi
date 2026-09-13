@@ -1,0 +1,45 @@
+<?php
+
+namespace Jegex\Koboi;
+
+use Jegex\Koboi\Contracts\Storable;
+use Jegex\Koboi\Http\Requests\NovaRequest;
+
+class DeleteField
+{
+    /**
+     * Delete the given field.
+     *
+     * @param  \Jegex\Koboi\Fields\Field&\Jegex\Koboi\Contracts\Deletable  $field
+     * @param  \Illuminate\Database\Eloquent\Model  $model
+     * @return \Illuminate\Database\Eloquent\Model
+     */
+    public static function forRequest(NovaRequest $request, $field, $model)
+    {
+        $arguments = [
+            $request,
+            $model,
+        ];
+
+        if ($field instanceof Storable) {
+            array_push($arguments, $field->getStorageDisk(), $field->getStoragePath());
+        }
+
+        /** @phpstan-ignore property.notFound */
+        $result = \call_user_func_array($field->deleteCallback, $arguments);
+
+        if ($result === true) {
+            return $model;
+        }
+
+        if (! \is_array($result)) {
+            $model->{$field->attribute} = $result;
+        } else {
+            foreach ($result as $key => $value) {
+                $model->{$key} = $value;
+            }
+        }
+
+        return $model;
+    }
+}

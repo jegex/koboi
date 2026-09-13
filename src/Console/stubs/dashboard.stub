@@ -1,0 +1,28 @@
+<?php
+
+namespace {{ namespace }};
+
+use Jegex\Koboi\Dashboard;
+
+class {{ class }} extends Dashboard
+{
+    /**
+     * Get the cards for the dashboard.
+     *
+     * @return array<int, \Jegex\Koboi\Card>
+     */
+    public function cards(): array
+    {
+        return [
+            //
+        ];
+    }
+
+    /**
+     * Get the URI key for the dashboard.
+     */
+    public function uriKey(): string
+    {
+        return 'uri-key';
+    }
+}

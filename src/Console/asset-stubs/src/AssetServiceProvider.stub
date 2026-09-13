@@ -1,0 +1,28 @@
+<?php
+
+namespace {{ namespace }};
+
+use Illuminate\Support\ServiceProvider;
+use Jegex\Koboi\Events\ServingNova;
+use Jegex\Koboi\Nova;
+
+class AssetServiceProvider extends ServiceProvider
+{
+    /**
+     * Bootstrap any application services.
+     */
+    public function boot(): void
+    {
+        Nova::serving(function (ServingNova $event) {
+            Nova::mix('{{ component }}', __DIR__.'/../dist/mix-manifest.json');
+        });
+    }
+
+    /**
+     * Register any application services.
+     */
+    public function register(): void
+    {
+        //
+    }
+}
