@@ -12,7 +12,7 @@
 
     <!-- Styles -->
     @php
-        $viteManifestPath = public_path('vendor/koboi/build/manifest.json');
+        $viteManifestPath = public_path('vendor/koboi/manifest.json');
     @endphp
 
     @if(file_exists($viteManifestPath))
