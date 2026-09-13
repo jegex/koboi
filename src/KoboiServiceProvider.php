@@ -2,9 +2,9 @@
 
 namespace Jegex\Koboi;
 
+use Jegex\Koboi\Commands\KoboiCommand;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
-use Jegex\Koboi\Commands\KoboiCommand;
 
 class KoboiServiceProvider extends PackageServiceProvider
 {
