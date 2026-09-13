@@ -1,12 +1,12 @@
 <?php
 
-namespace VendorName\Skeleton\Commands;
+namespace Jegex\Koboi\Commands;
 
 use Illuminate\Console\Command;
 
-class SkeletonCommand extends Command
+class KoboiCommand extends Command
 {
-    public $signature = 'skeleton';
+    public $signature = 'koboi';
 
     public $description = 'My command';
 
