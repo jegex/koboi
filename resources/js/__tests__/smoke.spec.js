@@ -1,23 +1,33 @@
-import { render, screen } from '@testing-library/svelte'
 import { describe, expect, it } from 'vitest'
 
-import App from '../App.svelte'
+import '../app.js'
 import { cn, createNovaUi } from '../ui.js'
+import Nova from '../nova.js'
 
 describe('koboi smoke', () => {
-    it('renders the minimal svelte app', () => {
-        render(App, { props: { config: { version: '5.9.5 (Silver Surfer)' } } })
+  it('keeps createNovaApp as the boot entry without window.Vue', () => {
+    expect(typeof window.createNovaApp).toBe('function')
+    expect(window.Vue).toBeUndefined()
+  })
 
-        expect(screen.getByTestId('app-shell')).toBeInTheDocument()
-        expect(screen.getByText(/Koboi — Svelte 5 admin panel/)).toBeInTheDocument()
-        expect(screen.getByText(/Booting version 5\.9\.5 \(Silver Surfer\)/)).toBeInTheDocument()
-    })
+  it('creates a Nova instance from the config', () => {
+    const nova = window.createNovaApp({ appName: 'Koboi', base: '/nova' })
 
-    it('provides the ui utility surface', () => {
-        expect(cn('a', null, 'b')).toBe('a b')
+    expect(nova).toBeInstanceOf(Nova)
+    expect(nova.config('appName')).toBe('Koboi')
+    expect(nova.url('/users')).toBe('/nova/users')
+  })
 
-        const ui = createNovaUi({ version: '5.9.5 (Silver Surfer)' })
-        expect(ui.config.version).toBe('5.9.5 (Silver Surfer)')
-        expect(ui.cn('x', undefined, 'y')).toBe('x y')
-    })
+  it('exposes LaravelNovaUtil on window', () => {
+    expect(window.LaravelNovaUtil).toBeDefined()
+    expect(typeof window.LaravelNovaUtil.filled).toBe('function')
+  })
+
+  it('provides the ui utility surface', () => {
+    expect(cn('a', null, 'b')).toBe('a b')
+
+    const ui = createNovaUi({ version: '5.9.5 (Silver Surfer)' })
+    expect(ui.config.version).toBe('5.9.5 (Silver Surfer)')
+    expect(ui.cn('x', undefined, 'y')).toBe('x y')
+  })
 })

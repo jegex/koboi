@@ -1,21 +1,5 @@
-import { mount } from 'svelte'
-import App from './App.svelte'
+import Nova from './nova.js'
+import * as NovaUtil from './util/index.js'
 
-export function createNovaApp(config) {
-    const target = document.body
-
-    const app = mount(App, {
-        target,
-        props: { config },
-    })
-
-    return {
-        countdown() {},
-        liftOff() {},
-        _app: app,
-    }
-}
-
-window.createNovaApp = createNovaApp
-
-export default createNovaApp
+window.LaravelNovaUtil = NovaUtil
+window.createNovaApp = config => new Nova(config)
