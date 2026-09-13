@@ -2,15 +2,16 @@
 
 namespace Jegex\Koboi\Testing\Browser\Concerns;
 
-use Laravel\Dusk\Browser;
+use Facebook\WebDriver\Exception\TimeOutException;
 use Jegex\Koboi\Testing\Browser\Components\Modals\CreateRelationModalComponent;
+use Laravel\Dusk\Browser;
 
 trait InteractsWithInlineCreateRelation
 {
     /**
      * Run the inline relation.
      *
-     * @throws \Facebook\WebDriver\Exception\TimeOutException
+     * @throws TimeOutException
      */
     public function showInlineCreate(Browser $browser, string $uriKey, callable $fieldCallback): void
     {
@@ -25,7 +26,7 @@ trait InteractsWithInlineCreateRelation
     /**
      * Run the inline create relation.
      *
-     * @throws \Facebook\WebDriver\Exception\TimeOutException
+     * @throws TimeOutException
      */
     public function runInlineCreate(Browser $browser, string $uriKey, callable $fieldCallback): void
     {

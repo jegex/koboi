@@ -2,6 +2,7 @@
 
 namespace Jegex\Koboi\Actions;
 
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 
 class ActionMethod
@@ -9,7 +10,7 @@ class ActionMethod
     /**
      * Determine the appropriate "handle" method for the given models.
      *
-     * @param  \Illuminate\Database\Eloquent\Model  $model
+     * @param  Model  $model
      */
     public static function determine(Action $action, $model): string
     {

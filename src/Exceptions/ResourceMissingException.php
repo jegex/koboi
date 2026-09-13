@@ -3,13 +3,14 @@
 namespace Jegex\Koboi\Exceptions;
 
 use Exception;
+use Illuminate\Database\Eloquent\Model;
 
 class ResourceMissingException extends Exception
 {
     /**
      * Construct a new exception.
      *
-     * @param  \Illuminate\Database\Eloquent\Model  $model
+     * @param  Model  $model
      */
     public function __construct($model)
     {

@@ -2,9 +2,11 @@
 
 namespace Jegex\Koboi\Fields;
 
+use Illuminate\Database\Eloquent\Model;
 use Jegex\Koboi\Element;
 use Jegex\Koboi\Http\Requests\NovaRequest;
 use Jegex\Koboi\Panel;
+use Jegex\Koboi\Support\Fluent;
 
 /**
  * @phpstan-type TMixedResource \Illuminate\Database\Eloquent\Model|\Jegex\Koboi\Support\Fluent|object|array
@@ -14,39 +16,39 @@ abstract class FieldElement extends Element
     /**
      * The field's assigned panel.
      *
-     * @var \Jegex\Koboi\Panel|null
+     * @var Panel|null
      */
     public $panel = null;
 
     /**
      * Indicates if the element should be shown on the index view.
      *
-     * @var (callable(\Jegex\Koboi\Http\Requests\NovaRequest, mixed):(bool))|bool
+     * @var (callable(NovaRequest, mixed):(bool))|bool
      *
-     * @phpstan-var (callable(\Jegex\Koboi\Http\Requests\NovaRequest, TMixedResource):(bool))|bool
+     * @phpstan-var (callable(NovaRequest, TMixedResource):(bool))|bool
      */
     public $showOnIndex = true;
 
     /**
      * Indicates if the element should be shown on the detail view.
      *
-     * @var (callable(\Jegex\Koboi\Http\Requests\NovaRequest, mixed):(bool))|bool
+     * @var (callable(NovaRequest, mixed):(bool))|bool
      *
-     * @phpstan-var (callable(\Jegex\Koboi\Http\Requests\NovaRequest, TMixedResource):(bool))|bool
+     * @phpstan-var (callable(NovaRequest, TMixedResource):(bool))|bool
      */
     public $showOnDetail = true;
 
     /**
      * Indicates if the element should be shown on the creation view.
      *
-     * @var (callable(\Jegex\Koboi\Http\Requests\NovaRequest):(bool))|bool
+     * @var (callable(NovaRequest):(bool))|bool
      */
     public $showOnCreation = true;
 
     /**
      * Indicates if the element should be shown on the update view.
      *
-     * @var (callable(\Jegex\Koboi\Http\Requests\NovaRequest, mixed):(bool))|bool
+     * @var (callable(NovaRequest, mixed):(bool))|bool
      */
     public $showOnUpdate = true;
 
@@ -69,7 +71,7 @@ abstract class FieldElement extends Element
     /**
      * Specify that the element should be hidden from the detail view.
      *
-     * @param  (callable(\Jegex\Koboi\Http\Requests\NovaRequest, mixed):(bool))|bool  $callback
+     * @param  (callable(NovaRequest, mixed):(bool))|bool  $callback
      * @return $this
      */
     public function hideFromDetail(callable|bool $callback = true)
@@ -85,7 +87,7 @@ abstract class FieldElement extends Element
     /**
      * Specify that the element should be hidden from the creation view.
      *
-     * @param  (callable(\Jegex\Koboi\Http\Requests\NovaRequest):(bool))|bool  $callback
+     * @param  (callable(NovaRequest):(bool))|bool  $callback
      * @return $this
      */
     public function hideWhenCreating(callable|bool $callback = true)
@@ -101,7 +103,7 @@ abstract class FieldElement extends Element
     /**
      * Specify that the element should be hidden from the update view.
      *
-     * @param  (callable(\Jegex\Koboi\Http\Requests\NovaRequest, mixed):(bool))|bool  $callback
+     * @param  (callable(NovaRequest, mixed):(bool))|bool  $callback
      * @return $this
      */
     public function hideWhenUpdating(callable|bool $callback = true)
@@ -117,9 +119,9 @@ abstract class FieldElement extends Element
     /**
      * Specify that the element should be visible on the index view.
      *
-     * @param  (callable(\Jegex\Koboi\Http\Requests\NovaRequest, mixed):(bool))|bool  $callback
+     * @param  (callable(NovaRequest, mixed):(bool))|bool  $callback
      *
-     * @phpstan-param (callable(\Jegex\Koboi\Http\Requests\NovaRequest, TMixedResource):(bool))|bool  $callback
+     * @phpstan-param (callable(NovaRequest, TMixedResource):(bool))|bool  $callback
      *
      * @return $this
      */
@@ -133,9 +135,9 @@ abstract class FieldElement extends Element
     /**
      * Specify that the element should be hidden from the detail view.
      *
-     * @param  (callable(\Jegex\Koboi\Http\Requests\NovaRequest, mixed):(bool))|bool  $callback
+     * @param  (callable(NovaRequest, mixed):(bool))|bool  $callback
      *
-     * @phpstan-param (callable(\Jegex\Koboi\Http\Requests\NovaRequest, TMixedResource):(bool))|bool  $callback
+     * @phpstan-param (callable(NovaRequest, TMixedResource):(bool))|bool  $callback
      *
      * @return $this
      */
@@ -149,7 +151,7 @@ abstract class FieldElement extends Element
     /**
      * Specify that the element should be hidden from the creation view.
      *
-     * @param  (callable(\Jegex\Koboi\Http\Requests\NovaRequest):(bool))|bool  $callback
+     * @param  (callable(NovaRequest):(bool))|bool  $callback
      * @return $this
      */
     public function showOnCreating(callable|bool $callback = true)
@@ -162,7 +164,7 @@ abstract class FieldElement extends Element
     /**
      * Specify that the element should be hidden from the update view.
      *
-     * @param  (callable(\Jegex\Koboi\Http\Requests\NovaRequest, mixed):(bool))|bool  $callback
+     * @param  (callable(NovaRequest, mixed):(bool))|bool  $callback
      * @return $this
      */
     public function showOnUpdating(callable|bool $callback = true)
@@ -175,7 +177,7 @@ abstract class FieldElement extends Element
     /**
      * Check for showing when updating.
      *
-     * @param  \Illuminate\Database\Eloquent\Model|\Jegex\Koboi\Support\Fluent|object|array  $resource
+     * @param  Model|Fluent|object|array  $resource
      */
     public function isShownOnUpdate(NovaRequest $request, $resource): bool
     {
@@ -189,7 +191,7 @@ abstract class FieldElement extends Element
     /**
      * Check showing on index.
      *
-     * @param  \Illuminate\Database\Eloquent\Model|\Jegex\Koboi\Support\Fluent|object|array  $resource
+     * @param  Model|Fluent|object|array  $resource
      */
     public function isShownOnIndex(NovaRequest $request, $resource): bool
     {
@@ -203,7 +205,7 @@ abstract class FieldElement extends Element
     /**
      * Determine if the field is to be shown on the detail view.
      *
-     * @param  \Illuminate\Database\Eloquent\Model|\Jegex\Koboi\Support\Fluent|object|array  $resource
+     * @param  Model|Fluent|object|array  $resource
      */
     public function isShownOnDetail(NovaRequest $request, $resource): bool
     {

@@ -2,6 +2,7 @@
 
 namespace Jegex\Koboi\Fields;
 
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Jegex\Koboi\Contracts\BehavesAsPanel;
 use Jegex\Koboi\Contracts\RelatableField;
@@ -9,6 +10,7 @@ use Jegex\Koboi\Http\Requests\NovaRequest;
 use Jegex\Koboi\Nova;
 use Jegex\Koboi\Panel;
 use Jegex\Koboi\Resource;
+use Jegex\Koboi\Support\Fluent;
 use Stringable;
 
 use function Orchestra\Sidekick\Eloquent\model_exists;
@@ -42,7 +44,7 @@ class HasOneThrough extends Field implements BehavesAsPanel, RelatableField
     /**
      * The displayable singular label of the relation.
      *
-     * @var \Stringable|string
+     * @var Stringable|string
      */
     public $singularLabel;
 
@@ -70,14 +72,14 @@ class HasOneThrough extends Field implements BehavesAsPanel, RelatableField
     /**
      * The callback used to determine if the HasOne field has already been filled.
      *
-     * @var callable(\Jegex\Koboi\Http\Requests\NovaRequest):bool
+     * @var callable(NovaRequest):bool
      */
     public $filledCallback;
 
     /**
      * Create a new field.
      *
-     * @param  \Stringable|string  $name
+     * @param  Stringable|string  $name
      * @param  class-string<\Jegex\Koboi\Resource>|null  $resource
      */
     public function __construct($name, ?string $attribute = null, ?string $resource = null)
@@ -136,7 +138,7 @@ class HasOneThrough extends Field implements BehavesAsPanel, RelatableField
     /**
      * Resolve the field's value.
      *
-     * @param  \Jegex\Koboi\Resource|\Illuminate\Database\Eloquent\Model  $resource
+     * @param  \Jegex\Koboi\Resource|Model  $resource
      */
     #[\Override]
     public function resolve($resource, ?string $attribute = null): void
@@ -211,7 +213,7 @@ class HasOneThrough extends Field implements BehavesAsPanel, RelatableField
     /**
      * Set the Closure used to determine if the HasOne field has already been filled.
      *
-     * @param  callable(\Jegex\Koboi\Http\Requests\NovaRequest):bool  $callback
+     * @param  callable(NovaRequest):bool  $callback
      * @return $this
      */
     public function alreadyFilledWhen(callable $callback)
@@ -233,7 +235,7 @@ class HasOneThrough extends Field implements BehavesAsPanel, RelatableField
     /**
      * Check showing on index.
      *
-     * @param  \Illuminate\Database\Eloquent\Model|\Jegex\Koboi\Support\Fluent|object  $resource
+     * @param  Model|Fluent|object  $resource
      */
     public function isShownOnIndex(NovaRequest $request, $resource): bool
     {

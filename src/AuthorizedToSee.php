@@ -4,13 +4,14 @@ namespace Jegex\Koboi;
 
 use Closure;
 use Illuminate\Http\Request;
+use Jegex\Koboi\Http\Requests\NovaRequest;
 
 trait AuthorizedToSee
 {
     /**
      * The callback used to authorize viewing the filter or action.
      *
-     * @var (\Closure(\Jegex\Koboi\Http\Requests\NovaRequest|\Illuminate\Http\Request):(bool))|null
+     * @var (Closure(NovaRequest|Request):(bool))|null
      */
     public $seeCallback = null;
 
@@ -29,7 +30,7 @@ trait AuthorizedToSee
     /**
      * Set the callback to be run to authorize viewing the filter or action.
      *
-     * @param  \Closure(\Jegex\Koboi\Http\Requests\NovaRequest|\Illuminate\Http\Request):bool  $callback
+     * @param  Closure(NovaRequest|Request):bool  $callback
      * @return $this
      */
     public function canSee(Closure $callback)

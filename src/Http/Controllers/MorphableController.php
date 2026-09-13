@@ -6,6 +6,7 @@ use Illuminate\Routing\Controller;
 use Jegex\Koboi\Contracts\RelatableField;
 use Jegex\Koboi\Http\Requests\NovaRequest;
 use Jegex\Koboi\Nova;
+use Jegex\Koboi\Resource;
 
 class MorphableController extends Controller
 {

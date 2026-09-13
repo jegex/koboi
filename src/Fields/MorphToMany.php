@@ -2,7 +2,10 @@
 
 namespace Jegex\Koboi\Fields;
 
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
+use Jegex\Koboi\Actions\Action;
 use Jegex\Koboi\Contracts\Deletable as DeletableContract;
 use Jegex\Koboi\Contracts\ListableField;
 use Jegex\Koboi\Contracts\PivotableField;
@@ -10,6 +13,7 @@ use Jegex\Koboi\Http\Requests\NovaRequest;
 use Jegex\Koboi\Panel;
 use Jegex\Koboi\Resource;
 use Jegex\Koboi\Rules\RelatableAttachment;
+use Jegex\Koboi\Support\Fluent;
 use Stringable;
 
 /**
@@ -58,14 +62,14 @@ class MorphToMany extends Field implements DeletableContract, ListableField, Piv
     /**
      * The callback that should be used to resolve the pivot fields.
      *
-     * @var callable(\Jegex\Koboi\Http\Requests\NovaRequest, \Illuminate\Database\Eloquent\Model):array<int, \Jegex\Koboi\Fields\Field>
+     * @var callable(NovaRequest, Model):array<int, Field>
      */
     public $fieldsCallback;
 
     /**
      * The callback that should be used to resolve the pivot actions.
      *
-     * @var callable(\Jegex\Koboi\Http\Requests\NovaRequest):array<int, \Jegex\Koboi\Actions\Action>
+     * @var callable(NovaRequest):array<int, Action>
      */
     public $actionsCallback;
 
@@ -79,14 +83,14 @@ class MorphToMany extends Field implements DeletableContract, ListableField, Piv
     /**
      * The displayable singular label of the relation.
      *
-     * @var \Stringable|string|null
+     * @var Stringable|string|null
      */
     public $singularLabel = null;
 
     /**
      * Create a new field.
      *
-     * @param  \Stringable|string  $name
+     * @param  Stringable|string  $name
      * @param  class-string<\Jegex\Koboi\Resource>|null  $resource
      */
     public function __construct($name, ?string $attribute = null, ?string $resource = null)
@@ -138,7 +142,7 @@ class MorphToMany extends Field implements DeletableContract, ListableField, Piv
     /**
      * Resolve the field's value.
      *
-     * @param  \Jegex\Koboi\Resource|\Illuminate\Database\Eloquent\Model|\Jegex\Koboi\Support\Fluent|object  $resource
+     * @param  \Jegex\Koboi\Resource|Model|Fluent|object  $resource
      */
     #[\Override]
     public function resolve($resource, ?string $attribute = null): void
@@ -164,7 +168,7 @@ class MorphToMany extends Field implements DeletableContract, ListableField, Piv
     /**
      * Get the creation rules for this field.
      *
-     * @return array<string, array<int, string|\Illuminate\Validation\Rule|\Illuminate\Contracts\Validation\Rule|callable>>
+     * @return array<string, array<int, string|Rule|\Illuminate\Contracts\Validation\Rule|callable>>
      */
     public function getCreationRules(NovaRequest $request): array
     {
@@ -176,7 +180,7 @@ class MorphToMany extends Field implements DeletableContract, ListableField, Piv
     /**
      * Specify the callback to be executed to retrieve the pivot fields.
      *
-     * @param  callable(\Jegex\Koboi\Http\Requests\NovaRequest, \Illuminate\Database\Eloquent\Model):array<int, \Jegex\Koboi\Fields\Field>  $callback
+     * @param  callable(NovaRequest, Model):array<int, Field>  $callback
      * @return $this
      */
     public function fields(callable $callback)
@@ -189,7 +193,7 @@ class MorphToMany extends Field implements DeletableContract, ListableField, Piv
     /**
      * Specify the callback to be executed to retrieve the pivot actions.
      *
-     * @param  callable(\Jegex\Koboi\Http\Requests\NovaRequest):array<int, \Jegex\Koboi\Actions\Action>  $callback
+     * @param  callable(NovaRequest):array<int, Action>  $callback
      * @return $this
      */
     public function actions(callable $callback)
@@ -229,9 +233,9 @@ class MorphToMany extends Field implements DeletableContract, ListableField, Piv
     public function asPanel(): Panel
     {
         return Panel::make($this->name, [$this])
-                    ->withMeta([
-                        'prefixComponent' => true,
-                    ])->withComponent('relationship-panel');
+            ->withMeta([
+                'prefixComponent' => true,
+            ])->withComponent('relationship-panel');
     }
 
     /**

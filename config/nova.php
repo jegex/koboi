@@ -1,5 +1,11 @@
 <?php
 
+use Illuminate\Http\Middleware\CheckResponseForModifications;
+use Jegex\Koboi\Actions\ActionResource;
+use Jegex\Koboi\Http\Middleware\Authenticate;
+use Jegex\Koboi\Http\Middleware\Authorize;
+use Jegex\Koboi\Http\Middleware\HandleInertiaRequests;
+
 return [
 
     /*
@@ -93,21 +99,21 @@ return [
 
     'middleware' => [
         'web',
-        \Jegex\Koboi\Http\Middleware\HandleInertiaRequests::class,
+        HandleInertiaRequests::class,
         'nova:serving',
     ],
 
     'api_middleware' => [
         'nova',
-        \Jegex\Koboi\Http\Middleware\Authenticate::class,
+        Authenticate::class,
         // \Jegex\Koboi\Http\Middleware\AuthenticateSession::class,
         // \Jegex\Koboi\Http\Middleware\EnsureEmailIsVerified::class,
-        \Jegex\Koboi\Http\Middleware\Authorize::class,
+        Authorize::class,
     ],
 
     'asset_middleware' => [
         'nova:api',
-        \Illuminate\Http\Middleware\CheckResponseForModifications::class,
+        CheckResponseForModifications::class,
     ],
 
     /*
@@ -183,7 +189,7 @@ return [
     */
 
     'actions' => [
-        'resource' => \Jegex\Koboi\Actions\ActionResource::class,
+        'resource' => ActionResource::class,
     ],
 
     /*

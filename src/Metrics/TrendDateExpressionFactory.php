@@ -13,9 +13,9 @@ class TrendDateExpressionFactory
     /**
      * Create a new trend expression instance.
      *
-     * @return \Jegex\Koboi\Metrics\TrendDateExpression
+     * @return TrendDateExpression
      *
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     public static function make(Builder $query, string $column, string $unit, string $timezone)
     {

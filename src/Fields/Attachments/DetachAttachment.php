@@ -9,7 +9,7 @@ class DetachAttachment
     /**
      * The attachment model.
      *
-     * @var class-string<\Jegex\Koboi\Fields\Attachments\Attachment>
+     * @var class-string<Attachment>
      */
     public static $model = Attachment::class;
 

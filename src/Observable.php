@@ -18,7 +18,7 @@ class Observable
     /**
      * Construct a new observable for an Eloquent model.
      *
-     * @param  \Illuminate\Database\Eloquent\Model|class-string<\Illuminate\Database\Eloquent\Model>  $eloquent
+     * @param  Model|class-string<Model>  $eloquent
      * @param  array<int, object|class-string>|object|class-string  $classes
      */
     public function __construct(Model|string $eloquent, array|object|string $classes)
@@ -55,7 +55,7 @@ class Observable
     /**
      * Create a callable for dispatching a listener on Nova request.
      *
-     * @return \Closure():mixed
+     * @return Closure():mixed
      */
     protected function createCallbackForListenerOnServingNova(mixed $listener, string $method): Closure
     {
@@ -72,7 +72,7 @@ class Observable
      * @param  object|class-string  $class
      * @return class-string
      *
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     protected function resolveObserverClassName(object|string $class): string
     {

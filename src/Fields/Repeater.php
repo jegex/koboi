@@ -2,6 +2,7 @@
 
 namespace Jegex\Koboi\Fields;
 
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
 use Jegex\Koboi\Exceptions\NovaException;
 use Jegex\Koboi\Fields\Repeater\Presets\HasMany;
@@ -10,6 +11,8 @@ use Jegex\Koboi\Fields\Repeater\Presets\Preset;
 use Jegex\Koboi\Fields\Repeater\Repeatable;
 use Jegex\Koboi\Fields\Repeater\RepeatableCollection;
 use Jegex\Koboi\Http\Requests\NovaRequest;
+use Jegex\Koboi\Resource;
+use Jegex\Koboi\Support\Fluent;
 
 /**
  * @phpstan-import-type TFieldValidationRules from \Jegex\Koboi\Fields\Field
@@ -71,7 +74,7 @@ class Repeater extends Field
     /**
      * The preset used for the field.
      *
-     * @var \Jegex\Koboi\Fields\Repeater\Presets\Preset|null
+     * @var Preset|null
      */
     public $preset = null;
 
@@ -92,7 +95,7 @@ class Repeater extends Field
     /**
      * Specify the callback to be executed to retrieve the pivot fields.
      *
-     * @param  array<int, \Jegex\Koboi\Fields\Repeater\Repeatable>  $repeatables
+     * @param  array<int, Repeatable>  $repeatables
      * @return $this
      */
     public function repeatables(array $repeatables)
@@ -134,7 +137,7 @@ class Repeater extends Field
      * @param  class-string<\Jegex\Koboi\Resource>|null  $resourceClass
      * @return $this
      *
-     * @throws \Jegex\Koboi\Exceptions\NovaException
+     * @throws NovaException
      */
     public function asHasMany($resourceClass = null)
     {
@@ -154,7 +157,7 @@ class Repeater extends Field
     /**
      * Return the preset instance for the field.
      *
-     * @return \Jegex\Koboi\Fields\Repeater\Presets\Preset
+     * @return Preset
      */
     public function getPreset()
     {
@@ -164,7 +167,7 @@ class Repeater extends Field
     /**
      * Resolve the given attribute from the given resource.
      *
-     * @param  \Illuminate\Database\Eloquent\Model|\Jegex\Koboi\Support\Fluent|object|array  $resource
+     * @param  Model|Fluent|object|array  $resource
      */
     protected function resolveAttribute($resource, string $attribute): mixed
     {
@@ -187,7 +190,7 @@ class Repeater extends Field
     /**
      * Hydrate the given attribute on the model based on the incoming request.
      *
-     * @param  \Illuminate\Database\Eloquent\Model|\Jegex\Koboi\Support\Fluent  $model
+     * @param  Model|Fluent  $model
      */
     protected function fillAttributeFromRequest(NovaRequest $request, string $requestAttribute, object $model, string $attribute): callable
     {

@@ -19,7 +19,7 @@ trait HasDownload
     /**
      * The callback used to generate the download HTTP response.
      *
-     * @var (callable(\Jegex\Koboi\Http\Requests\NovaRequest, object, ?string, ?string):(mixed))|null
+     * @var (callable(NovaRequest, object, ?string, ?string):(mixed))|null
      *
      * @phpstan-var TDownloadResponseCallback|null
      */
@@ -47,7 +47,7 @@ trait HasDownload
     /**
      * Specify the callback that should be used to create a download HTTP response.
      *
-     * @param  callable(\Jegex\Koboi\Http\Requests\NovaRequest, object, ?string, ?string):mixed  $downloadResponseCallback
+     * @param  callable(NovaRequest, object, ?string, ?string):mixed  $downloadResponseCallback
      *
      * @phpstan-param TDownloadResponseCallback $downloadResponseCallback
      *

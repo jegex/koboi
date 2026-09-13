@@ -2,6 +2,7 @@
 
 namespace Jegex\Koboi\Http\Controllers;
 
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Routing\Controller;
 use Jegex\Koboi\Http\Requests\ResourceCreateOrAttachRequest;
@@ -13,7 +14,7 @@ class CreationFieldSyncController extends Controller
     /**
      * Synchronize the field for creation view.
      *
-     * @throws \Illuminate\Auth\Access\AuthorizationException
+     * @throws AuthorizationException
      */
     public function __invoke(ResourceCreateOrAttachRequest $request): JsonResponse
     {

@@ -3,16 +3,18 @@
 namespace Jegex\Koboi\Exceptions;
 
 use Illuminate\Auth\AuthenticationException as BaseAuthenticationException;
+use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Jegex\Koboi\Nova;
 use Jegex\Koboi\URL;
+use Symfony\Component\HttpFoundation\Response;
 
 class AuthenticationException extends BaseAuthenticationException
 {
     /**
      * Render the exception.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  Request  $request
      * @return mixed
      */
     public function render($request)
@@ -46,8 +48,8 @@ class AuthenticationException extends BaseAuthenticationException
     /**
      * Redirect request for Inertia.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @param  Request  $request
+     * @return Response
      */
     protected function redirectForInertia($request)
     {

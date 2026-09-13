@@ -2,9 +2,12 @@
 
 namespace Jegex\Koboi\Http\Controllers;
 
+use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Routing\Controller;
 use Jegex\Koboi\Contracts\PivotableField;
+use Jegex\Koboi\Fields\Field;
 use Jegex\Koboi\Http\Requests\NovaRequest;
+use Jegex\Koboi\Resource;
 
 use function Orchestra\Sidekick\Eloquent\model_exists;
 
@@ -16,13 +19,13 @@ class AttachableController extends Controller
     public function __invoke(NovaRequest $request): array
     {
         $field = $request->newResource()
-                    ->availableFieldsOnIndexOrDetail($request)
-                    ->filterForManyToManyRelations()
-                    ->filter(static function ($field) use ($request) {
-                        return $field->resourceName === $request->field && // @phpstan-ignore property.notFound
-                            $field->component === $request->component &&
-                            $field->attribute === $request->viaRelationship;
-                    })->first();
+            ->availableFieldsOnIndexOrDetail($request)
+            ->filterForManyToManyRelations()
+            ->filter(static function ($field) use ($request) {
+                return $field->resourceName === $request->field && // @phpstan-ignore property.notFound
+                    $field->component === $request->component &&
+                    $field->attribute === $request->viaRelationship;
+            })->first();
 
         abort_if(\is_null($field), 404);
 
@@ -75,8 +78,8 @@ class AttachableController extends Controller
     /**
      * Get attachable query resolver.
      *
-     * @param  \Jegex\Koboi\Fields\Field&\Jegex\Koboi\Contracts\PivotableField  $field
-     * @return callable(\Illuminate\Contracts\Database\Eloquent\Builder|\Illuminate\Contracts\Database\Query\Builder):void
+     * @param  Field&PivotableField  $field
+     * @return callable(Builder|\Illuminate\Contracts\Database\Query\Builder):void
      */
     protected function getAttachableQueryResolver(NovaRequest $request, PivotableField $field)
     {
@@ -94,8 +97,8 @@ class AttachableController extends Controller
                 $relation = $relatedModel->{$field->manyToManyRelationship}();
 
                 return $relation->applyDefaultPivotQuery($query)
-                        ->select($relation->getRelatedPivotKeyName())
-                        ->whereColumn($relation->getQualifiedRelatedKeyName(), $relation->getQualifiedRelatedPivotKeyName());
+                    ->select($relation->getRelatedPivotKeyName())
+                    ->whereColumn($relation->getQualifiedRelatedKeyName(), $relation->getQualifiedRelatedPivotKeyName());
             });
         };
     }

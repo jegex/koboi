@@ -5,6 +5,8 @@ namespace Jegex\Koboi\Fields;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Hash;
 use Jegex\Koboi\Http\Requests\NovaRequest;
+use Jegex\Koboi\Resource;
+use Jegex\Koboi\Support\Fluent;
 
 class Password extends Field
 {
@@ -35,7 +37,7 @@ class Password extends Field
     /**
      * Resolve the given attribute from the given resource.
      *
-     * @param  \Jegex\Koboi\Resource|\Illuminate\Database\Eloquent\Model|object|array  $resource
+     * @param  \Jegex\Koboi\Resource|Model|object|array  $resource
      */
     #[\Override]
     protected function resolveAttribute($resource, string $attribute): mixed
@@ -55,7 +57,7 @@ class Password extends Field
     /**
      * Resolve the field's value for display.
      *
-     * @param  \Jegex\Koboi\Resource|\Illuminate\Database\Eloquent\Model|object|array  $resource
+     * @param  \Jegex\Koboi\Resource|Model|object|array  $resource
      */
     #[\Override]
     public function resolveForDisplay($resource, ?string $attribute = null): void
@@ -66,7 +68,7 @@ class Password extends Field
     /**
      * Fill the model's attribute with data.
      *
-     * @param  \Illuminate\Database\Eloquent\Model|\Jegex\Koboi\Support\Fluent  $model
+     * @param  Model|Fluent  $model
      */
     #[\Override]
     public function fillModelWithData(object $model, mixed $value, string $attribute): void

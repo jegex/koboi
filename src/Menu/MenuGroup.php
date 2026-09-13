@@ -3,12 +3,12 @@
 namespace Jegex\Koboi\Menu;
 
 use Illuminate\Support\Traits\Macroable;
-use JsonSerializable;
 use Jegex\Koboi\AuthorizedToSee;
 use Jegex\Koboi\Fields\Collapsable;
 use Jegex\Koboi\Http\Requests\NovaRequest;
 use Jegex\Koboi\Makeable;
 use Jegex\Koboi\WithComponent;
+use JsonSerializable;
 use Stringable;
 
 /**

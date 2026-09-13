@@ -2,6 +2,7 @@
 
 namespace Jegex\Koboi\Auth;
 
+use Illuminate\Contracts\Validation\Rule;
 use Illuminate\Validation\Rules\Password;
 
 trait PasswordValidationRules
@@ -9,7 +10,7 @@ trait PasswordValidationRules
     /**
      * Get the validation rules used to optionally validate passwords.
      *
-     * @return array<int, \Illuminate\Contracts\Validation\Rule|array<mixed>|string>
+     * @return array<int, Rule|array<mixed>|string>
      */
     protected function optionalPasswordRules(): array
     {
@@ -19,7 +20,7 @@ trait PasswordValidationRules
     /**
      * Get the validation rules used to validate passwords.
      *
-     * @return array<int, \Illuminate\Contracts\Validation\Rule|array<mixed>|string>
+     * @return array<int, Rule|array<mixed>|string>
      */
     protected function passwordRules(): array
     {
@@ -29,7 +30,7 @@ trait PasswordValidationRules
     /**
      * Get the validation rules used to validate passwords with confirmation.
      *
-     * @return array<int, \Illuminate\Contracts\Validation\Rule|array<mixed>|string>
+     * @return array<int, Rule|array<mixed>|string>
      */
     protected function passwordWithConfirmedRules(): array
     {

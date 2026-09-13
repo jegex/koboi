@@ -2,11 +2,14 @@
 
 namespace Jegex\Koboi\Fields;
 
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Jegex\Koboi\Contracts\ListableField;
 use Jegex\Koboi\Contracts\RelatableField;
+use Jegex\Koboi\Exceptions\HelperNotSupported;
 use Jegex\Koboi\Exceptions\NovaException;
 use Jegex\Koboi\Panel;
+use Jegex\Koboi\Resource;
 use Stringable;
 
 /**
@@ -54,7 +57,7 @@ class HasMany extends Field implements ListableField, RelatableField
     /**
      * Create a new field.
      *
-     * @param  \Stringable|string  $name
+     * @param  Stringable|string  $name
      * @param  class-string<\Jegex\Koboi\Resource>|null  $resource
      */
     public function __construct($name, ?string $attribute = null, ?string $resource = null)
@@ -100,7 +103,7 @@ class HasMany extends Field implements ListableField, RelatableField
     /**
      * Resolve the field's value.
      *
-     * @param  \Jegex\Koboi\Resource|\Illuminate\Database\Eloquent\Model|object  $resource
+     * @param  \Jegex\Koboi\Resource|Model|object  $resource
      */
     #[\Override]
     public function resolve($resource, ?string $attribute = null): void
@@ -123,10 +126,10 @@ class HasMany extends Field implements ListableField, RelatableField
     /**
      * Add help text to the metric.
      *
-     * @param  \Stringable|string|null  $text
+     * @param  Stringable|string|null  $text
      * @return never
      *
-     * @throws \Jegex\Koboi\Exceptions\HelperNotSupported
+     * @throws HelperNotSupported
      */
     public function help($text)
     {

@@ -2,6 +2,8 @@
 
 namespace Jegex\Koboi\Jobs;
 
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Jegex\Koboi\Http\Requests\RestoreLensResourceRequest;
 use Jegex\Koboi\Http\Requests\RestoreResourceRequest;
@@ -29,7 +31,7 @@ class RestoreResources
     public function handle(): void
     {
         $this->request->chunks(150, function ($models) {
-            /** @var \Illuminate\Database\Eloquent\Collection<array-key, \Illuminate\Database\Eloquent\Model> $models */
+            /** @var Collection<array-key, Model> $models */
             $models->each(function ($model) {
                 if (! \is_null($this->resourceClass)) {
                     $this->resourceClass::beforeRestore($this->request, $model);

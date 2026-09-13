@@ -9,7 +9,7 @@ use Illuminate\Support\Collection;
  * @template TKey of array-key
  * @template TValue
  *
- * @extends \Illuminate\Support\Collection<TKey, TValue>
+ * @extends Collection<TKey, TValue>
  */
 class ResourceCollection extends Collection
 {
@@ -68,7 +68,7 @@ class ResourceCollection extends Collection
     /**
      * Sort the resources by their group property.
      *
-     * @return \Illuminate\Support\Collection<string, \Jegex\Koboi\ResourceCollection<array-key, TValue>>
+     * @return Collection<string, ResourceCollection<array-key, TValue>>
      */
     public function grouped()
     {
@@ -81,7 +81,7 @@ class ResourceCollection extends Collection
     /**
      * Group the resources for display in navigation.
      *
-     * @return \Illuminate\Support\Collection<string, \Jegex\Koboi\ResourceCollection<array-key, TValue>>
+     * @return Collection<string, ResourceCollection<array-key, TValue>>
      */
     public function groupedForNavigation(Request $request)
     {

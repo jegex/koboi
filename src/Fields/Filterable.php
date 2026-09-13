@@ -3,7 +3,9 @@
 namespace Jegex\Koboi\Fields;
 
 use Closure;
+use Illuminate\Contracts\Database\Eloquent\Builder;
 use InvalidArgumentException;
+use Jegex\Koboi\Fields\Filters\Filter;
 use Jegex\Koboi\Http\Requests\NovaRequest;
 
 trait Filterable
@@ -11,14 +13,14 @@ trait Filterable
     /**
      * The callback used to determine if the field is filterable.
      *
-     * @var (callable(\Jegex\Koboi\Http\Requests\NovaRequest, \Illuminate\Contracts\Database\Eloquent\Builder, mixed, string):(void))|null
+     * @var (callable(NovaRequest, Builder, mixed, string):(void))|null
      */
     public $filterableCallback;
 
     /**
      * The callback used to determine if the field is filterable.
      *
-     * @param  (callable(\Jegex\Koboi\Http\Requests\NovaRequest, \Illuminate\Contracts\Database\Eloquent\Builder, mixed, string):(void))|null  $filterableCallback
+     * @param  (callable(NovaRequest, Builder, mixed, string):(void))|null  $filterableCallback
      * @return $this
      */
     public function filterable(?callable $filterableCallback = null)
@@ -52,7 +54,7 @@ trait Filterable
     /**
      * Apply the filter to the given query.
      *
-     * @param  \Illuminate\Contracts\Database\Eloquent\Builder  $query
+     * @param  Builder  $query
      */
     public function applyFilter(NovaRequest $request, $query, mixed $value): void
     {
@@ -74,7 +76,7 @@ trait Filterable
     /**
      * Make the field filter.
      *
-     * @return \Jegex\Koboi\Fields\Filters\Filter|null
+     * @return Filter|null
      */
     public function resolveFilter(NovaRequest $request)
     {
@@ -84,7 +86,7 @@ trait Filterable
     /**
      * Define the default filterable callback.
      *
-     * @return callable(\Jegex\Koboi\Http\Requests\NovaRequest, \Illuminate\Contracts\Database\Eloquent\Builder, mixed, string):\Illuminate\Contracts\Database\Eloquent\Builder
+     * @return callable(NovaRequest, Builder, mixed, string):Builder
      */
     protected function defaultFilterableCallback()
     {
@@ -106,7 +108,7 @@ trait Filterable
     /**
      * Make the field filter.
      *
-     * @return \Jegex\Koboi\Fields\Filters\Filter|null
+     * @return Filter|null
      */
     abstract protected function makeFilter(NovaRequest $request);
 }

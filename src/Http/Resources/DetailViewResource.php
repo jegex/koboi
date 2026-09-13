@@ -2,9 +2,11 @@
 
 namespace Jegex\Koboi\Http\Resources;
 
+use Illuminate\Auth\Access\AuthorizationException;
 use Jegex\Koboi\Contracts\ListableField;
 use Jegex\Koboi\Contracts\RelatableField;
 use Jegex\Koboi\Fields\BelongsTo;
+use Jegex\Koboi\Fields\Field;
 use Jegex\Koboi\Fields\FieldCollection;
 use Jegex\Koboi\Fields\HasOne;
 use Jegex\Koboi\Fields\MorphOne;
@@ -17,7 +19,7 @@ class DetailViewResource extends Resource
     /**
      * Transform the resource into an array.
      *
-     * @param  \Jegex\Koboi\Http\Requests\ResourceDetailRequest  $request
+     * @param  ResourceDetailRequest  $request
      * @return array
      */
     public function toArray($request)
@@ -30,7 +32,7 @@ class DetailViewResource extends Resource
             $detail['fields'] = collect($detail['fields'])
                 ->when($request->viaResource, static function ($fields) use ($request) {
                     return $fields->reject(static function ($field) use ($request) {
-                        /** @var \Jegex\Koboi\Fields\Field $field */
+                        /** @var Field $field */
                         if ($field instanceof ListableField) {
                             return true;
                         } elseif (! $field instanceof RelatableField) {
@@ -49,7 +51,7 @@ class DetailViewResource extends Resource
             return $detail;
         });
 
-        /** @var \Jegex\Koboi\Fields\FieldCollection<int, \Jegex\Koboi\Fields\Field> $fields */
+        /** @var FieldCollection<int, Field> $fields */
         $fields = new FieldCollection($payload['fields']);
 
         return [
@@ -62,7 +64,7 @@ class DetailViewResource extends Resource
     /**
      * Get current resource for the request.
      *
-     * @throws \Illuminate\Auth\Access\AuthorizationException
+     * @throws AuthorizationException
      */
     public function newResourceWith(ResourceDetailRequest $request): NovaResource
     {
@@ -77,7 +79,7 @@ class DetailViewResource extends Resource
     /**
      * Determine if resource is authorized for the request.
      *
-     * @throws \Illuminate\Auth\Access\AuthorizationException
+     * @throws AuthorizationException
      */
     public function authorizedResourceForRequest(ResourceDetailRequest $request, NovaResource $resource): void
     {

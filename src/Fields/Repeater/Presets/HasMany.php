@@ -2,6 +2,7 @@
 
 namespace Jegex\Koboi\Fields\Repeater\Presets;
 
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany as EloquentHasMany;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
@@ -16,7 +17,7 @@ class HasMany implements Preset
     /**
      * Save the field value to permanent storage.
      *
-     * @param  \Illuminate\Database\Eloquent\Model  $model
+     * @param  Model  $model
      */
     public function set(
         NovaRequest $request,
@@ -66,7 +67,7 @@ class HasMany implements Preset
     /**
      * Retrieve the value from storage and hydrate the field's value.
      *
-     * @param  \Illuminate\Database\Eloquent\Model  $model
+     * @param  Model  $model
      */
     public function get(NovaRequest $request, $model, string $attribute, RepeatableCollection $repeatables): Collection
     {
@@ -77,11 +78,11 @@ class HasMany implements Preset
     /**
      * Delete missing relations.
      *
-     * @param  \Illuminate\Database\Eloquent\Model  $model
+     * @param  Model  $model
      */
     public function deleteMissingRelations(string $attribute, $model, Collection $repeaterItems, string|int|null $uniqueField): void
     {
-        /** @var \Illuminate\Database\Eloquent\Relations\HasMany $relation */
+        /** @var EloquentHasMany $relation */
         $relation = $model->{$attribute}();
 
         $availableItems = $repeaterItems->map(
@@ -99,7 +100,7 @@ class HasMany implements Preset
     /**
      * Upsert relation.
      *
-     * @param  \Illuminate\Database\Eloquent\Model  $model
+     * @param  Model  $model
      */
     public function upsertRelation($model, Fluent $data, array $row, string|int|null $uniqueField, EloquentHasMany $relation): void
     {

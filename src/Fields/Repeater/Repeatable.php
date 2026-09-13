@@ -2,13 +2,14 @@
 
 namespace Jegex\Koboi\Fields\Repeater;
 
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
-use JsonSerializable;
 use Jegex\Koboi\Fields\Field;
 use Jegex\Koboi\Fields\FieldCollection;
 use Jegex\Koboi\Http\Requests\NovaRequest;
 use Jegex\Koboi\Makeable;
 use Jegex\Koboi\Nova;
+use JsonSerializable;
 
 class Repeatable implements JsonSerializable
 {
@@ -17,7 +18,7 @@ class Repeatable implements JsonSerializable
     /**
      * The collection of fields for the block.
      *
-     * @var \Jegex\Koboi\Fields\FieldCollection
+     * @var FieldCollection
      */
     public $fields;
 
@@ -43,14 +44,14 @@ class Repeatable implements JsonSerializable
     /**
      * The dataset for repeatable.
      *
-     * @var \Illuminate\Database\Eloquent\Model|array
+     * @var Model|array
      */
     private $data = [];
 
     /**
      * Create a new block instance.
      *
-     * @param  \Illuminate\Database\Eloquent\Model|array  $data
+     * @param  Model|array  $data
      */
     public function __construct($data = [])
     {
@@ -91,7 +92,7 @@ class Repeatable implements JsonSerializable
     /**
      * Resolve the values of the fields in the Repeatable.
      *
-     * @return \Jegex\Koboi\Fields\FieldCollection
+     * @return FieldCollection
      */
     public function resolveFields(NovaRequest $request)
     {
@@ -111,7 +112,7 @@ class Repeatable implements JsonSerializable
     /**
      * Resolve the values of the fields in the Repeatable.
      *
-     * @return \Jegex\Koboi\Fields\FieldCollection
+     * @return FieldCollection
      */
     public function resolveFieldsForDisplay(NovaRequest $request)
     {
@@ -147,7 +148,7 @@ class Repeatable implements JsonSerializable
     /**
      * Set the data for the Repeatable.
      *
-     * @param  \Illuminate\Database\Eloquent\Model|array  $data
+     * @param  Model|array  $data
      */
     public function setData($data): Repeatable
     {

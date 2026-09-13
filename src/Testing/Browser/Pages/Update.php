@@ -2,9 +2,10 @@
 
 namespace Jegex\Koboi\Testing\Browser\Pages;
 
+use Facebook\WebDriver\Exception\TimeOutException;
 use Illuminate\Database\Eloquent\Model;
-use Laravel\Dusk\Browser;
 use Jegex\Koboi\Testing\Browser\Components\Modals\CreateRelationModalComponent;
+use Laravel\Dusk\Browser;
 
 class Update extends Page
 {
@@ -13,14 +14,14 @@ class Update extends Page
     /**
      * The Resource ID.
      *
-     * @var \Illuminate\Database\Eloquent\Model|string|int
+     * @var Model|string|int
      */
     public mixed $resourceId;
 
     /**
      * Create a new page instance.
      *
-     * @param  \Illuminate\Database\Eloquent\Model|string|int  $resourceId
+     * @param  Model|string|int  $resourceId
      * @param  array<string, mixed>  $queryParams
      */
     public function __construct(
@@ -36,7 +37,7 @@ class Update extends Page
     /**
      * Run the inline create relation.
      *
-     * @throws \Facebook\WebDriver\Exception\TimeOutException
+     * @throws TimeOutException
      */
     public function runInlineCreate(Browser $browser, string $uriKey, callable $fieldCallback): void
     {
@@ -53,7 +54,7 @@ class Update extends Page
     /**
      * Click the update button.
      *
-     * @throws \Facebook\WebDriver\Exception\TimeOutException
+     * @throws TimeOutException
      */
     public function update(Browser $browser): void
     {
@@ -66,7 +67,7 @@ class Update extends Page
     /**
      * Click the update and continue editing button.
      *
-     * @throws \Facebook\WebDriver\Exception\TimeOutException
+     * @throws TimeOutException
      */
     public function updateAndContinueEditing(Browser $browser): void
     {

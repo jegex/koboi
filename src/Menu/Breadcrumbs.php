@@ -2,10 +2,10 @@
 
 namespace Jegex\Koboi\Menu;
 
-use JsonSerializable;
 use Jegex\Koboi\AuthorizedToSee;
 use Jegex\Koboi\Http\Requests\NovaRequest;
 use Jegex\Koboi\Makeable;
+use JsonSerializable;
 
 class Breadcrumbs implements JsonSerializable
 {

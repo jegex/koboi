@@ -3,6 +3,7 @@
 namespace Jegex\Koboi\Http\Middleware;
 
 use Closure;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Jegex\Koboi\Nova;
 use Jegex\Koboi\Util;
@@ -12,8 +13,8 @@ class RedirectIfAuthenticated
     /**
      * Handle an incoming request.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Closure(\Illuminate\Http\Request):mixed  $next
+     * @param  Request  $request
+     * @param  Closure(Request):mixed  $next
      * @param  string|null  $guard
      * @return mixed
      */

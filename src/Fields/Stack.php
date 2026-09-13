@@ -2,6 +2,7 @@
 
 namespace Jegex\Koboi\Fields;
 
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 use Jegex\Koboi\Http\Requests\NovaRequest;
 
@@ -20,14 +21,14 @@ class Stack extends Field
     /**
      * Indicates if the element should be shown on the creation view.
      *
-     * @var (callable(\Jegex\Koboi\Http\Requests\NovaRequest):(bool))|bool
+     * @var (callable(NovaRequest):(bool))|bool
      */
     public $showOnCreation = false;
 
     /**
      * Indicates if the element should be shown on the update view.
      *
-     * @var (callable(\Jegex\Koboi\Http\Requests\NovaRequest, mixed):(bool))|bool
+     * @var (callable(NovaRequest, mixed):(bool))|bool
      */
     public $showOnUpdate = false;
 
@@ -40,8 +41,8 @@ class Stack extends Field
      * Create a new Stack field.
      *
      * @param  \Stringable|string  $name
-     * @param  string|array<int, class-string<\Jegex\Koboi\Fields\Field>|callable>|null  $attribute
-     * @param  iterable<int, class-string<\Jegex\Koboi\Fields\Field>|callable>  $lines
+     * @param  string|array<int, class-string<Field>|callable>|null  $attribute
+     * @param  iterable<int, class-string<Field>|callable>  $lines
      */
     public function __construct($name, mixed $attribute = null, iterable $lines = [])
     {
@@ -58,7 +59,7 @@ class Stack extends Field
     /**
      * Resolve the field's value for display.
      *
-     * @param  \Jegex\Koboi\Resource|\Illuminate\Database\Eloquent\Model|object  $resource
+     * @param  \Jegex\Koboi\Resource|Model|object  $resource
      */
     #[\Override]
     public function resolveForDisplay($resource, ?string $attribute = null): void
@@ -69,7 +70,7 @@ class Stack extends Field
     /**
      * Prepare each line for serialization.
      *
-     * @param  \Jegex\Koboi\Resource|\Illuminate\Database\Eloquent\Model|object  $resource
+     * @param  \Jegex\Koboi\Resource|Model|object  $resource
      */
     public function prepareLines($resource, ?string $attribute = null): void
     {
@@ -82,7 +83,7 @@ class Stack extends Field
                 return false;
             }
 
-            /** @var \Jegex\Koboi\Fields\Field $field */
+            /** @var Field $field */
             if ($request->isResourceIndexRequest()) {
                 return $field->isShownOnIndex($request, $resource);
             }

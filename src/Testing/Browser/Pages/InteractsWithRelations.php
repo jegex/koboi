@@ -2,9 +2,9 @@
 
 namespace Jegex\Koboi\Testing\Browser\Pages;
 
-use Laravel\Dusk\Browser;
 use Jegex\Koboi\Testing\Browser\Components\Controls\RelationSelectControlComponent;
 use Jegex\Koboi\Testing\Browser\Concerns\InteractsWithInlineCreateRelation;
+use Laravel\Dusk\Browser;
 
 trait InteractsWithRelations
 {

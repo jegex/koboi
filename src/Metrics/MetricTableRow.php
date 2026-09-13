@@ -3,9 +3,10 @@
 namespace Jegex\Koboi\Metrics;
 
 use Closure;
-use JsonSerializable;
 use Jegex\Koboi\Makeable;
+use Jegex\Koboi\Menu\MenuItem;
 use Jegex\Koboi\WithIcon;
+use JsonSerializable;
 use Serializable;
 use Stringable;
 
@@ -31,21 +32,21 @@ class MetricTableRow implements JsonSerializable, Serializable
     /**
      * The title of the metric row.
      *
-     * @var \Stringable|string
+     * @var Stringable|string
      */
     public $title;
 
     /**
      * The subtitle of the metric row.
      *
-     * @var \Stringable|string
+     * @var Stringable|string
      */
     public $subtitle;
 
     /**
      * The action callback used to generate the actions for the metric row.
      *
-     * @var (\Closure():(array<int, \Jegex\Koboi\Menu\MenuItem|string>))|array<int, \Jegex\Koboi\Menu\MenuItem|string>|null
+     * @var (Closure():(array<int, MenuItem|string>))|array<int, MenuItem|string>|null
      */
     public $actionCallback;
 
@@ -108,7 +109,7 @@ class MetricTableRow implements JsonSerializable, Serializable
     /**
      * Set the actions used for the metric row.
      *
-     * @param  \Closure():array  $actionCallback
+     * @param  Closure():array  $actionCallback
      * @return $this
      */
     public function actions(Closure $actionCallback)

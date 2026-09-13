@@ -2,8 +2,8 @@
 
 namespace Jegex\Koboi\Tests;
 
-use Orchestra\Testbench\TestCase as Orchestra;
 use Jegex\Koboi\NovaCoreServiceProvider;
+use Orchestra\Testbench\TestCase as Orchestra;
 
 class TestCase extends Orchestra
 {

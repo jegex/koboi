@@ -3,7 +3,7 @@
 namespace Jegex\Koboi\Fields;
 
 /**
- * @mixin \Jegex\Koboi\Fields\Field
+ * @mixin Field
  */
 interface Unfillable
 {

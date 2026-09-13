@@ -2,8 +2,8 @@
 
 namespace Jegex\Koboi\Testing\Browser\Components\Modals;
 
-use Laravel\Dusk\Browser;
 use Jegex\Koboi\Testing\Browser\Components\Component;
+use Laravel\Dusk\Browser;
 
 abstract class ModalComponent extends Component
 {

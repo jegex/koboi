@@ -2,6 +2,7 @@
 
 namespace Jegex\Koboi\Fields;
 
+use Illuminate\Http\Request;
 use Jegex\Koboi\Contracts\Cover;
 use Jegex\Koboi\Nova;
 
@@ -15,7 +16,7 @@ class Avatar extends Image implements Cover
      *
      * @param  \Stringable|string|null  $name
      * @param  string|callable|null  $attribute
-     * @param  (callable(\Illuminate\Http\Request, object, string, string, ?string, ?string):(mixed))|null  $storageCallback
+     * @param  (callable(Request, object, string, string, ?string, ?string):(mixed))|null  $storageCallback
      */
     public function __construct($name = null, mixed $attribute = null, ?string $disk = null, ?callable $storageCallback = null)
     {

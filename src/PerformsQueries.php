@@ -4,6 +4,7 @@ namespace Jegex\Koboi;
 
 use Illuminate\Contracts\Database\Eloquent\Builder;
 use Jegex\Koboi\Http\Requests\NovaRequest;
+use Jegex\Koboi\Query\ApplyFilter;
 use Jegex\Koboi\Query\Search;
 use Jegex\Koboi\Query\Search\PrimaryKey;
 use Laravel\Scout\Builder as ScoutBuilder;
@@ -13,9 +14,9 @@ trait PerformsQueries
     /**
      * Build an "index" query for the given resource.
      *
-     * @param  array<int, \Jegex\Koboi\Query\ApplyFilter>  $filters
+     * @param  array<int, ApplyFilter>  $filters
      * @param  array<string, string>  $orderings
-     * @return \Illuminate\Contracts\Database\Eloquent\Builder
+     * @return Builder
      */
     public static function buildIndexQuery(
         NovaRequest $request,
@@ -35,7 +36,7 @@ trait PerformsQueries
     /**
      * Initialize the given index query.
      *
-     * @return \Illuminate\Contracts\Database\Eloquent\Builder
+     * @return Builder
      */
     protected static function initializeQuery(NovaRequest $request, Builder $query, string $search, TrashedStatus $withTrashed)
     {
@@ -57,13 +58,13 @@ trait PerformsQueries
 
         /** @phpstan-ignore nullCoalesce.expr */
         $searchColumns = collect(static::searchableColumns() ?? [])
-                            ->transform(static function ($column) use ($modelKeyName) {
-                                if ($column === $modelKeyName) {
-                                    return new PrimaryKey($column, static::maxPrimaryKeySize());
-                                }
+            ->transform(static function ($column) use ($modelKeyName) {
+                if ($column === $modelKeyName) {
+                    return new PrimaryKey($column, static::maxPrimaryKeySize());
+                }
 
-                                return $column;
-                            })->all();
+                return $column;
+            })->all();
 
         return static::initializeSearch($query, $search, $searchColumns);
     }
@@ -109,8 +110,8 @@ trait PerformsQueries
     /**
      * Scope the given query for the soft delete state.
      *
-     * @param  \Illuminate\Contracts\Database\Eloquent\Builder|\Laravel\Scout\Builder  $query
-     * @return \Illuminate\Contracts\Database\Eloquent\Builder|\Laravel\Scout\Builder
+     * @param  Builder|ScoutBuilder  $query
+     * @return Builder|ScoutBuilder
      */
     protected static function applySoftDeleteConstraint($query, TrashedStatus $withTrashed)
     {
@@ -122,7 +123,7 @@ trait PerformsQueries
     /**
      * Apply any applicable filters to the query.
      *
-     * @param  array<int, \Jegex\Koboi\Query\ApplyFilter>  $filters
+     * @param  array<int, ApplyFilter>  $filters
      */
     protected static function applyFilters(NovaRequest $request, Builder $query, array $filters): Builder
     {
@@ -156,7 +157,7 @@ trait PerformsQueries
     /**
      * Apply the default orderings for the given resource.
      *
-     * @return \Illuminate\Contracts\Database\Eloquent\Builder
+     * @return Builder
      */
     public static function defaultOrderings(Builder $query)
     {
@@ -166,7 +167,7 @@ trait PerformsQueries
     /**
      * Build an "index" query for the given resource.
      *
-     * @return \Illuminate\Contracts\Database\Eloquent\Builder
+     * @return Builder
      */
     public static function indexQuery(NovaRequest $request, Builder $query)
     {
@@ -176,7 +177,7 @@ trait PerformsQueries
     /**
      * Build a Scout search query for the given resource.
      *
-     * @return \Laravel\Scout\Builder
+     * @return ScoutBuilder
      */
     public static function scoutQuery(NovaRequest $request, ScoutBuilder $query)
     {
@@ -186,7 +187,7 @@ trait PerformsQueries
     /**
      * Build a "detail" query for the given resource.
      *
-     * @return \Illuminate\Contracts\Database\Eloquent\Builder
+     * @return Builder
      */
     public static function detailQuery(NovaRequest $request, Builder $query)
     {
@@ -196,7 +197,7 @@ trait PerformsQueries
     /**
      * Build an "edit" query for the given resource.
      *
-     * @return \Illuminate\Contracts\Database\Eloquent\Builder
+     * @return Builder
      */
     public static function editQuery(NovaRequest $request, Builder $query)
     {
@@ -206,7 +207,7 @@ trait PerformsQueries
     /**
      * Build a "replicate" query for the given resource.
      *
-     * @return \Illuminate\Contracts\Database\Eloquent\Builder
+     * @return Builder
      */
     public static function replicateQuery(NovaRequest $request, Builder $query)
     {
@@ -218,7 +219,7 @@ trait PerformsQueries
      *
      * This query determines which instances of the model may be attached to other resources.
      *
-     * @return \Illuminate\Contracts\Database\Eloquent\Builder
+     * @return Builder
      */
     public static function relatableQuery(NovaRequest $request, Builder $query)
     {

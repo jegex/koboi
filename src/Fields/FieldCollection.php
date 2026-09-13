@@ -2,6 +2,7 @@
 
 namespace Jegex\Koboi\Fields;
 
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\Pivot;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\MissingValue;
@@ -16,6 +17,7 @@ use Jegex\Koboi\Http\Requests\NovaRequest;
 use Jegex\Koboi\Panel;
 use Jegex\Koboi\ResourceTool;
 use Jegex\Koboi\ResourceToolElement;
+use Jegex\Koboi\Support\Fluent;
 use Stringable;
 
 use function Orchestra\Sidekick\Eloquent\normalize_value;
@@ -24,7 +26,7 @@ use function Orchestra\Sidekick\Eloquent\normalize_value;
  * @template TKey of int
  * @template TValue of \Jegex\Koboi\Panel|\Jegex\Koboi\ResourceToolElement|\Jegex\Koboi\Fields\Field|\Illuminate\Http\Resources\MissingValue
  *
- * @extends \Illuminate\Support\Collection<TKey, TValue>
+ * @extends Collection<TKey, TValue>
  */
 class FieldCollection extends Collection
 {
@@ -99,7 +101,7 @@ class FieldCollection extends Collection
     /**
      * Filter elements should be displayed for the given request.
      *
-     * @param  \Illuminate\Database\Eloquent\Model|\Jegex\Koboi\Support\Fluent|object|array  $resource
+     * @param  Model|Fluent|object|array  $resource
      * @return static<int, TValue>
      */
     public function resolve($resource)
@@ -115,7 +117,7 @@ class FieldCollection extends Collection
     /**
      * Resolve value of fields for display.
      *
-     * @param  \Illuminate\Database\Eloquent\Model|\Jegex\Koboi\Support\Fluent|object|array  $resource
+     * @param  Model|Fluent|object|array  $resource
      * @return static<int, TValue>
      */
     public function resolveForDisplay($resource)
@@ -137,8 +139,8 @@ class FieldCollection extends Collection
     /**
      * Remove non-creation fields from the collection.
      *
-     * @param  \Illuminate\Database\Eloquent\Model|object  $resource
-     * @return static<int, \Jegex\Koboi\Fields\Field>
+     * @param  Model|object  $resource
+     * @return static<int, Field>
      */
     public function onlyCreateFields(NovaRequest $request, $resource)
     {
@@ -155,8 +157,8 @@ class FieldCollection extends Collection
     /**
      * Remove non-update fields from the collection.
      *
-     * @param  \Illuminate\Database\Eloquent\Model|object  $resource
-     * @return static<int, \Jegex\Koboi\Fields\Field>
+     * @param  Model|object  $resource
+     * @return static<int, Field>
      */
     public function onlyUpdateFields(NovaRequest $request, $resource)
     {
@@ -173,8 +175,8 @@ class FieldCollection extends Collection
     /**
      * Filter fields for showing on detail.
      *
-     * @param  \Illuminate\Database\Eloquent\Model|object  $resource
-     * @return static<int, \Jegex\Koboi\Fields\Field>
+     * @param  Model|object  $resource
+     * @return static<int, Field>
      */
     public function filterForDetail(NovaRequest $request, $resource)
     {
@@ -184,8 +186,8 @@ class FieldCollection extends Collection
     /**
      * Filter fields for showing on preview.
      *
-     * @param  \Illuminate\Database\Eloquent\Model|object  $resource
-     * @return static<int, \Jegex\Koboi\Fields\Field>
+     * @param  Model|object  $resource
+     * @return static<int, Field>
      */
     public function filterForPreview(NovaRequest $request, $resource)
     {
@@ -195,7 +197,7 @@ class FieldCollection extends Collection
     /**
      * Filter fields for showing when peeking.
      *
-     * @return static<int, \Jegex\Koboi\Fields\Field>
+     * @return static<int, Field>
      */
     public function filterForPeeking(NovaRequest $request)
     {
@@ -205,8 +207,8 @@ class FieldCollection extends Collection
     /**
      * Filter fields for showing on index.
      *
-     * @param  \Illuminate\Database\Eloquent\Model|\Jegex\Koboi\Support\Fluent|object|array  $resource
-     * @return static<int, \Jegex\Koboi\Fields\Field>
+     * @param  Model|Fluent|object|array  $resource
+     * @return static<int, Field>
      */
     public function filterForIndex(NovaRequest $request, $resource)
     {
@@ -238,7 +240,7 @@ class FieldCollection extends Collection
     /**
      * Reject if the field is a missing value.
      *
-     * @return static<int, \Jegex\Koboi\Panel|\Jegex\Koboi\ResourceToolElement|\Jegex\Koboi\Fields\Field>
+     * @return static<int, Panel|ResourceToolElement|Field>
      */
     public function withoutMissingValues()
     {
@@ -282,7 +284,7 @@ class FieldCollection extends Collection
     /**
      * Filter the fields to only many-to-many relationships.
      *
-     * @return static<TKey, \Jegex\Koboi\Fields\Field&\Jegex\Koboi\Contracts\PivotableField>
+     * @return static<TKey, Field&PivotableField>
      */
     public function filterForManyToManyRelations()
     {
@@ -293,7 +295,7 @@ class FieldCollection extends Collection
     /**
      * Reject if the field supports Filterable Field.
      *
-     * @return static<TKey, \Jegex\Koboi\Fields\Field&\Jegex\Koboi\Contracts\FilterableField>
+     * @return static<TKey, Field&FilterableField>
      */
     public function withOnlyFilterableFields()
     {
@@ -302,7 +304,7 @@ class FieldCollection extends Collection
             ->whereInstanceOf(FilterableField::class)
             ->reject(static function ($field) {
                 /**
-                 * @var \Jegex\Koboi\Fields\Field&\Jegex\Koboi\Contracts\FilterableField $field
+                 * @var Field&FilterableField $field
                  *
                  * @phpstan-ignore varTag.nativeType
                  */

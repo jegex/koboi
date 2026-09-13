@@ -2,7 +2,9 @@
 
 namespace Jegex\Koboi\Fields;
 
+use Illuminate\Database\Eloquent\Model;
 use Jegex\Koboi\Nova;
+use Jegex\Koboi\Resource;
 
 /**
  * @method static static make(\Stringable|string|null $name = null, string $attribute = 'email')
@@ -25,7 +27,7 @@ class Gravatar extends Avatar implements Unfillable
     /**
      * Resolve the given attribute from the given resource.
      *
-     * @param  \Jegex\Koboi\Resource|\Illuminate\Database\Eloquent\Model|object  $resource
+     * @param  \Jegex\Koboi\Resource|Model|object  $resource
      */
     #[\Override]
     protected function resolveAttribute($resource, string $attribute): string

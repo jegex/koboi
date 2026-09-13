@@ -5,16 +5,18 @@ namespace Jegex\Koboi\Actions;
 use Closure;
 use Illuminate\Bus\PendingBatch;
 use Illuminate\Contracts\Validation\Validator as ValidatorContract;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Illuminate\Support\Traits\Macroable;
 use Illuminate\Support\Traits\Tappable;
-use JsonSerializable;
+use Illuminate\Validation\ValidationException;
 use Jegex\Koboi\AuthorizedToSee;
 use Jegex\Koboi\Exceptions\MissingActionHandlerException;
 use Jegex\Koboi\Fields\ActionFields;
+use Jegex\Koboi\Fields\Field;
 use Jegex\Koboi\Fields\FieldCollection;
 use Jegex\Koboi\Http\Requests\ActionRequest;
 use Jegex\Koboi\Http\Requests\NovaRequest;
@@ -24,6 +26,7 @@ use Jegex\Koboi\Nova;
 use Jegex\Koboi\ProxiesCanSeeToGate;
 use Jegex\Koboi\URL;
 use Jegex\Koboi\WithComponent;
+use JsonSerializable;
 use ReflectionClass;
 use Stringable;
 
@@ -35,7 +38,7 @@ use Stringable;
  *
  * @phpstan-method $this canSee(TAuthoriseCallback $callback)
  *
- * @property \Closure|null $seeCallback
+ * @property Closure|null $seeCallback
  *
  * @method $this canSee(\Closure $callback)
  */
@@ -64,7 +67,7 @@ class Action implements JsonSerializable
     /**
      * The displayable name of the action.
      *
-     * @var \Stringable|string
+     * @var Stringable|string
      */
     public $name;
 
@@ -141,35 +144,35 @@ class Action implements JsonSerializable
     /**
      * The callback used to authorize running the action.
      *
-     * @var (\Closure(\Jegex\Koboi\Http\Requests\NovaRequest, mixed):(bool))|null
+     * @var (Closure(NovaRequest, mixed):(bool))|null
      */
     public $runCallback;
 
     /**
      * The callback that should be invoked when the action has completed.
      *
-     * @var (callable(\Illuminate\Support\Collection):(mixed))|null
+     * @var (callable(Collection):(mixed))|null
      */
     public $thenCallback;
 
     /**
      * The text to be used for the action's confirm button.
      *
-     * @var \Stringable|string
+     * @var Stringable|string
      */
     public $confirmButtonText = 'Run Action';
 
     /**
      * The text to be used for the action's cancel button.
      *
-     * @var \Stringable|string
+     * @var Stringable|string
      */
     public $cancelButtonText = 'Cancel';
 
     /**
      * The text to be used for the action's confirmation text.
      *
-     * @var \Stringable|string
+     * @var Stringable|string
      */
     public $confirmText = 'Are you sure you want to run this action?';
 
@@ -218,7 +221,7 @@ class Action implements JsonSerializable
     /**
      * The closure used to handle the action.
      *
-     * @var (\Closure(\Jegex\Koboi\Fields\ActionFields, \Illuminate\Support\Collection):(mixed))|null
+     * @var (Closure(ActionFields, Collection):(mixed))|null
      */
     public $handleCallback = null;
 
@@ -232,8 +235,8 @@ class Action implements JsonSerializable
     /**
      * Create a new action using the given callback.
      *
-     * @param  \Stringable|string  $name
-     * @param  \Closure(\Jegex\Koboi\Fields\ActionFields, \Illuminate\Support\Collection):(mixed)  $handleUsing
+     * @param  Stringable|string  $name
+     * @param  Closure(ActionFields, Collection):(mixed)  $handleUsing
      */
     public static function using($name, Closure $handleUsing): static
     {
@@ -245,7 +248,7 @@ class Action implements JsonSerializable
     /**
      * Set the Closure used to handle the action.
      *
-     * @param  \Closure(\Jegex\Koboi\Fields\ActionFields, \Illuminate\Support\Collection):(mixed)  $callback
+     * @param  Closure(ActionFields, Collection):(mixed)  $callback
      * @return $this
      */
     public function handleUsing(Closure $callback)
@@ -288,7 +291,7 @@ class Action implements JsonSerializable
      *
      * @no-named-arguments
      *
-     * @param  (\Closure():(string))|(\Closure(\Illuminate\Database\Eloquent\Model):(string))|string|null  $url
+     * @param  (Closure():(string))|(Closure(Model):(string))|string|null  $url
      */
     public static function redirect(Stringable|string $name, Closure|string|null $url = null): static|ActionResponse
     {
@@ -314,7 +317,7 @@ class Action implements JsonSerializable
     /**
      * Register a callback that should be invoked after the action is finished executing.
      *
-     * @param  callable(\Illuminate\Support\Collection):mixed  $callback
+     * @param  callable(Collection):mixed  $callback
      * @return $this
      */
     public function then(callable $callback)
@@ -337,7 +340,7 @@ class Action implements JsonSerializable
     /**
      * Return a Inertia visit from the action.
      *
-     * @param  (\Closure():(string))|(\Closure(\Illuminate\Database\Eloquent\Model):(string))|string|array<string, mixed>  $path
+     * @param  (Closure():(string))|(Closure(Model):(string))|string|array<string, mixed>  $path
      * @param  array<string, mixed>  $options
      *
      * @deprecated 4.0.0 Use "Action::visit()" instead
@@ -356,8 +359,8 @@ class Action implements JsonSerializable
      * @template TVisit of \Jegex\Koboi\URL|string
      * @template TQueryString of array<string, mixed>
      *
-     * @param  TVisit|\Stringable  $name
-     * @param  (\Closure():(TVisit))|(\Closure(\Illuminate\Database\Eloquent\Model):(TVisit))|TVisit|TQueryString  $path
+     * @param  TVisit|Stringable  $name
+     * @param  (Closure():(TVisit))|(Closure(Model):(TVisit))|TVisit|TQueryString  $path
      * @param  TQueryString  $options
      */
     public static function visit(Stringable|URL|string $name, Closure|URL|string|array $path = [], array $options = []): static|ActionResponse
@@ -386,7 +389,7 @@ class Action implements JsonSerializable
      *
      * @no-named-arguments
      *
-     * @param  (\Closure():(string))|(\Closure(\Illuminate\Database\Eloquent\Model):(string))|string|null  $url
+     * @param  (Closure():(string))|(Closure(Model):(string))|string|null  $url
      */
     public static function openInNewTab(Stringable|string $name, Closure|string|null $url = null): static|ActionResponse
     {
@@ -412,7 +415,7 @@ class Action implements JsonSerializable
     /**
      * Return a download response from the action.
      *
-     * @param  (\Closure():(string))|(\Closure(\Illuminate\Database\Eloquent\Model):(string))|string  $url
+     * @param  (Closure():(string))|(Closure(Model):(string))|string  $url
      */
     public static function downloadURL(Stringable|string $name, Closure|string $url): static
     {
@@ -448,7 +451,7 @@ class Action implements JsonSerializable
      * @no-named-arguments
      *
      * @param  string|array<string, mixed>  $modal
-     * @param  (\Closure():(array<string, mixed>))|(\Closure(\Illuminate\Database\Eloquent\Model):(array<string, mixed>))|array<string, mixed>  $data
+     * @param  (Closure():(array<string, mixed>))|(Closure(Model):(array<string, mixed>))|array<string, mixed>  $data
      */
     public static function modal(Stringable|string $name, string|array $modal = [], Closure|array $data = []): static|ActionResponse
     {
@@ -474,7 +477,7 @@ class Action implements JsonSerializable
     /**
      * Determine if the action is executable for the given request.
      *
-     * @param  \Illuminate\Database\Eloquent\Model  $model
+     * @param  Model  $model
      * @return bool
      */
     public function authorizedToRun(Request $request, $model)
@@ -534,7 +537,7 @@ class Action implements JsonSerializable
      *
      * @return mixed
      *
-     * @throws \Jegex\Koboi\Exceptions\MissingActionHandlerException|\Throwable
+     * @throws MissingActionHandlerException|\Throwable
      */
     public function handleRequest(ActionRequest $request)
     {
@@ -605,11 +608,11 @@ class Action implements JsonSerializable
      *
      * @return array<string, mixed>
      *
-     * @throws \Illuminate\Validation\ValidationException
+     * @throws ValidationException
      */
     public function validateFields(ActionRequest $request): array
     {
-        /** @var \Jegex\Koboi\Fields\FieldCollection<int, \Jegex\Koboi\Fields\Field> $fields */
+        /** @var FieldCollection<int, Field> $fields */
         $fields = FieldCollection::make($this->fields($request))
             ->authorized($request)
             ->applyDependsOn($request)
@@ -808,7 +811,7 @@ class Action implements JsonSerializable
     /**
      * Set the callback to be run to authorize running the action.
      *
-     * @param  \Closure(\Jegex\Koboi\Http\Requests\NovaRequest, mixed):bool  $callback
+     * @param  Closure(NovaRequest, mixed):bool  $callback
      * @return $this
      */
     public function canRun(Closure $callback)
@@ -966,7 +969,7 @@ class Action implements JsonSerializable
     /**
      * Get the displayable name of the action.
      *
-     * @return \Stringable|string
+     * @return Stringable|string
      */
     public function name()
     {
@@ -1049,7 +1052,7 @@ class Action implements JsonSerializable
     /**
      * Mark the action event record for the model as finished.
      *
-     * @param  \Illuminate\Database\Eloquent\Model  $model
+     * @param  Model  $model
      * @return int
      */
     protected function markAsFinished($model)
@@ -1062,7 +1065,7 @@ class Action implements JsonSerializable
     /**
      * Mark the action event record for the model as failed.
      *
-     * @param  \Illuminate\Database\Eloquent\Model  $model
+     * @param  Model  $model
      * @param  \Throwable|string  $e
      * @return int
      */

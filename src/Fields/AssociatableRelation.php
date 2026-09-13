@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 use Jegex\Koboi\Contracts\QueryBuilder;
 use Jegex\Koboi\Http\Requests\NovaRequest;
+use Jegex\Koboi\Resource;
 use Jegex\Koboi\TrashedStatus;
 
 trait AssociatableRelation
@@ -14,14 +15,14 @@ trait AssociatableRelation
     /**
      * The callback that should be run to associate relations.
      *
-     * @var (callable(\Jegex\Koboi\Http\Requests\NovaRequest, \Illuminate\Contracts\Database\Eloquent\Builder):(\Illuminate\Contracts\Database\Eloquent\Builder))|null
+     * @var (callable(NovaRequest, Builder):(Builder))|null
      */
     public $relatableQueryCallback;
 
     /**
      * Determines if the display values should be automatically sorted.
      *
-     * @var (callable(\Jegex\Koboi\Http\Requests\NovaRequest):(bool))|bool
+     * @var (callable(NovaRequest):(bool))|bool
      */
     public $reordersOnAssociatableCallback = true;
 
@@ -52,7 +53,7 @@ trait AssociatableRelation
     /**
      * Determine reordering on associatables.
      *
-     * @param  (callable(\Jegex\Koboi\Http\Requests\NovaRequest):bool)|bool  $value
+     * @param  (callable(NovaRequest):bool)|bool  $value
      * @return $this
      */
     public function reorderAssociatables(callable|bool $value = true)
@@ -65,7 +66,7 @@ trait AssociatableRelation
     /**
      * Determine the associate relations query.
      *
-     * @param  (callable(\Jegex\Koboi\Http\Requests\NovaRequest, \Illuminate\Contracts\Database\Eloquent\Builder):(\Illuminate\Contracts\Database\Eloquent\Builder))|null  $callback
+     * @param  (callable(NovaRequest, Builder):(Builder))|null  $callback
      * @return $this
      */
     public function relatableQueryUsing(?callable $callback)
@@ -95,7 +96,7 @@ trait AssociatableRelation
     /**
      * Get the relatableQuery callable.
      *
-     * @param  \Illuminate\Database\Eloquent\Model  $model
+     * @param  Model  $model
      * @param  class-string<\Jegex\Koboi\Resource>  $resourceClass
      * @return array
      */
@@ -109,7 +110,7 @@ trait AssociatableRelation
     /**
      * Get the relatableQuery method name.
      *
-     * @param  \Illuminate\Database\Eloquent\Model  $model
+     * @param  Model  $model
      * @return string|null
      */
     protected function relatableQueryMethod(NovaRequest $request, $model)

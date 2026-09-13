@@ -13,7 +13,7 @@ class DeleteResourceRequest extends DeletionRequest
     /**
      * Get the selected models for the action in chunks.
      *
-     * @param  \Closure(\Illuminate\Support\Collection):void  $callback
+     * @param  Closure(Collection):void  $callback
      */
     public function chunks(int $count, Closure $callback): void
     {

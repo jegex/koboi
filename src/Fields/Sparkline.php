@@ -19,7 +19,7 @@ class Sparkline extends Field implements Unfillable
     /**
      * The data used in the chart.
      *
-     * @var array|(callable(\Jegex\Koboi\Http\Requests\NovaRequest):(mixed))|\Jegex\Koboi\Metrics\Trend
+     * @var array|(callable(NovaRequest):(mixed))|Trend
      */
     public $data = [];
 
@@ -33,21 +33,21 @@ class Sparkline extends Field implements Unfillable
     /**
      * Indicates if the element should be shown on the creation view.
      *
-     * @var (callable(\Jegex\Koboi\Http\Requests\NovaRequest):(bool))|bool
+     * @var (callable(NovaRequest):(bool))|bool
      */
     public $showOnCreation = false;
 
     /**
      * Indicates if the element should be shown on the update view.
      *
-     * @var (callable(\Jegex\Koboi\Http\Requests\NovaRequest, mixed):(bool))|bool
+     * @var (callable(NovaRequest, mixed):(bool))|bool
      */
     public $showOnUpdate = false;
 
     /**
      * Set the data for the Spark Line.
      *
-     * @param  \Jegex\Koboi\Metrics\Trend|(callable(\Jegex\Koboi\Http\Requests\NovaRequest):(mixed))|iterable  $data
+     * @param  Trend|(callable(NovaRequest):(mixed))|iterable  $data
      * @return $this
      */
     public function data(Trend|callable|iterable $data)

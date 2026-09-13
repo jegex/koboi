@@ -6,13 +6,14 @@ use Illuminate\Routing\Controller;
 use Jegex\Koboi\Http\Requests\NovaRequest;
 use Jegex\Koboi\Nova;
 use Jegex\Koboi\Style;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class StyleController extends Controller
 {
     /**
      * Serve the requested stylesheet.
      *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
+     * @throws NotFoundHttpException
      */
     public function __invoke(NovaRequest $request): Style
     {

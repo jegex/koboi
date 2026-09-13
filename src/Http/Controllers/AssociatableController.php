@@ -5,6 +5,7 @@ namespace Jegex\Koboi\Http\Controllers;
 use Illuminate\Routing\Controller;
 use Jegex\Koboi\Contracts\RelatableField;
 use Jegex\Koboi\Http\Requests\NovaRequest;
+use Jegex\Koboi\Resource;
 
 class AssociatableController extends Controller
 {

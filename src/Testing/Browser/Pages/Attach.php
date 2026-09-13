@@ -3,8 +3,8 @@
 namespace Jegex\Koboi\Testing\Browser\Pages;
 
 use Illuminate\Database\Eloquent\Model;
-use Laravel\Dusk\Browser;
 use Jegex\Koboi\Testing\Browser\Components\SearchInputComponent;
+use Laravel\Dusk\Browser;
 
 class Attach extends Page
 {
@@ -13,14 +13,14 @@ class Attach extends Page
     /**
      * The Resource ID.
      *
-     * @var \Illuminate\Database\Eloquent\Model|string|int
+     * @var Model|string|int
      */
     public mixed $resourceId;
 
     /**
      * Create a new page instance.
      *
-     * @param  \Illuminate\Database\Eloquent\Model|string|int  $resourceId
+     * @param  Model|string|int  $resourceId
      */
     public function __construct(
         public string $resourceName,

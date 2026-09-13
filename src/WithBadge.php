@@ -11,7 +11,7 @@ trait WithBadge
     /**
      * The badge content for the menu item.
      *
-     * @var (\Closure():(\Jegex\Koboi\Badge|string|false))|(callable():(\Jegex\Koboi\Badge|string|false))|\Jegex\Koboi\Badge|string|false|null
+     * @var (Closure():(Badge|string|false))|(callable():(Badge|string|false))|Badge|string|false|null
      */
     public $badgeCallback;
 
@@ -25,7 +25,7 @@ trait WithBadge
     /**
      * Set the content to be used for the item's badge.
      *
-     * @param  \Jegex\Koboi\Badge|(callable():(\Jegex\Koboi\Badge|string|false))|string  $badgeCallback
+     * @param  Badge|(callable():(Badge|string|false))|string  $badgeCallback
      * @return $this
      */
     public function withBadge(Badge|callable|string $badgeCallback, string $type = 'info')
@@ -46,8 +46,8 @@ trait WithBadge
     /**
      * Set the content to be used for the item's badge if the condition matches.
      *
-     * @param  \Jegex\Koboi\Badge|(callable():(\Jegex\Koboi\Badge|string|false))|string  $badgeCallback
-     * @param  (\Closure():(bool))|bool  $condition
+     * @param  Badge|(callable():(Badge|string|false))|string  $badgeCallback
+     * @param  (Closure():(bool))|bool  $condition
      * @return $this
      */
     public function withBadgeIf(Badge|callable|string $badgeCallback, string $type, Closure|bool $condition)
@@ -74,7 +74,7 @@ trait WithBadge
             return $this->badgeCallback;
         }
 
-        /** @var \Jegex\Koboi\Badge|string|false|null $result */
+        /** @var Badge|string|false|null $result */
         $result = \call_user_func($this->badgeCallback);
 
         if (\is_null($result)) {

@@ -6,6 +6,8 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Str;
+use Jegex\Koboi\Contracts\Storable;
+use Jegex\Koboi\Fields\Field;
 use Jegex\Koboi\Http\Requests\NovaRequest;
 
 class FieldAttachmentController extends Controller
@@ -15,7 +17,7 @@ class FieldAttachmentController extends Controller
      */
     public function store(NovaRequest $request): JsonResponse
     {
-        /** @var \Jegex\Koboi\Fields\Field&\Jegex\Koboi\Contracts\Storable $field */
+        /** @var Field&Storable $field */
         $field = $request->newResource()
             ->availableFields($request)
             ->filter(static fn ($field) => optional($field)->withFiles === true)
@@ -32,7 +34,7 @@ class FieldAttachmentController extends Controller
      */
     public function destroyAttachment(NovaRequest $request): Response
     {
-        /** @var \Jegex\Koboi\Fields\Field&\Jegex\Koboi\Contracts\Storable $field */
+        /** @var Field&Storable $field */
         $field = $request->newResource()
             ->availableFields($request)
             ->filter(static fn ($field) => optional($field)->withFiles === true)
@@ -49,7 +51,7 @@ class FieldAttachmentController extends Controller
      */
     public function destroyPending(NovaRequest $request): Response
     {
-        /** @var \Jegex\Koboi\Fields\Field&\Jegex\Koboi\Contracts\Storable $field */
+        /** @var Field&Storable $field */
         $field = $request->newResource()
             ->availableFields($request)
             ->filter(static fn ($field) => optional($field)->withFiles === true)

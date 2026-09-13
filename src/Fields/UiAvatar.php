@@ -2,7 +2,9 @@
 
 namespace Jegex\Koboi\Fields;
 
+use Illuminate\Database\Eloquent\Model;
 use Jegex\Koboi\Nova;
+use Jegex\Koboi\Support\Fluent;
 
 /**
  * @method static static make(\Stringable|string|null $name = null, string $attribute = 'name')
@@ -36,7 +38,7 @@ class UiAvatar extends Avatar implements Unfillable
     /**
      * Resolve the field's value.
      *
-     * @param  \Illuminate\Database\Eloquent\Model|\Jegex\Koboi\Support\Fluent|object  $resource
+     * @param  Model|Fluent|object  $resource
      */
     #[\Override]
     public function resolve($resource, ?string $attribute = null): void

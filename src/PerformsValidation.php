@@ -5,6 +5,7 @@ namespace Jegex\Koboi;
 use Illuminate\Contracts\Validation\Validator as ValidatorContract;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\ValidationException;
 use Jegex\Koboi\Contracts\PivotableField;
 use Jegex\Koboi\Http\Requests\NovaRequest;
 use Stringable;
@@ -18,7 +19,7 @@ trait PerformsValidation
      * Validate a resource creation request.
      *
      *
-     * @throws \Illuminate\Validation\ValidationException
+     * @throws ValidationException
      */
     public static function validateForCreation(NovaRequest $request): void
     {
@@ -78,7 +79,7 @@ trait PerformsValidation
     /**
      * Validate a resource update request.
      *
-     * @throws \Illuminate\Validation\ValidationException
+     * @throws ValidationException
      */
     public static function validateForUpdate(NovaRequest $request, ?Resource $resource = null): void
     {
@@ -89,8 +90,6 @@ trait PerformsValidation
 
     /**
      * Create a validator instance for a resource update request.
-     *
-     * @param  \Jegex\Koboi\Resource|null  $resource
      */
     public static function validatorForUpdate(NovaRequest $request, ?Resource $resource = null): ValidatorContract
     {
@@ -104,7 +103,6 @@ trait PerformsValidation
     /**
      * Get the validation rules for a resource update request.
      *
-     * @param  \Jegex\Koboi\Resource|null  $resource
      * @return array<array-key, mixed>
      *
      * @phpstan-return array<array-key, TFieldValidationRules>
@@ -142,7 +140,7 @@ trait PerformsValidation
     /**
      * Validate a resource attachment request.
      *
-     * @throws \Illuminate\Validation\ValidationException
+     * @throws ValidationException
      */
     public static function validateForAttachment(NovaRequest $request): void
     {
@@ -175,7 +173,7 @@ trait PerformsValidation
     /**
      * Validate a resource attachment update request.
      *
-     * @throws \Illuminate\Validation\ValidationException
+     * @throws ValidationException
      */
     public static function validateForAttachmentUpdate(NovaRequest $request): void
     {
@@ -258,8 +256,7 @@ trait PerformsValidation
     /**
      * Map field attributes to field names.
      *
-     * @param  \Jegex\Koboi\Resource|null  $resource
-     * @return \Illuminate\Support\Collection<string, string>
+     * @return Collection<string, string>
      */
     private static function attributeNamesForFields(NovaRequest $request, ?Resource $resource = null): Collection
     {

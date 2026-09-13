@@ -3,6 +3,7 @@
 namespace Jegex\Koboi\Fields;
 
 use Illuminate\Support\Arr;
+use Jegex\Koboi\Fields\Filters\Filter;
 use Jegex\Koboi\Fields\Filters\StatusFilter;
 use Jegex\Koboi\Http\Requests\NovaRequest;
 
@@ -105,7 +106,7 @@ class Status extends Text implements Unfillable
     /**
      * Make the field filter.
      *
-     * @return \Jegex\Koboi\Fields\Filters\Filter
+     * @return Filter
      */
     protected function makeFilter(NovaRequest $request)
     {

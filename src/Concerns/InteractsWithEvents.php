@@ -12,7 +12,7 @@ trait InteractsWithEvents
     /**
      * Register an event listener for the Nova "booted" event.
      *
-     * @param  (\Closure(\Jegex\Koboi\Events\NovaServiceProviderRegistered):(void))|string|array  $callback
+     * @param  (Closure(NovaServiceProviderRegistered):(void))|string|array  $callback
      * @return void
      */
     public static function booted(Closure|string|array $callback)
@@ -23,7 +23,7 @@ trait InteractsWithEvents
     /**
      * Register an event listener for the Nova "serving" event.
      *
-     * @param  (\Closure(\Jegex\Koboi\Events\ServingNova):(void))|string|array  $callback
+     * @param  (Closure(ServingNova):(void))|string|array  $callback
      * @return void
      */
     public static function serving(Closure|string|array $callback)

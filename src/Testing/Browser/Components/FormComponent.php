@@ -2,8 +2,9 @@
 
 namespace Jegex\Koboi\Testing\Browser\Components;
 
-use Laravel\Dusk\Browser;
+use Facebook\WebDriver\Exception\TimeOutException;
 use Jegex\Koboi\Testing\Browser\Concerns\InteractsWithInlineCreateRelation;
+use Laravel\Dusk\Browser;
 
 class FormComponent extends Component
 {
@@ -42,7 +43,7 @@ class FormComponent extends Component
     /**
      * Assert that the browser page contains the component.
      *
-     * @throws \Facebook\WebDriver\Exception\TimeOutException
+     * @throws TimeOutException
      */
     public function assert(Browser $browser): void
     {

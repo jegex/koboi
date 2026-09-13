@@ -16,14 +16,14 @@ trait AttachableRelation
     /**
      * The callback that should be run to associate relations.
      *
-     * @var (callable(\Jegex\Koboi\Http\Requests\NovaRequest, \Illuminate\Contracts\Database\Eloquent\Builder):(\Illuminate\Contracts\Database\Eloquent\Builder))|null
+     * @var (callable(NovaRequest, Builder):(Builder))|null
      */
     public $relatableQueryCallback;
 
     /**
      * Determines if the display values should be automatically sorted.
      *
-     * @var (callable(\Jegex\Koboi\Http\Requests\NovaRequest):(bool))|bool
+     * @var (callable(NovaRequest):(bool))|bool
      */
     public $reordersOnAttachableCallback = true;
 
@@ -54,7 +54,7 @@ trait AttachableRelation
     /**
      * Determine reordering on attachables.
      *
-     * @param  (callable(\Jegex\Koboi\Http\Requests\NovaRequest):(bool))|bool  $value
+     * @param  (callable(NovaRequest):(bool))|bool  $value
      * @return $this
      */
     public function reorderAttachables(callable|bool $value = true)
@@ -67,7 +67,7 @@ trait AttachableRelation
     /**
      * Determine the associate relations query.
      *
-     * @param  (callable(\Jegex\Koboi\Http\Requests\NovaRequest, \Illuminate\Contracts\Database\Eloquent\Builder):(\Illuminate\Contracts\Database\Eloquent\Builder))|null  $callback
+     * @param  (callable(NovaRequest, Builder):(Builder))|null  $callback
      * @return $this
      */
     public function relatableQueryUsing(?callable $callback)
@@ -118,7 +118,7 @@ trait AttachableRelation
     /**
      * Get the attachable query method name.
      *
-     * @param  \Illuminate\Database\Eloquent\Model  $model
+     * @param  Model  $model
      * @param  class-string<\Jegex\Koboi\Resource>  $resourceClass
      */
     protected function attachableQueryCallable(NovaRequest $request, $model, string $resourceClass): callable
@@ -131,7 +131,7 @@ trait AttachableRelation
     /**
      * Get the attachable query method name.
      *
-     * @param  \Illuminate\Database\Eloquent\Model  $model
+     * @param  Model  $model
      */
     protected function attachableQueryMethod(NovaRequest $request, $model): ?string
     {
@@ -143,7 +143,7 @@ trait AttachableRelation
     /**
      * Format the given attachable resource.
      *
-     * @param  \Jegex\Koboi\Resource|\Illuminate\Database\Eloquent\Model  $resource
+     * @param  \Jegex\Koboi\Resource|Model  $resource
      */
     public function formatAttachableResource(NovaRequest $request, $resource): array
     {

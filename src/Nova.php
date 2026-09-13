@@ -8,6 +8,8 @@ use Carbon\CarbonInterval;
 use Closure;
 use Illuminate\Console\Command;
 use Illuminate\Contracts\Auth\Access\Gate as GateContract;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Auth\User;
 use Illuminate\Http\Client\Response as ClientResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
@@ -51,7 +53,7 @@ class Nova
     /**
      * The registered dashboard names.
      *
-     * @var array<int, \Jegex\Koboi\Dashboard>
+     * @var array<int, Dashboard>
      */
     public static array $dashboards = [];
 
@@ -65,42 +67,42 @@ class Nova
     /**
      * An index of resource names keyed by the model name.
      *
-     * @var array<class-string<\Illuminate\Database\Eloquent\Model>, class-string<\Jegex\Koboi\Resource>>
+     * @var array<class-string<Model>, class-string<\Jegex\Koboi\Resource>>
      */
     public static array $resourcesByModel = [];
 
     /**
      * The callback used to create new users via the CLI.
      *
-     * @var (callable(mixed...):(\Illuminate\Database\Eloquent\Model))|(\Closure(mixed...):(\Illuminate\Database\Eloquent\Model))|null
+     * @var (callable(mixed...):(Model))|(Closure(mixed...):(Model))|null
      */
     public static $createUserCallback = null;
 
     /**
      * The callback used to gather new user information via the CLI.
      *
-     * @var (callable(\Illuminate\Console\Command):(array<int, \Laravel\Prompts\Prompt|mixed>))|null
+     * @var (callable(Command):(array<int, Prompt|mixed>))|null
      */
     public static $createUserCommandCallback = null;
 
     /**
      * The callable that resolves the user's locale.
      *
-     * @var (callable(\Illuminate\Http\Request):(?string))|null
+     * @var (callable(Request):(?string))|null
      */
     public static $userLocaleCallback = null;
 
     /**
      * The callable that resolves the user's timezone.
      *
-     * @var (callable(\Illuminate\Http\Request):(?string))|null
+     * @var (callable(Request):(?string))|null
      */
     public static $userTimezoneCallback = null;
 
     /**
      * All of the registered Nova tools.
      *
-     * @var array<int, \Jegex\Koboi\Tool>
+     * @var array<int, Tool>
      */
     public static array $tools = [];
 
@@ -147,35 +149,35 @@ class Nova
     /**
      * The callback used to create Nova's main menu.
      *
-     * @var (callable(\Illuminate\Http\Request, \Jegex\Koboi\Menu\Menu):(\Jegex\Koboi\Menu\Menu|iterable))|null
+     * @var (callable(Request, Menu):(Menu|iterable))|null
      */
     public static $mainMenuCallback = null;
 
     /**
      * The callback used to create Nova's user menu.
      *
-     * @var (callable(\Illuminate\Http\Request, \Jegex\Koboi\Menu\Menu):(\Jegex\Koboi\Menu\Menu|array))|null
+     * @var (callable(Request, Menu):(Menu|array))|null
      */
     public static $userMenuCallback = null;
 
     /**
      * The callback used to resolve Nova's footer.
      *
-     * @var (callable(\Illuminate\Http\Request):(string|\Stringable))|null
+     * @var (callable(Request):(string|Stringable))|null
      */
     public static $footerCallback = null;
 
     /**
      * The callback used to resolve Nova's RTL.
      *
-     * @var (\Closure(\Jegex\Koboi\Http\Requests\NovaRequest):(bool))|bool|null
+     * @var (Closure(NovaRequest):(bool))|bool|null
      */
     public static Closure|bool|null $rtlCallback = null;
 
     /**
      * The callback used to resolve Nova's Breadcrumb.
      *
-     * @var (callable(\Jegex\Koboi\Http\Requests\NovaRequest):(bool))|bool
+     * @var (callable(NovaRequest):(bool))|bool
      */
     public static $withBreadcrumbs = false;
 
@@ -229,8 +231,8 @@ class Nova
     /**
      * Run callback when currently serving Nova.
      *
-     * @param  callable(\Jegex\Koboi\Http\Requests\NovaRequest):mixed  $callback
-     * @param  (callable(\Illuminate\Http\Request):(mixed))|null  $default
+     * @param  callable(NovaRequest):mixed  $callback
+     * @param  (callable(Request):(mixed))|null  $default
      */
     public static function whenServing(callable $callback, ?callable $default = null): mixed
     {
@@ -248,7 +250,7 @@ class Nova
     /**
      * Get current user using `nova.guard`.
      *
-     * @return \Illuminate\Foundation\Auth\User|null
+     * @return User|null
      */
     public static function user(?Request $request = null)
     {
@@ -264,7 +266,7 @@ class Nova
     /**
      * Retrieve Nova's Impersonator Implementation.
      */
-    public static function impersonator(): Contracts\ImpersonatesUsers
+    public static function impersonator(): ImpersonatesUsers
     {
         return app(ImpersonatesUsers::class);
     }
@@ -315,7 +317,7 @@ class Nova
     /**
      * Return Nova's authorized resources.
      *
-     * @return \Jegex\Koboi\ResourceCollection<int, class-string<\Jegex\Koboi\Resource>>
+     * @return ResourceCollection<int, class-string<\Jegex\Koboi\Resource>>
      */
     public static function authorizedResources(Request $request): ResourceCollection
     {
@@ -325,7 +327,7 @@ class Nova
     /**
      * Return the base collection of Nova resources.
      *
-     * @return \Jegex\Koboi\ResourceCollection<int, class-string<\Jegex\Koboi\Resource>>
+     * @return ResourceCollection<int, class-string<\Jegex\Koboi\Resource>>
      */
     public static function resourceCollection(): ResourceCollection
     {
@@ -383,7 +385,7 @@ class Nova
     /**
      * Get the grouped resources available for the given request.
      *
-     * @return array<string, \Jegex\Koboi\ResourceCollection<int, class-string<\Jegex\Koboi\Resource>>>
+     * @return array<string, ResourceCollection<int, class-string<\Jegex\Koboi\Resource>>>
      */
     public static function groupedResources(Request $request): array
     {
@@ -395,7 +397,7 @@ class Nova
     /**
      * Get the grouped resources available for the given request.
      *
-     * @return \Illuminate\Support\Collection<array-key, \Jegex\Koboi\ResourceCollection<array-key, class-string<\Jegex\Koboi\Resource>>>
+     * @return Collection<array-key, ResourceCollection<array-key, class-string<\Jegex\Koboi\Resource>>>
      */
     public static function groupedResourcesForNavigation(Request $request): Collection
     {
@@ -459,10 +461,10 @@ class Nova
     /**
      * Get a new resource instance with the given model instance.
      *
-     * @param  \Illuminate\Database\Eloquent\Model  $model
-     * @return \Jegex\Koboi\Resource<\Illuminate\Database\Eloquent\Model>
+     * @param  Model  $model
+     * @return \Jegex\Koboi\Resource<Model>
      *
-     * @throws \Jegex\Koboi\Exceptions\ResourceMissingException
+     * @throws ResourceMissingException
      */
     public static function newResourceFromModel($model): Resource
     {
@@ -476,7 +478,7 @@ class Nova
     /**
      * Get the resource class name for a given model class.
      *
-     * @param  \Illuminate\Database\Eloquent\Model|class-string<\Illuminate\Database\Eloquent\Model>  $class
+     * @param  Model|class-string<Model>  $class
      * @return class-string<\Jegex\Koboi\Resource>|null
      */
     public static function resourceForModel($class): ?string
@@ -498,8 +500,6 @@ class Nova
 
     /**
      * Get a resource instance for a given key.
-     *
-     * @return \Jegex\Koboi\Resource|null
      */
     public static function resourceInstanceForKey(?string $key): ?Resource
     {
@@ -525,7 +525,7 @@ class Nova
     /**
      * Get a fresh model instance for the resource with the given key.
      *
-     * @return \Illuminate\Database\Eloquent\Model|null
+     * @return Model|null
      */
     public static function modelInstanceForKey(?string $key)
     {
@@ -556,8 +556,8 @@ class Nova
     /**
      * Register the callbacks used to create a new user via the CLI.
      *
-     * @param  (callable(\Illuminate\Console\Command):(array<int, \Laravel\Prompts\Prompt|mixed>))|null  $createUserCommandCallback
-     * @param  (callable(mixed...):(\Illuminate\Database\Eloquent\Model))|(\Closure(mixed...):(\Illuminate\Database\Eloquent\Model))|null  $createUserCallback
+     * @param  (callable(Command):(array<int, Prompt|mixed>))|null  $createUserCommandCallback
+     * @param  (callable(mixed...):(Model))|(Closure(mixed...):(Model))|null  $createUserCallback
      */
     public static function createUserUsing(?callable $createUserCommandCallback = null, ?callable $createUserCallback = null): static
     {
@@ -578,7 +578,7 @@ class Nova
     /**
      * Get the default callback used for the create user command.
      *
-     * @return \Closure(\Illuminate\Console\Command):array<int, \Laravel\Prompts\Prompt|mixed>
+     * @return Closure(Command):array<int, Prompt|mixed>
      */
     protected static function defaultCreateUserCommandCallback(): callable
     {
@@ -594,7 +594,7 @@ class Nova
     /**
      * Get the default callback used for creating new Nova users.
      *
-     * @return \Closure(string, string, string):\Illuminate\Database\Eloquent\Model
+     * @return Closure(string, string, string):Model
      */
     protected static function defaultCreateUserCallback(): Closure
     {
@@ -612,7 +612,7 @@ class Nova
     /**
      * Set the callable that resolves the user's preferred timezone.
      *
-     * @param  (callable(\Illuminate\Http\Request):(?string))|null  $userTimezoneCallback
+     * @param  (callable(Request):(?string))|null  $userTimezoneCallback
      */
     public static function userTimezone(?callable $userTimezoneCallback): static
     {
@@ -636,7 +636,7 @@ class Nova
     /**
      * Register new tools with Nova.
      *
-     * @param  array<int, \Jegex\Koboi\Tool>  $tools
+     * @param  array<int, Tool>  $tools
      */
     public static function tools(array $tools): static
     {
@@ -651,7 +651,7 @@ class Nova
     /**
      * Get the tools registered with Nova.
      *
-     * @return array<int, \Jegex\Koboi\Tool>
+     * @return array<int, Tool>
      */
     public static function registeredTools(): array
     {
@@ -669,7 +669,7 @@ class Nova
     /**
      * Get the tools registered with Nova.
      *
-     * @return array<int, \Jegex\Koboi\Tool>
+     * @return array<int, Tool>
      */
     public static function availableTools(Request $request): array
     {
@@ -683,7 +683,7 @@ class Nova
     /**
      * Get the dashboards registered with Nova.
      *
-     * @return array<int, \Jegex\Koboi\Dashboard>
+     * @return array<int, Dashboard>
      */
     public static function availableDashboards(Request $request): array
     {
@@ -693,7 +693,7 @@ class Nova
     /**
      * Register the dashboards.
      *
-     * @param  array<int, \Jegex\Koboi\Dashboard>  $dashboards
+     * @param  array<int, Dashboard>  $dashboards
      */
     public static function dashboards(array $dashboards): static
     {
@@ -921,7 +921,7 @@ class Nova
     /**
      * Enable RTL content direction.
      *
-     * @param  (\Closure(\Jegex\Koboi\Http\Requests\NovaRequest):(bool))|bool  $rtlCallback
+     * @param  (Closure(NovaRequest):(bool))|bool  $rtlCallback
      */
     public static function enableRTL(Closure|bool $rtlCallback = true): static
     {
@@ -1040,7 +1040,7 @@ class Nova
      *
      * @return mixed
      *
-     * @throws \BadMethodCallException
+     * @throws BadMethodCallException
      */
     public static function __callStatic(string $method, array $parameters)
     {
@@ -1078,7 +1078,7 @@ class Nova
     /**
      * Set the main menu for Nova.
      *
-     * @param  callable(\Illuminate\Http\Request, \Jegex\Koboi\Menu\Menu):(\Jegex\Koboi\Menu\Menu|iterable)  $callback
+     * @param  callable(Request, Menu):(Menu|iterable)  $callback
      */
     public static function mainMenu(callable $callback): static
     {
@@ -1090,7 +1090,7 @@ class Nova
     /**
      * Set the main menu for Nova.
      *
-     * @param  callable(\Illuminate\Http\Request, \Jegex\Koboi\Menu\Menu):(\Jegex\Koboi\Menu\Menu|array)  $userMenuCallback
+     * @param  callable(Request, Menu):(Menu|array)  $userMenuCallback
      */
     public static function userMenu(callable $userMenuCallback): static
     {
@@ -1102,7 +1102,7 @@ class Nova
     /**
      * Enable Breadcrumb Menu.
      *
-     * @param  (callable(\Jegex\Koboi\Http\Requests\NovaRequest):(bool))|bool  $withBreadcrumbs
+     * @param  (callable(NovaRequest):(bool))|bool  $withBreadcrumbs
      */
     public static function withBreadcrumbs(callable|bool $withBreadcrumbs = true): static
     {
@@ -1136,7 +1136,7 @@ class Nova
     /**
      * Set the footer text used for Nova.
      *
-     * @param  callable(\Illuminate\Http\Request):(\Stringable|string)  $footerCallback
+     * @param  callable(Request):(Stringable|string)  $footerCallback
      */
     public static function footer(callable $footerCallback): static
     {
@@ -1229,7 +1229,7 @@ class Nova
     /**
      * Set the callable that resolves the user's preferred locale.
      *
-     * @param  (callable(\Illuminate\Http\Request):(?string))|null  $userLocaleCallback
+     * @param  (callable(Request):(?string))|null  $userLocaleCallback
      */
     public static function userLocale(?callable $userLocaleCallback): static
     {

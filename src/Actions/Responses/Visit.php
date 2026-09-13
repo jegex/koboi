@@ -2,8 +2,8 @@
 
 namespace Jegex\Koboi\Actions\Responses;
 
-use JsonSerializable;
 use Jegex\Koboi\URL;
+use JsonSerializable;
 
 class Visit implements JsonSerializable
 {

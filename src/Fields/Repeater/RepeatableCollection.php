@@ -2,6 +2,7 @@
 
 namespace Jegex\Koboi\Fields\Repeater;
 
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 
 class RepeatableCollection extends Collection
@@ -10,7 +11,7 @@ class RepeatableCollection extends Collection
      * Find a Repeatable class by its key.
      *
      * @param  string  $key
-     * @return \Jegex\Koboi\Fields\Repeater\Repeatable
+     * @return Repeatable
      */
     public function findByKey($key)
     {
@@ -23,8 +24,8 @@ class RepeatableCollection extends Collection
      * Return a new instance of a Repeatable by its key.
      *
      * @param  string  $key
-     * @param  \Illuminate\Database\Eloquent\Model|array  $data
-     * @return \Jegex\Koboi\Fields\Repeater\Repeatable
+     * @param  Model|array  $data
+     * @return Repeatable
      */
     public function newRepeatableByKey($key, $data = [])
     {
@@ -49,8 +50,8 @@ class RepeatableCollection extends Collection
     /**
      * Return a new instance of a Repeatable by its model class.
      *
-     * @param  \Illuminate\Database\Eloquent\Model  $model
-     * @return \Jegex\Koboi\Fields\Repeater\Repeatable
+     * @param  Model  $model
+     * @return Repeatable
      */
     public function newRepeatableByModel($model)
     {

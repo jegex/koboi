@@ -17,7 +17,7 @@ class NumberFilter extends Filter
     /**
      * Apply the filter to the given query.
      *
-     * @return \Illuminate\Contracts\Database\Eloquent\Builder
+     * @return Builder
      */
     public function apply(NovaRequest $request, Builder $query, mixed $value)
     {

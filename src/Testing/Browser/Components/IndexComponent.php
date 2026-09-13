@@ -2,6 +2,8 @@
 
 namespace Jegex\Koboi\Testing\Browser\Components;
 
+use Facebook\WebDriver\Exception\TimeOutException;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 use Laravel\Dusk\Browser;
 
@@ -41,7 +43,7 @@ class IndexComponent extends Component
     /**
      * Wait for table to be ready.
      *
-     * @throws \Facebook\WebDriver\Exception\TimeOutException
+     * @throws TimeOutException
      */
     public function waitForTable(Browser $browser, ?int $seconds = null): void
     {
@@ -54,7 +56,7 @@ class IndexComponent extends Component
     /**
      * Wait for empty dialog to be ready.
      *
-     * @throws \Facebook\WebDriver\Exception\TimeOutException
+     * @throws TimeOutException
      */
     public function waitForEmptyDialog(Browser $browser, ?int $seconds = null): void
     {
@@ -155,7 +157,7 @@ class IndexComponent extends Component
     /**
      * Set the given filter and filter value for the index.
      *
-     * @param  (\callable(\Laravel\Dusk\Browser):(void))|false|null  $postCallback
+     * @param  (callable(Browser):(void))|false|null  $postCallback
      */
     public function runFilter(Browser $browser, ?callable $fieldCallback = null, callable|false|null $postCallback = null): void
     {
@@ -263,7 +265,7 @@ class IndexComponent extends Component
     /**
      * Open the action selector.
      *
-     * @throws \Facebook\WebDriver\Exception\TimeOutException
+     * @throws TimeOutException
      */
     public function openActionSelector(Browser $browser): void
     {
@@ -277,7 +279,7 @@ class IndexComponent extends Component
      *
      * @return void
      *
-     * @throws \Facebook\WebDriver\Exception\TimeOutException
+     * @throws TimeOutException
      */
     public function openStandaloneActionSelector(Browser $browser)
     {
@@ -289,7 +291,7 @@ class IndexComponent extends Component
     /**
      * Open the filter selector.
      *
-     * @throws \Facebook\WebDriver\Exception\TimeOutException
+     * @throws TimeOutException
      */
     public function openFilterSelector(Browser $browser): void
     {
@@ -301,7 +303,7 @@ class IndexComponent extends Component
     /**
      * Open the action selector.
      *
-     * @throws \Facebook\WebDriver\Exception\TimeOutException
+     * @throws TimeOutException
      */
     public function openControlSelectorById(Browser $browser, string|int $id): void
     {
@@ -335,7 +337,7 @@ class IndexComponent extends Component
     /**
      * Select the action with the given URI key.
      *
-     * @throws \Facebook\WebDriver\Exception\TimeOutException
+     * @throws TimeOutException
      */
     public function selectAction(Browser $browser, string $uriKey, callable $fieldCallback): void
     {
@@ -355,7 +357,7 @@ class IndexComponent extends Component
      *
      * @return void
      *
-     * @throws \Facebook\WebDriver\Exception\TimeOutException
+     * @throws TimeOutException
      */
     public function selectStandaloneAction(Browser $browser, string $uriKey, callable $fieldCallback)
     {
@@ -373,7 +375,7 @@ class IndexComponent extends Component
     /**
      * Run the action with the given URI key.
      *
-     * @throws \Facebook\WebDriver\Exception\TimeOutException
+     * @throws TimeOutException
      */
     public function runAction(Browser $browser, string $uriKey, ?callable $fieldCallback = null): void
     {
@@ -391,7 +393,7 @@ class IndexComponent extends Component
      *
      * @return void
      *
-     * @throws \Facebook\WebDriver\Exception\TimeOutException
+     * @throws TimeOutException
      */
     public function runStandaloneAction(Browser $browser, string $uriKey, ?callable $fieldCallback = null)
     {
@@ -567,7 +569,7 @@ class IndexComponent extends Component
     /**
      * Assert that the browser page contains the component.
      *
-     * @throws \Facebook\WebDriver\Exception\TimeOutException
+     * @throws TimeOutException
      */
     public function assert(Browser $browser): void
     {
@@ -595,8 +597,8 @@ class IndexComponent extends Component
     /**
      * Assert that the given resource is not visible.
      *
-     * @param  \Illuminate\Database\Eloquent\Model|string|int  $id
-     * @param  \Illuminate\Database\Eloquent\Model|string|int|null  $pivotId
+     * @param  Model|string|int  $id
+     * @param  Model|string|int|null  $pivotId
      */
     public function assertDontSeeResource(Browser $browser, mixed $id, mixed $pivotId = null): void
     {

@@ -2,6 +2,8 @@
 
 namespace Jegex\Koboi\Http\Controllers;
 
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Carbon;
@@ -24,7 +26,7 @@ class ResourceUpdateController extends Controller
     /**
      * Create a new resource.
      *
-     * @throws \Illuminate\Http\Exceptions\HttpResponseException
+     * @throws HttpResponseException
      */
     public function __invoke(UpdateResourceRequest $request): JsonResponse
     {
@@ -81,7 +83,7 @@ class ResourceUpdateController extends Controller
     /**
      * Determine if the model has been updated since it was retrieved.
      *
-     * @param  \Illuminate\Database\Eloquent\Model  $model
+     * @param  Model  $model
      */
     protected function modelHasBeenUpdatedSinceRetrieval(UpdateResourceRequest $request, $model): bool
     {

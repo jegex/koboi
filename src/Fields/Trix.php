@@ -2,12 +2,15 @@
 
 namespace Jegex\Koboi\Fields;
 
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
 use Jegex\Koboi\Contracts\Deletable as DeletableContract;
 use Jegex\Koboi\Contracts\FilterableField;
 use Jegex\Koboi\Contracts\Storable as StorableContract;
+use Jegex\Koboi\Fields\Filters\Filter;
 use Jegex\Koboi\Fields\Filters\TextFilter;
 use Jegex\Koboi\Http\Requests\NovaRequest;
+use Jegex\Koboi\Support\Fluent;
 
 class Trix extends Field implements DeletableContract, FilterableField, StorableContract
 {
@@ -33,7 +36,7 @@ class Trix extends Field implements DeletableContract, FilterableField, Storable
     /**
      * Hydrate the given attribute on the model based on the incoming request.
      *
-     * @param  \Illuminate\Database\Eloquent\Model|\Jegex\Koboi\Support\Fluent  $model
+     * @param  Model|Fluent  $model
      */
     protected function fillAttribute(NovaRequest $request, string $requestAttribute, object $model, string $attribute): ?callable
     {
@@ -53,7 +56,7 @@ class Trix extends Field implements DeletableContract, FilterableField, Storable
     /**
      * Make the field filter.
      *
-     * @return \Jegex\Koboi\Fields\Filters\Filter
+     * @return Filter
      */
     protected function makeFilter(NovaRequest $request)
     {

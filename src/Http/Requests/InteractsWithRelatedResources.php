@@ -3,6 +3,7 @@
 namespace Jegex\Koboi\Http\Requests;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Jegex\Koboi\Nova;
 use Jegex\Koboi\Resource;
 
@@ -11,7 +12,7 @@ trait InteractsWithRelatedResources
     /**
      * Find the parent resource model instance for the request.
      *
-     * @return \Jegex\Koboi\Resource<\Illuminate\Database\Eloquent\Model>
+     * @return \Jegex\Koboi\Resource<Model>
      */
     public function findParentResource(string|int|null $resourceId = null): Resource
     {
@@ -23,9 +24,9 @@ trait InteractsWithRelatedResources
     /**
      * Find the parent resource model instance for the request.
      *
-     * @return \Jegex\Koboi\Resource<\Illuminate\Database\Eloquent\Model>
+     * @return \Jegex\Koboi\Resource<Model>
      *
-     * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
+     * @throws ModelNotFoundException
      */
     public function findParentResourceOrFail(string|int|null $resourceId = null): Resource
     {
@@ -52,7 +53,7 @@ trait InteractsWithRelatedResources
      * Find the parent resource model instance for the request or abort.
      *
      *
-     * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
+     * @throws ModelNotFoundException
      */
     public function findParentModelOrFail(string|int|null $resourceId = null): Model
     {
@@ -70,7 +71,7 @@ trait InteractsWithRelatedResources
     /**
      * Find the related resource instance for the request.
      *
-     * @return \Jegex\Koboi\Resource<\Illuminate\Database\Eloquent\Model>
+     * @return \Jegex\Koboi\Resource<Model>
      */
     public function findRelatedResource(string|int|null $resourceId = null): Resource
     {
@@ -82,9 +83,9 @@ trait InteractsWithRelatedResources
     /**
      * Find the related resource instance for the request or abort.
      *
-     * @return \Jegex\Koboi\Resource<\Illuminate\Database\Eloquent\Model>
+     * @return \Jegex\Koboi\Resource<Model>
      *
-     * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
+     * @throws ModelNotFoundException
      */
     public function findRelatedResourceOrFail(string|int|null $resourceId = null): Resource
     {
@@ -107,7 +108,7 @@ trait InteractsWithRelatedResources
      * Find the parent resource model instance for the request or abort.
      *
      *
-     * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
+     * @throws ModelNotFoundException
      */
     public function findRelatedModelOrFail(string|int|null $resourceId = null): Model
     {
@@ -159,7 +160,7 @@ trait InteractsWithRelatedResources
     /**
      * Get a new instance of the "related" resource being requested.
      *
-     * @return \Jegex\Koboi\Resource<\Illuminate\Database\Eloquent\Model>
+     * @return \Jegex\Koboi\Resource<Model>
      */
     public function newRelatedResource(): Resource
     {
@@ -181,7 +182,7 @@ trait InteractsWithRelatedResources
     /**
      * Get a new instance of the "via" resource being requested.
      *
-     * @return \Jegex\Koboi\Resource<\Illuminate\Database\Eloquent\Model>
+     * @return \Jegex\Koboi\Resource<Model>
      */
     public function newViaResource(): Resource
     {

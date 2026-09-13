@@ -3,6 +3,7 @@
 namespace Jegex\Koboi\Http\Requests;
 
 use Illuminate\Support\Arr;
+use Illuminate\Support\Collection;
 
 /**
  * @property-read int|null $resourceId
@@ -23,7 +24,7 @@ trait InteractsWithResourcesSelection
     /**
      * Get selected resource IDs.
      *
-     * @return \Illuminate\Support\Collection<int, string|int>|null
+     * @return Collection<int, string|int>|null
      */
     public function selectedResourceIds()
     {
@@ -43,7 +44,7 @@ trait InteractsWithResourcesSelection
     /**
      * Get selected resources.
      *
-     * @return \Illuminate\Database\Eloquent\Collection|\Illuminate\Support\Collection|null
+     * @return \Illuminate\Database\Eloquent\Collection|Collection|null
      */
     public function selectedResources()
     {

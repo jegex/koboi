@@ -3,7 +3,10 @@
 namespace Jegex\Koboi\Http\Middleware;
 
 use Illuminate\Container\Container;
+use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Jegex\Koboi\Events\ServingNova;
 use Jegex\Koboi\Http\Requests\NovaRequest;
 
@@ -12,9 +15,9 @@ class DispatchServingNovaEvent
     /**
      * Handle the incoming request.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Closure(\Illuminate\Http\Request):mixed  $next
-     * @return \Illuminate\Http\Response
+     * @param  Request  $request
+     * @param  \Closure(Request):mixed  $next
+     * @return Response
      */
     public function handle($request, $next)
     {
@@ -24,7 +27,7 @@ class DispatchServingNovaEvent
             Model::preventAccessingMissingAttributes(false);
         }
 
-        /** @var \Illuminate\Contracts\Foundation\Application $app */
+        /** @var Application $app */
         $app = Container::getInstance();
 
         ServingNova::dispatch($app, $request);

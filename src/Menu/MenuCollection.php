@@ -10,7 +10,7 @@ use JsonSerializable;
  * @template TKey of int
  * @template TValue of \Jegex\Koboi\Menu\MenuGroup|\Jegex\Koboi\Menu\MenuItem|\Jegex\Koboi\Menu\MenuList|non-empty-array
  *
- * @extends \Illuminate\Support\Collection<TKey, TValue>
+ * @extends Collection<TKey, TValue>
  */
 class MenuCollection extends Collection
 {

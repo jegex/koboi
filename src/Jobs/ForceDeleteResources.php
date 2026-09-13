@@ -2,6 +2,8 @@
 
 namespace Jegex\Koboi\Jobs;
 
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Jegex\Koboi\Actions\Actionable;
 use Jegex\Koboi\Http\Requests\ForceDeleteLensResourceRequest;
@@ -31,7 +33,7 @@ class ForceDeleteResources
     public function handle(): void
     {
         $this->request->chunks(150, function ($models) {
-            /** @var \Illuminate\Database\Eloquent\Collection<array-key, \Illuminate\Database\Eloquent\Model> $models */
+            /** @var Collection<array-key, Model> $models */
             $models->each(function ($model) {
                 $this->forceDeleteFields($this->request, $model);
 

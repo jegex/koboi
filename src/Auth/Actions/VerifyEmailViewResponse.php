@@ -2,16 +2,18 @@
 
 namespace Jegex\Koboi\Auth\Actions;
 
+use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Laravel\Fortify\Contracts\VerifyEmailViewResponse as Responsable;
+use Symfony\Component\HttpFoundation\Response;
 
 class VerifyEmailViewResponse implements Responsable
 {
     /**
      * Create an HTTP response that represents the object.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @param  Request  $request
+     * @return Response
      */
     public function toResponse($request)
     {

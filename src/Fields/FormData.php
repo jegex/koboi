@@ -3,6 +3,7 @@
 namespace Jegex\Koboi\Fields;
 
 use Carbon\CarbonInterface;
+use Carbon\Exceptions\InvalidFormatException;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Str;
@@ -14,7 +15,7 @@ use Jegex\Koboi\Support\FluentDecorator;
  * @template TKey of array-key
  * @template TValue
  *
- * @extends \Jegex\Koboi\Support\FluentDecorator<TKey, TValue>
+ * @extends FluentDecorator<TKey, TValue>
  */
 class FormData extends FluentDecorator
 {
@@ -141,7 +142,7 @@ class FormData extends FluentDecorator
     /**
      * Retrieve input from the request as a Carbon instance.
      *
-     * @throws \Carbon\Exceptions\InvalidFormatException
+     * @throws InvalidFormatException
      */
     public function date(string $key, ?string $format = null, ?string $tz = null): ?CarbonInterface
     {

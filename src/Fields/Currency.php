@@ -58,7 +58,7 @@ class Currency extends Number
     /**
      * The context to use when creating the Money instance.
      *
-     * @var \Brick\Money\Context|null
+     * @var Context|null
      */
     public $context = null;
 

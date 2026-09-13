@@ -10,7 +10,7 @@ use Jegex\Koboi\Http\Middleware\PreventsAccessingViaReverseProxiesFromLocalEnvir
  * @template TKey of int
  * @template TValue of string|class-string
  *
- * @extends \Illuminate\Support\Collection<TKey, TValue>
+ * @extends Collection<TKey, TValue>
  */
 class MiddlewareCollection extends Collection
 {

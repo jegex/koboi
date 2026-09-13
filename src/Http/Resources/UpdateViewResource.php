@@ -2,6 +2,8 @@
 
 namespace Jegex\Koboi\Http\Resources;
 
+use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Jegex\Koboi\Http\Requests\ResourceUpdateOrUpdateAttachedRequest;
 use Jegex\Koboi\Resource as NovaResource;
 
@@ -10,7 +12,7 @@ class UpdateViewResource extends Resource
     /**
      * Transform the resource into an array.
      *
-     * @param  \Jegex\Koboi\Http\Requests\ResourceUpdateOrUpdateAttachedRequest  $request
+     * @param  ResourceUpdateOrUpdateAttachedRequest  $request
      * @return array
      */
     public function toArray($request)
@@ -29,8 +31,8 @@ class UpdateViewResource extends Resource
     /**
      * Get current resource for the request.
      *
-     * @throws \Illuminate\Auth\Access\AuthorizationException
-     * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
+     * @throws AuthorizationException
+     * @throws ModelNotFoundException
      */
     public function newResourceWith(ResourceUpdateOrUpdateAttachedRequest $request): NovaResource
     {
@@ -45,7 +47,7 @@ class UpdateViewResource extends Resource
     /**
      * Determine if resource is authorized for the request.
      *
-     * @throws \Illuminate\Auth\Access\AuthorizationException
+     * @throws AuthorizationException
      */
     public function authorizedResourceForRequest(ResourceUpdateOrUpdateAttachedRequest $request, NovaResource $resource): void
     {

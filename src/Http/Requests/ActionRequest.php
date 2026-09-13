@@ -4,13 +4,18 @@ namespace Jegex\Koboi\Http\Requests;
 
 use Closure;
 use Illuminate\Contracts\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
+use Illuminate\Database\Eloquent\Relations\Pivot;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
+use Illuminate\Support\LazyCollection;
+use Illuminate\Validation\ValidationException;
 use Jegex\Koboi\Actions\Action;
 use Jegex\Koboi\Actions\ActionModelCollection;
+use Jegex\Koboi\Actions\DestructiveAction;
 use Jegex\Koboi\Fields\ActionFields;
 use Jegex\Koboi\Fields\FieldCollection;
 use Jegex\Koboi\Support\Fluent;
@@ -26,7 +31,7 @@ class ActionRequest extends NovaRequest
     /**
      * Get the action instance specified by the request.
      *
-     * @return \Jegex\Koboi\Actions\Action|\Jegex\Koboi\Actions\DestructiveAction
+     * @return Action|DestructiveAction
      */
     public function action(): Action
     {
@@ -80,7 +85,7 @@ class ActionRequest extends NovaRequest
     /**
      * Get the selected models for the action in chunks.
      *
-     * @param  \Closure(\Jegex\Koboi\Actions\ActionModelCollection):mixed  $callback
+     * @param  Closure(ActionModelCollection):mixed  $callback
      * @return array<int, mixed>
      */
     public function chunks(int $count, Closure $callback): array
@@ -142,7 +147,7 @@ class ActionRequest extends NovaRequest
         })->model()->{$this->viaRelationship}()->withoutGlobalScopes();
 
         if (isset($this->pivots) && ! empty($this->pivots)) {
-            /** @var class-string<\Illuminate\Database\Eloquent\Relations\Pivot> $pivotClass */
+            /** @var class-string<Pivot> $pivotClass */
             $pivotClass = $relation->getPivotClass();
 
             $relation->wherePivotIn((new $pivotClass)->getKeyName(), Arr::wrap($this->pivots));
@@ -154,8 +159,8 @@ class ActionRequest extends NovaRequest
     /**
      * Map the chunk of models into an appropriate state.
      *
-     * @param  \Illuminate\Support\LazyCollection|\Illuminate\Database\Eloquent\Collection  $chunk
-     * @return \Jegex\Koboi\Actions\ActionModelCollection<array-key, \Illuminate\Database\Eloquent\Model>
+     * @param  LazyCollection|\Illuminate\Database\Eloquent\Collection  $chunk
+     * @return ActionModelCollection<array-key, Model>
      */
     protected function mapChunk($chunk): ActionModelCollection
     {
@@ -169,7 +174,7 @@ class ActionRequest extends NovaRequest
     /**
      * Validate the given fields.
      *
-     * @throws \Illuminate\Validation\ValidationException
+     * @throws ValidationException
      */
     public function validateFields(): void
     {
@@ -215,7 +220,7 @@ class ActionRequest extends NovaRequest
      *
      * When running pivot actions, this is the key of the owning model.
      *
-     * @param  \Illuminate\Database\Eloquent\Model  $model
+     * @param  Model  $model
      */
     public function actionableKey($model): string|int
     {
@@ -229,7 +234,7 @@ class ActionRequest extends NovaRequest
      *
      * When running pivot actions, this is the owning model.
      *
-     * @return \Illuminate\Database\Eloquent\Model
+     * @return Model
      */
     public function actionableModel()
     {
@@ -243,7 +248,7 @@ class ActionRequest extends NovaRequest
      *
      * When running pivot actions, this is the key of the target model.
      *
-     * @param  \Illuminate\Database\Eloquent\Model  $model
+     * @param  Model  $model
      * @return int
      */
     public function targetKey($model)
@@ -256,7 +261,7 @@ class ActionRequest extends NovaRequest
     /**
      * Get an instance of the target model of the action.
      *
-     * @return \Illuminate\Database\Eloquent\Model
+     * @return Model
      */
     public function targetModel()
     {

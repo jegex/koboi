@@ -3,15 +3,19 @@
 namespace Jegex\Koboi\Fields;
 
 use Closure;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 use Illuminate\Support\Traits\Conditionable;
 use Illuminate\Support\Traits\Tappable;
-use JsonSerializable;
 use Jegex\Koboi\Contracts\Resolvable;
+use Jegex\Koboi\Exceptions\HelperNotSupported;
 use Jegex\Koboi\Exceptions\NovaException;
 use Jegex\Koboi\Http\Requests\NovaRequest;
 use Jegex\Koboi\Metrics\HasHelpText;
+use Jegex\Koboi\Resource;
+use Jegex\Koboi\Support\Fluent;
 use Jegex\Koboi\Util;
+use JsonSerializable;
 use Stringable;
 
 use function Orchestra\Sidekick\is_safe_callable;
@@ -86,7 +90,7 @@ abstract class Field extends FieldElement implements JsonSerializable, Resolvabl
     /**
      * The callback to be used to hydrate the model attribute.
      *
-     * @var (callable(\Jegex\Koboi\Http\Requests\NovaRequest, \Illuminate\Database\Eloquent\Model|\Jegex\Koboi\Support\Fluent, string, string):(mixed))|null
+     * @var (callable(NovaRequest, Model|Fluent, string, string):(mixed))|null
      */
     public $fillCallback;
 
@@ -149,21 +153,21 @@ abstract class Field extends FieldElement implements JsonSerializable, Resolvabl
     /**
      * The custom components registered for fields.
      *
-     * @var array<class-string<\Jegex\Koboi\Fields\Field>, string>
+     * @var array<class-string<Field>, string>
      */
     public static $customComponents = [];
 
     /**
      * The callback used to determine if the field is required.
      *
-     * @var (callable(\Jegex\Koboi\Http\Requests\NovaRequest):(bool))|bool|null
+     * @var (callable(NovaRequest):(bool))|bool|null
      */
     public $requiredCallback;
 
     /**
      * The resource associated with the field.
      *
-     * @var \Jegex\Koboi\Resource|\Illuminate\Database\Eloquent\Model|object|array
+     * @var \Jegex\Koboi\Resource|Model|object|array
      */
     public $resource;
 
@@ -205,7 +209,7 @@ abstract class Field extends FieldElement implements JsonSerializable, Resolvabl
     /**
      * Create a new field.
      *
-     * @param  \Stringable|string  $name
+     * @param  Stringable|string  $name
      * @param  string|callable|object|null  $attribute
      * @param  (callable(mixed, mixed, ?string):(mixed))|null  $resolveCallback
      */
@@ -239,7 +243,7 @@ abstract class Field extends FieldElement implements JsonSerializable, Resolvabl
     /**
      * Resolve the field's value for display.
      *
-     * @param  \Jegex\Koboi\Resource|\Illuminate\Database\Eloquent\Model|object|array  $resource
+     * @param  \Jegex\Koboi\Resource|Model|object|array  $resource
      */
     public function resolveForDisplay($resource, ?string $attribute = null): void
     {
@@ -267,7 +271,7 @@ abstract class Field extends FieldElement implements JsonSerializable, Resolvabl
     /**
      * Resolve the field's value using the display callback.
      *
-     * @param  \Jegex\Koboi\Resource|\Illuminate\Database\Eloquent\Model|object  $resource
+     * @param  \Jegex\Koboi\Resource|Model|object  $resource
      */
     protected function resolveUsingDisplayCallback(mixed $value, $resource, string $attribute): void
     {
@@ -278,7 +282,7 @@ abstract class Field extends FieldElement implements JsonSerializable, Resolvabl
     /**
      * Resolve the field's value.
      *
-     * @param  \Jegex\Koboi\Resource|\Illuminate\Database\Eloquent\Model|object|array  $resource
+     * @param  \Jegex\Koboi\Resource|Model|object|array  $resource
      */
     public function resolve($resource, ?string $attribute = null): void
     {
@@ -320,7 +324,7 @@ abstract class Field extends FieldElement implements JsonSerializable, Resolvabl
     /**
      * Resolve the given attribute from the given resource.
      *
-     * @param  \Jegex\Koboi\Resource|\Illuminate\Database\Eloquent\Model|object|array  $resource
+     * @param  \Jegex\Koboi\Resource|Model|object|array  $resource
      */
     protected function resolveAttribute($resource, string $attribute): mixed
     {
@@ -356,7 +360,7 @@ abstract class Field extends FieldElement implements JsonSerializable, Resolvabl
     /**
      * Hydrate the given attribute on the model based on the incoming request.
      *
-     * @param  \Illuminate\Database\Eloquent\Model|\Jegex\Koboi\Support\Fluent  $model
+     * @param  Model|Fluent  $model
      * @return mixed
      */
     public function fill(NovaRequest $request, object $model)
@@ -367,7 +371,7 @@ abstract class Field extends FieldElement implements JsonSerializable, Resolvabl
     /**
      * Hydrate the given attribute on the model based on the incoming request.
      *
-     * @param  \Illuminate\Database\Eloquent\Model|\Jegex\Koboi\Support\Fluent  $model
+     * @param  Model|Fluent  $model
      * @return mixed
      */
     public function fillForAction(NovaRequest $request, object $model)
@@ -378,7 +382,7 @@ abstract class Field extends FieldElement implements JsonSerializable, Resolvabl
     /**
      * Hydrate the given attribute on the model based on the incoming request.
      *
-     * @param  \Illuminate\Database\Eloquent\Model|\Jegex\Koboi\Support\Fluent  $model
+     * @param  Model|Fluent  $model
      * @return mixed
      */
     public function fillInto(NovaRequest $request, object $model, string $attribute, ?string $requestAttribute = null)
@@ -389,7 +393,7 @@ abstract class Field extends FieldElement implements JsonSerializable, Resolvabl
     /**
      * Hydrate the given attribute on the model based on the incoming request.
      *
-     * @param  \Illuminate\Database\Eloquent\Model|\Jegex\Koboi\Support\Fluent  $model
+     * @param  Model|Fluent  $model
      * @return mixed
      */
     protected function fillAttribute(NovaRequest $request, string $requestAttribute, object $model, string $attribute)
@@ -404,7 +408,7 @@ abstract class Field extends FieldElement implements JsonSerializable, Resolvabl
     /**
      * Hydrate the given attribute on the model based on the incoming request.
      *
-     * @param  \Illuminate\Database\Eloquent\Model|\Jegex\Koboi\Support\Fluent  $model
+     * @param  Model|Fluent  $model
      * @return mixed
      */
     protected function fillAttributeFromRequest(NovaRequest $request, string $requestAttribute, object $model, string $attribute)
@@ -421,7 +425,7 @@ abstract class Field extends FieldElement implements JsonSerializable, Resolvabl
     /**
      * Fill the model's attribute with data.
      *
-     * @param  \Illuminate\Database\Eloquent\Model|\Jegex\Koboi\Support\Fluent  $model
+     * @param  Model|Fluent  $model
      */
     public function fillModelWithData(object $model, mixed $value, string $attribute): void
     {
@@ -489,7 +493,7 @@ abstract class Field extends FieldElement implements JsonSerializable, Resolvabl
     /**
      * Specify a callback that should be used to hydrate the model attribute for the field.
      *
-     * @param  (callable(\Jegex\Koboi\Http\Requests\NovaRequest, \Illuminate\Database\Eloquent\Model|\Jegex\Koboi\Support\Fluent, string, string):mixed)|null  $fillCallback
+     * @param  (callable(NovaRequest, Model|Fluent, string, string):mixed)|null  $fillCallback
      * @return $this
      */
     public function fillUsing(?callable $fillCallback)
@@ -588,7 +592,7 @@ abstract class Field extends FieldElement implements JsonSerializable, Resolvabl
     /**
      * Set the callback used to determine if the field is required.
      *
-     * @param  (callable(\Jegex\Koboi\Http\Requests\NovaRequest):(bool))|bool  $callback
+     * @param  (callable(NovaRequest):(bool))|bool  $callback
      * @return $this
      */
     public function required(callable|bool $callback = true)
@@ -631,7 +635,7 @@ abstract class Field extends FieldElement implements JsonSerializable, Resolvabl
      *
      * @return never
      *
-     * @throws \Jegex\Koboi\Exceptions\HelperNotSupported
+     * @throws HelperNotSupported
      */
     public function helpWidth(string|int $helpWidth)
     {
@@ -643,7 +647,7 @@ abstract class Field extends FieldElement implements JsonSerializable, Resolvabl
      *
      * @return never
      *
-     * @throws \Jegex\Koboi\Exceptions\HelperNotSupported
+     * @throws HelperNotSupported
      */
     public function getHelpWidth()
     {

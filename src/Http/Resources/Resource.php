@@ -3,6 +3,7 @@
 namespace Jegex\Koboi\Http\Resources;
 
 use Illuminate\Contracts\Support\Responsable;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Jegex\Koboi\Makeable;
 use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
@@ -31,8 +32,8 @@ abstract class Resource implements Responsable
     /**
      * Create an HTTP response that represents the object.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\JsonResponse
+     * @param  Request  $request
+     * @return JsonResponse
      */
     public function toResponse($request)
     {
@@ -42,7 +43,7 @@ abstract class Resource implements Responsable
     /**
      * Transform the resource into an array.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  Request  $request
      * @return array
      */
     abstract public function toArray($request);

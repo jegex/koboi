@@ -42,7 +42,7 @@ trait CallsQueuedActions
     /**
      * Call the action using the given callback.
      *
-     * @param  callable(\Jegex\Koboi\Actions\Action):void  $callback
+     * @param  callable(Action):void  $callback
      */
     protected function callAction(callable $callback): void
     {

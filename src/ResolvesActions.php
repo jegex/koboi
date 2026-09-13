@@ -2,6 +2,7 @@
 
 namespace Jegex\Koboi;
 
+use Jegex\Koboi\Actions\Action;
 use Jegex\Koboi\Actions\ActionCollection;
 use Jegex\Koboi\Fields\BelongsToMany;
 use Jegex\Koboi\Fields\MorphToMany;
@@ -14,7 +15,7 @@ trait ResolvesActions
     /**
      * Get the actions that are available for the given request.
      *
-     * @return \Jegex\Koboi\Actions\ActionCollection<int, \Jegex\Koboi\Actions\Action>
+     * @return ActionCollection<int, Action>
      */
     public function availableActions(NovaRequest $request): ActionCollection
     {
@@ -27,7 +28,7 @@ trait ResolvesActions
         }
 
         $actions = $this->resolveActions($request)
-                    ->filter->authorizedToSee($request);
+            ->filter->authorizedToSee($request);
 
         if (model_exists($resource)) {
             return $actions->withAuthorizedToRun($request, $resource)->values();
@@ -39,7 +40,7 @@ trait ResolvesActions
                     return $action->authorizedToRun($request, $resource);
                 }) ? $action : null;
             })->filter()
-            ->values();
+                ->values();
         }
 
         return $actions->values();
@@ -48,14 +49,14 @@ trait ResolvesActions
     /**
      * Get the actions that are available for the given index request.
      *
-     * @return \Jegex\Koboi\Actions\ActionCollection<int, \Jegex\Koboi\Actions\Action>
+     * @return ActionCollection<int, Action>
      */
     public function availableActionsOnIndex(NovaRequest $request): ActionCollection
     {
         $resource = $this->resource;
 
         $actions = $this->resolveActions($request)
-                    ->authorizedToSeeOnIndex($request);
+            ->authorizedToSeeOnIndex($request);
 
         if (model_exists($resource)) {
             return $actions->withAuthorizedToRun($request, $resource)
@@ -72,11 +73,11 @@ trait ResolvesActions
                     return $action->authorizedToRun($request, $resource);
                 }) ? $action : null;
             })->filter()
-            ->when($resources->count() === 1, function ($actions) use ($resources) {
-                $actions->each(function ($action) use ($resources) {
-                    $action->resource = $resources->first();
-                });
-            })->values();
+                ->when($resources->count() === 1, function ($actions) use ($resources) {
+                    $actions->each(function ($action) use ($resources) {
+                        $action->resource = $resources->first();
+                    });
+                })->values();
         }
 
         return $actions->values();
@@ -85,39 +86,39 @@ trait ResolvesActions
     /**
      * Get the actions that are available for the given detail request.
      *
-     * @return \Jegex\Koboi\Actions\ActionCollection<int, \Jegex\Koboi\Actions\Action>
+     * @return ActionCollection<int, Action>
      */
     public function availableActionsOnDetail(NovaRequest $request): ActionCollection
     {
         return $this->resolveActions($request)
-                    ->authorizedToSeeOnDetail($request)
-                    ->withAuthorizedToRun($request, $this->resource)
-                    ->each(function ($action) {
-                        $action->resource = $this->resource;
-                    })
-                    ->values();
+            ->authorizedToSeeOnDetail($request)
+            ->withAuthorizedToRun($request, $this->resource)
+            ->each(function ($action) {
+                $action->resource = $this->resource;
+            })
+            ->values();
     }
 
     /**
      * Get the resource table row actions that are available for the given index request.
      *
-     * @return \Jegex\Koboi\Actions\ActionCollection<int, \Jegex\Koboi\Actions\Action>
+     * @return ActionCollection<int, Action>
      */
     public function availableActionsOnTableRow(NovaRequest $request): ActionCollection
     {
         return $this->resolveActions($request)
-                    ->authorizedToSeeOnTableRow($request)
-                    ->withAuthorizedToRun($request, $this->resource)
-                    ->each(function ($action) {
-                        $action->resource = $this->resource;
-                    })
-                    ->values();
+            ->authorizedToSeeOnTableRow($request)
+            ->withAuthorizedToRun($request, $this->resource)
+            ->each(function ($action) {
+                $action->resource = $this->resource;
+            })
+            ->values();
     }
 
     /**
      * Get the actions for the given request.
      *
-     * @return \Jegex\Koboi\Actions\ActionCollection<int, \Jegex\Koboi\Actions\Action>
+     * @return ActionCollection<int, Action>
      */
     public function resolveActions(NovaRequest $request): ActionCollection
     {
@@ -129,19 +130,19 @@ trait ResolvesActions
     /**
      * Get the "pivot" actions that are available for the given request.
      *
-     * @return \Jegex\Koboi\Actions\ActionCollection<int, \Jegex\Koboi\Actions\Action>
+     * @return ActionCollection<int, Action>
      */
     public function availablePivotActions(NovaRequest $request): ActionCollection
     {
         return $this->resolvePivotActions($request)
-                    ->authorizedToSeeOnIndex($request)
-                    ->values();
+            ->authorizedToSeeOnIndex($request)
+            ->values();
     }
 
     /**
      * Get the "pivot" actions for the given request.
      *
-     * @return \Jegex\Koboi\Actions\ActionCollection<int, \Jegex\Koboi\Actions\Action>
+     * @return ActionCollection<int, Action>
      */
     public function resolvePivotActions(NovaRequest $request): ActionCollection
     {
@@ -157,7 +158,7 @@ trait ResolvesActions
     /**
      * Get the "pivot" actions for the given request.
      *
-     * @return array<int, \Jegex\Koboi\Actions\Action>
+     * @return array<int, Action>
      */
     protected function getPivotActions(NovaRequest $request): array
     {
@@ -180,7 +181,7 @@ trait ResolvesActions
     /**
      * Merge the default actions with the given actions.
      *
-     * @return array<int, \Jegex\Koboi\Actions\Action>
+     * @return array<int, Action>
      */
     public static function defaultsWith(array $actions): array
     {
@@ -190,7 +191,7 @@ trait ResolvesActions
     /**
      * Return the default actions.
      *
-     * @return array<int, \Jegex\Koboi\Actions\Action>
+     * @return array<int, Action>
      */
     public static function defaultActions()
     {

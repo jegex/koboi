@@ -5,28 +5,11 @@ namespace Jegex\Koboi;
 use Closure;
 use Illuminate\Auth\Notifications\ResetPassword;
 use Illuminate\Contracts\Auth\StatefulGuard;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Http\Request;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
-use Laravel\Fortify\Actions\RedirectIfTwoFactorAuthenticatable as FortifyRedirectIfTwoFactorAuthenticatable;
-use Laravel\Fortify\Contracts\ConfirmPasswordViewResponse as ConfirmPasswordViewResponseContract;
-use Laravel\Fortify\Contracts\FailedPasswordConfirmationResponse as FailedPasswordConfirmationResponseContract;
-use Laravel\Fortify\Contracts\FailedPasswordResetLinkRequestResponse as FailedPasswordResetLinkRequestResponseContract;
-use Laravel\Fortify\Contracts\LoginResponse as LoginResponseContract;
-use Laravel\Fortify\Contracts\LoginViewResponse as LoginViewResponseContract;
-use Laravel\Fortify\Contracts\PasswordConfirmedResponse as PasswordConfirmedResponseContract;
-use Laravel\Fortify\Contracts\PasswordUpdateResponse as PasswordUpdateResponseContract;
-use Laravel\Fortify\Contracts\RequestPasswordResetLinkViewResponse as RequestPasswordResetLinkViewResponseContract;
-use Laravel\Fortify\Contracts\ResetPasswordViewResponse as ResetPasswordViewResponseContract;
-use Laravel\Fortify\Contracts\ResetsUserPasswords as ResetsUserPasswordsContract;
-use Laravel\Fortify\Contracts\SuccessfulPasswordResetLinkRequestResponse as SuccessfulPasswordResetLinkRequestResponseContract;
-use Laravel\Fortify\Contracts\TwoFactorChallengeViewResponse as TwoFactorChallengeViewResponseContract;
-use Laravel\Fortify\Contracts\TwoFactorLoginResponse as TwoFactorLoginResponseContract;
-use Laravel\Fortify\Contracts\UpdatesUserPasswords as UpdatesUserPasswordsContract;
-use Laravel\Fortify\Contracts\VerifyEmailViewResponse as VerifyEmailViewResponseContract;
-use Laravel\Fortify\Features;
-use Laravel\Fortify\Fortify;
-use Laravel\Fortify\Http\Responses\RedirectAsIntended;
 use Jegex\Koboi\Auth\Actions\ConfirmPasswordViewResponse;
 use Jegex\Koboi\Auth\Actions\FailedPasswordConfirmationResponse;
 use Jegex\Koboi\Auth\Actions\FailedPasswordResetLinkRequestResponse;
@@ -46,6 +29,25 @@ use Jegex\Koboi\Auth\Actions\TwoFactorLoginResponse;
 use Jegex\Koboi\Auth\Actions\UpdateUserPassword;
 use Jegex\Koboi\Auth\Actions\VerifyEmailViewResponse;
 use Jegex\Koboi\Events\ServingNova;
+use Laravel\Fortify\Actions\RedirectIfTwoFactorAuthenticatable as FortifyRedirectIfTwoFactorAuthenticatable;
+use Laravel\Fortify\Contracts\ConfirmPasswordViewResponse as ConfirmPasswordViewResponseContract;
+use Laravel\Fortify\Contracts\FailedPasswordConfirmationResponse as FailedPasswordConfirmationResponseContract;
+use Laravel\Fortify\Contracts\FailedPasswordResetLinkRequestResponse as FailedPasswordResetLinkRequestResponseContract;
+use Laravel\Fortify\Contracts\LoginResponse as LoginResponseContract;
+use Laravel\Fortify\Contracts\LoginViewResponse as LoginViewResponseContract;
+use Laravel\Fortify\Contracts\PasswordConfirmedResponse as PasswordConfirmedResponseContract;
+use Laravel\Fortify\Contracts\PasswordUpdateResponse as PasswordUpdateResponseContract;
+use Laravel\Fortify\Contracts\RequestPasswordResetLinkViewResponse as RequestPasswordResetLinkViewResponseContract;
+use Laravel\Fortify\Contracts\ResetPasswordViewResponse as ResetPasswordViewResponseContract;
+use Laravel\Fortify\Contracts\ResetsUserPasswords as ResetsUserPasswordsContract;
+use Laravel\Fortify\Contracts\SuccessfulPasswordResetLinkRequestResponse as SuccessfulPasswordResetLinkRequestResponseContract;
+use Laravel\Fortify\Contracts\TwoFactorChallengeViewResponse as TwoFactorChallengeViewResponseContract;
+use Laravel\Fortify\Contracts\TwoFactorLoginResponse as TwoFactorLoginResponseContract;
+use Laravel\Fortify\Contracts\UpdatesUserPasswords as UpdatesUserPasswordsContract;
+use Laravel\Fortify\Contracts\VerifyEmailViewResponse as VerifyEmailViewResponseContract;
+use Laravel\Fortify\Features;
+use Laravel\Fortify\Fortify;
+use Laravel\Fortify\Http\Responses\RedirectAsIntended;
 use Laravel\Passkeys\Contracts\PasskeyLoginResponse as PasskeyLoginResponseContract;
 
 class PendingFortifyConfiguration
@@ -87,28 +89,28 @@ class PendingFortifyConfiguration
     /**
      * The callback that is responsible for building the authentication pipeline array, if applicable.
      *
-     * @var (callable(\Illuminate\Http\Request):(array<int, string|class-string>))|null
+     * @var (callable(Request):(array<int, string|class-string>))|null
      */
     protected static $authenticateThroughCallback = null;
 
     /**
      * The original callback that is responsible for building the authentication pipeline array, if applicable.
      *
-     * @var (callable(\Illuminate\Http\Request):(array<int, string|class-string>))|null
+     * @var (callable(Request):(array<int, string|class-string>))|null
      */
     protected static $originalAuthenticateThroughCallback = null;
 
     /**
      * The callback that is responsible for validating authentication credentials, if applicable.
      *
-     * @var (callable(\Illuminate\Http\Request):(mixed|null))|null
+     * @var (callable(Request):(mixed|null))|null
      */
     protected static $authenticateUsingCallback = null;
 
     /**
      * The original callback that is responsible for validating authentication credentials, if applicable.
      *
-     * @var (callable(\Illuminate\Http\Request):(mixed|null))|null
+     * @var (callable(Request):(mixed|null))|null
      */
     protected static $originalAuthenticateUsingCallback = null;
 
@@ -151,7 +153,7 @@ class PendingFortifyConfiguration
     /**
      * Set Laravel Fortify enabled features.
      *
-     * @param  (\Closure():(array<int, string>|null))|array<int, string>|null  $features
+     * @param  (Closure():(array<int, string>|null))|array<int, string>|null  $features
      * @return $this
      */
     public function features(Closure|array|null $features = null)
@@ -217,7 +219,7 @@ class PendingFortifyConfiguration
     /**
      * Register a callback that is responsible for building the authentication pipeline array.
      *
-     * @param  callable(\Illuminate\Http\Request):(array<int, string|class-string>)  $callback
+     * @param  callable(Request):(array<int, string|class-string>)  $callback
      * @return $this
      */
     public function authenticateThrough(callable $callback)
@@ -230,7 +232,7 @@ class PendingFortifyConfiguration
     /**
      * Register a callback that is responsible for validating incoming authentication credentials.
      *
-     * @param  callable(\Illuminate\Http\Request):(mixed|null)  $callback
+     * @param  callable(Request):(mixed|null)  $callback
      * @return $this
      */
     public function authenticateUsing(callable $callback)
@@ -350,7 +352,7 @@ class PendingFortifyConfiguration
      */
     public function bootstrap(): void
     {
-        /** @var \Jegex\Koboi\PendingRouteRegistration $routes */
+        /** @var PendingRouteRegistration $routes */
         $routes = Nova::routes();
 
         $this->features = collect($this->features ?? [])->merge(array_filter([
@@ -365,7 +367,7 @@ class PendingFortifyConfiguration
         Nova::serving(function (ServingNova $event) use ($routes) {
             $this->sync();
 
-            /** @var \Illuminate\Contracts\Foundation\Application $app */
+            /** @var Application $app */
             $app = $event->app;
 
             $app->scoped(StatefulGuard::class, static fn () => Auth::guard(Util::userGuard()));

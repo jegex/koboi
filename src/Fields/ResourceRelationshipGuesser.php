@@ -4,6 +4,7 @@ namespace Jegex\Koboi\Fields;
 
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Str;
+use Jegex\Koboi\Resource;
 
 class ResourceRelationshipGuesser
 {

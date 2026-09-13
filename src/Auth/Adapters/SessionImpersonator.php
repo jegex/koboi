@@ -4,6 +4,7 @@ namespace Jegex\Koboi\Auth\Adapters;
 
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Contracts\Auth\StatefulGuard;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
@@ -128,7 +129,7 @@ class SessionImpersonator implements ImpersonatesUsers
     /**
      * Redirect an admin after starting impersonation.
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function redirectAfterStartingImpersonation(Request $request)
     {
@@ -140,7 +141,7 @@ class SessionImpersonator implements ImpersonatesUsers
     /**
      * Redirect an admin after finishing impersonation.
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function redirectAfterStoppingImpersonation(Request $request)
     {

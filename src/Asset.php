@@ -4,8 +4,10 @@ namespace Jegex\Koboi;
 
 use DateTime;
 use Illuminate\Contracts\Support\Responsable;
+use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Stringable;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * @method static static make(self|\Stringable|string $name, string|null $path, bool|null $remote = null)
@@ -17,7 +19,7 @@ abstract class Asset implements Responsable
     /**
      * The Assert name.
      *
-     * @var \Stringable|string
+     * @var Stringable|string
      */
     protected $name;
 
@@ -92,8 +94,8 @@ abstract class Asset implements Responsable
     /**
      * Create an HTTP response that represents the object.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @param  Request  $request
+     * @return Response
      */
     public function toResponse($request)
     {

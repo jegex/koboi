@@ -11,6 +11,7 @@ use Jegex\Koboi\Fields\HasOne;
 use Jegex\Koboi\Fields\MorphOne;
 use Jegex\Koboi\Http\Requests\NovaRequest;
 use Jegex\Koboi\Nova;
+use Jegex\Koboi\Resource;
 
 class Relatable implements Rule
 {
@@ -65,9 +66,9 @@ class Relatable implements Rule
     protected function relationshipIsFull(Model $model, string $attribute, mixed $value): bool
     {
         $inverseRelation = $this->request->newResource()
-                    ->resolveInverseFieldsForAttribute($this->request, $attribute)->first(static function ($field) {
-                        return ($field instanceof MorphOne || $field instanceof HasOne) && ! $field->ofManyRelationship();
-                    });
+            ->resolveInverseFieldsForAttribute($this->request, $attribute)->first(static function ($field) {
+                return ($field instanceof MorphOne || $field instanceof HasOne) && ! $field->ofManyRelationship();
+            });
 
         if ($inverseRelation && $this->request->resourceId) {
             $modelBeingUpdated = $this->request->findModelOrFail();

@@ -2,10 +2,11 @@
 
 namespace Jegex\Koboi\Auth\Concerns;
 
-use Laravel\Fortify\Actions\DisableTwoFactorAuthentication;
-use Laravel\Fortify\Features;
+use Illuminate\Foundation\Auth\User;
 use Jegex\Koboi\Http\Requests\NovaRequest;
 use Jegex\Koboi\Nova;
+use Laravel\Fortify\Actions\DisableTwoFactorAuthentication;
+use Laravel\Fortify\Features;
 
 trait ConfirmsTwoFactorAuthentication
 {
@@ -44,7 +45,7 @@ trait ConfirmsTwoFactorAuthentication
     /**
      * Determine if two factor authenticatoin is totally disabled.
      *
-     * @param  \Illuminate\Foundation\Auth\User  $user
+     * @param  User  $user
      */
     protected function twoFactorAuthenticationDisabled(NovaRequest $request, $user): bool
     {
@@ -55,7 +56,7 @@ trait ConfirmsTwoFactorAuthentication
     /**
      * Determine if two factor authentication is just now being confirmed within the last request cycle.
      *
-     * @param  \Illuminate\Foundation\Auth\User  $user
+     * @param  User  $user
      */
     protected function hasJustBegunConfirmingTwoFactorAuthentication(NovaRequest $request, $user): bool
     {
@@ -68,7 +69,7 @@ trait ConfirmsTwoFactorAuthentication
     /**
      * Determine if two factor authentication was never totally confirmed once confirmation started.
      *
-     * @param  \Illuminate\Foundation\Auth\User  $user
+     * @param  User  $user
      */
     protected function neverFinishedConfirmingTwoFactorAuthentication(NovaRequest $request, $user, int $currentTime): bool
     {

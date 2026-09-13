@@ -2,10 +2,13 @@
 
 namespace Jegex\Koboi\Contracts;
 
+use Illuminate\Contracts\Database\Eloquent\Builder;
+use Jegex\Koboi\Fields\Field;
+use Jegex\Koboi\Fields\Filters\Filter;
 use Jegex\Koboi\Http\Requests\NovaRequest;
 
 /**
- * @mixin \Jegex\Koboi\Fields\Field
+ * @mixin Field
  *
  * @method array jsonSerialize()
  *
@@ -19,14 +22,14 @@ interface FilterableField
     /**
      * Apply the filter to the given query.
      *
-     * @param  \Illuminate\Contracts\Database\Eloquent\Builder  $query
+     * @param  Builder  $query
      */
     public function applyFilter(NovaRequest $request, $query, mixed $value): void;
 
     /**
      * Make the field filter.
      *
-     * @return \Jegex\Koboi\Fields\Filters\Filter|null
+     * @return Filter|null
      */
     public function resolveFilter(NovaRequest $request);
 

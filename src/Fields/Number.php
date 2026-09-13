@@ -2,7 +2,9 @@
 
 namespace Jegex\Koboi\Fields;
 
+use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Support\Arr;
+use Jegex\Koboi\Fields\Filters\Filter;
 use Jegex\Koboi\Fields\Filters\NumberFilter;
 use Jegex\Koboi\Http\Requests\NovaRequest;
 
@@ -86,7 +88,7 @@ class Number extends Text
     /**
      * Make the field filter.
      *
-     * @return \Jegex\Koboi\Fields\Filters\Filter
+     * @return Filter
      */
     protected function makeFilter(NovaRequest $request)
     {
@@ -96,7 +98,7 @@ class Number extends Text
     /**
      * Define the default filterable callback.
      *
-     * @return callable(\Jegex\Koboi\Http\Requests\NovaRequest, \Illuminate\Contracts\Database\Eloquent\Builder, mixed, string):\Illuminate\Contracts\Database\Eloquent\Builder
+     * @return callable(NovaRequest, Builder, mixed, string):Builder
      */
     protected function defaultFilterableCallback()
     {
@@ -144,6 +146,6 @@ class Number extends Text
             'max' => $this->max,
             'step' => $this->step,
         ])->reject(static fn ($value) => \is_null($value) || (empty($value) && $value !== 0))
-        ->all());
+            ->all());
     }
 }

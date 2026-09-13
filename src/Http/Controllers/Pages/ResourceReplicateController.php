@@ -9,13 +9,14 @@ use Jegex\Koboi\Http\Requests\ResourceCreateOrAttachRequest;
 use Jegex\Koboi\Menu\Breadcrumb;
 use Jegex\Koboi\Menu\Breadcrumbs;
 use Jegex\Koboi\Nova;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class ResourceReplicateController extends Controller
 {
     /**
      * Show Resource Replicate page using Inertia.
      *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
+     * @throws NotFoundHttpException
      */
     public function __invoke(ResourceCreateOrAttachRequest $request): Response
     {

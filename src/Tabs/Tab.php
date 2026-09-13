@@ -3,9 +3,9 @@
 namespace Jegex\Koboi\Tabs;
 
 use Illuminate\Support\Str;
-use JsonSerializable;
 use Jegex\Koboi\Fields\FieldMergeValue;
 use Jegex\Koboi\Makeable;
+use JsonSerializable;
 use Stringable;
 
 /**
@@ -37,7 +37,7 @@ class Tab extends FieldMergeValue implements JsonSerializable
     /**
      * Construct a new tab instance.
      *
-     * @param  \Stringable|string  $name
+     * @param  Stringable|string  $name
      * @param  (callable():(iterable))|iterable  $fields
      *
      * @phpstan-param (callable():(TPanelFields))|TPanelFields $fields
@@ -56,12 +56,12 @@ class Tab extends FieldMergeValue implements JsonSerializable
     /**
      * Make a new tabs panel instance.
      *
-     * @param  \Stringable|string|null  $name
+     * @param  Stringable|string|null  $name
      * @param  (callable():(iterable))|iterable  $fields
      *
      * @phpstan-param (callable():(TGroupFields))|TGroupFields $fields
      *
-     * @return \Jegex\Koboi\Tabs\TabsGroup
+     * @return TabsGroup
      */
     public static function group($name = null, callable|iterable $fields = [], ?string $attribute = null)
     {

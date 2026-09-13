@@ -18,7 +18,7 @@ class Slug extends Field implements Previewable
     /**
      * The field the slug should be generated from.
      *
-     * @var \Jegex\Koboi\Fields\Field|string|null
+     * @var Field|string|null
      */
     public $from = null;
 

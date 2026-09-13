@@ -66,8 +66,8 @@ class ID extends Field
         /** @phpstan-ignore argument.templateType */
         $field = transform(
             $resource->availableFieldsOnIndexOrDetail(app(NovaRequest::class))
-                    ->whereInstanceOf(self::class)
-                    ->first(),
+                ->whereInstanceOf(self::class)
+                ->first(),
             static fn ($field) => tap($field)->resolve($model),
             static fn () => model_exists($model) ? static::forModel($model) : null,
         );
@@ -82,7 +82,7 @@ class ID extends Field
     /**
      * Create a new, resolved ID field for the given model.
      *
-     * @param  \Illuminate\Database\Eloquent\Model  $model
+     * @param  Model  $model
      */
     public static function forModel($model): static
     {
@@ -100,7 +100,7 @@ class ID extends Field
     /**
      * Resolve the given attribute from the given resource.
      *
-     * @param  \Jegex\Koboi\Resource|\Illuminate\Database\Eloquent\Model|object  $resource
+     * @param  \Jegex\Koboi\Resource|Model|object  $resource
      */
     #[\Override]
     protected function resolveAttribute($resource, string $attribute): string|int|null

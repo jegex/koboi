@@ -2,8 +2,8 @@
 
 namespace Jegex\Koboi\Testing\Browser\Pages;
 
-use Laravel\Dusk\Browser;
 use Jegex\Koboi\Testing\Browser\Components\SearchInputComponent;
+use Laravel\Dusk\Browser;
 
 trait HasSearchable
 {

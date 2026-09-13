@@ -2,8 +2,10 @@
 
 namespace Jegex\Koboi\Contracts;
 
+use Jegex\Koboi\Fields\Field;
+
 /**
- * @mixin \Jegex\Koboi\Fields\Field
+ * @mixin Field
  */
 interface Previewable
 {

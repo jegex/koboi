@@ -3,10 +3,12 @@
 namespace Jegex\Koboi\Fields;
 
 use Closure;
+use Illuminate\Database\Eloquent\Model;
 use Jegex\Koboi\Contracts\PivotableField;
 use Jegex\Koboi\Http\Requests\NovaRequest;
 use Jegex\Koboi\Nova;
 use Jegex\Koboi\Resource;
+use Jegex\Koboi\Support\Fluent;
 
 use function Orchestra\Sidekick\Http\safe_int;
 
@@ -120,7 +122,7 @@ class Tag extends Field implements PivotableField
     /**
      * Hydrate the given attribute on the model based on the incoming request.
      *
-     * @param  \Illuminate\Database\Eloquent\Model|\Jegex\Koboi\Support\Fluent  $model
+     * @param  Model|Fluent  $model
      */
     #[\Override]
     protected function fillAttributeFromRequest(NovaRequest $request, string $requestAttribute, object $model, string $attribute): Closure
@@ -152,7 +154,7 @@ class Tag extends Field implements PivotableField
     /**
      * Resolve the given attribute from the given resource.
      *
-     * @param  \Jegex\Koboi\Resource|\Illuminate\Database\Eloquent\Model|object  $resource
+     * @param  \Jegex\Koboi\Resource|Model|object  $resource
      */
     protected function resolveAttribute($resource, string $attribute): array
     {
@@ -203,7 +205,7 @@ class Tag extends Field implements PivotableField
     /**
      * Transform the result from resource.
      *
-     * @param  \Jegex\Koboi\Resource|\Illuminate\Database\Eloquent\Model  $resource
+     * @param  \Jegex\Koboi\Resource|Model  $resource
      */
     protected function transformResult(NovaRequest $request, $resource): array
     {

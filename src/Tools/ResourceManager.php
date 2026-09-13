@@ -3,6 +3,7 @@
 namespace Jegex\Koboi\Tools;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 use Jegex\Koboi\HasMenu;
 use Jegex\Koboi\Menu\MenuGroup;
 use Jegex\Koboi\Menu\MenuItem;
@@ -45,8 +46,8 @@ class ResourceManager extends Tool implements HasMenu
     /**
      * Return an ungrouped set of menu items.
      *
-     * @param  \Illuminate\Support\Collection  $resources
-     * @return \Illuminate\Support\Collection
+     * @param  Collection  $resources
+     * @return Collection
      */
     public function unGroupedMenu($resources, Request $request)
     {
@@ -63,8 +64,8 @@ class ResourceManager extends Tool implements HasMenu
     /**
      * Return a grouped set of menu items.
      *
-     * @param  \Illuminate\Support\Collection  $resources
-     * @return \Illuminate\Support\Collection
+     * @param  Collection  $resources
+     * @return Collection
      */
     public function groupedMenu($resources, Request $request)
     {

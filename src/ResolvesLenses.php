@@ -4,13 +4,14 @@ namespace Jegex\Koboi;
 
 use Illuminate\Support\Collection;
 use Jegex\Koboi\Http\Requests\NovaRequest;
+use Jegex\Koboi\Lenses\Lens;
 
 trait ResolvesLenses
 {
     /**
      * Get the lenses that are available for the given request.
      *
-     * @return \Illuminate\Support\Collection<int, \Jegex\Koboi\Lenses\Lens>
+     * @return Collection<int, Lens>
      */
     public function availableLenses(NovaRequest $request): Collection
     {
@@ -20,7 +21,7 @@ trait ResolvesLenses
     /**
      * Get the lenses for the given request.
      *
-     * @return \Illuminate\Support\Collection<int, \Jegex\Koboi\Lenses\Lens>
+     * @return Collection<int, Lens>
      */
     public function resolveLenses(NovaRequest $request): Collection
     {

@@ -2,8 +2,8 @@
 
 namespace Jegex\Koboi\Auth\Actions;
 
-use Laravel\Fortify\Http\Responses\RedirectAsIntended;
 use Jegex\Koboi\Nova;
+use Laravel\Fortify\Http\Responses\RedirectAsIntended;
 
 class RedirectAsIntendedForNova extends RedirectAsIntended
 {

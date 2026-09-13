@@ -2,6 +2,7 @@
 
 namespace Jegex\Koboi\Testing\Browser\Pages;
 
+use Facebook\WebDriver\Exception\TimeOutException;
 use Illuminate\Database\Eloquent\Model;
 use Laravel\Dusk\Browser;
 
@@ -10,22 +11,22 @@ class UpdateAttached extends Page
     /**
      * The Resource ID.
      *
-     * @var \Illuminate\Database\Eloquent\Model|string|int
+     * @var Model|string|int
      */
     public mixed $resourceId;
 
     /**
      * The Related ID.
      *
-     * @var \Illuminate\Database\Eloquent\Model|string|int
+     * @var Model|string|int
      */
     public mixed $relatedId;
 
     /**
      * Create a new page instance.
      *
-     * @param  \Illuminate\Database\Eloquent\Model|string|int  $resourceId
-     * @param  \Illuminate\Database\Eloquent\Model|string|int  $relatedId
+     * @param  Model|string|int  $resourceId
+     * @param  Model|string|int  $relatedId
      */
     public function __construct(
         public string $resourceName,
@@ -44,8 +45,8 @@ class UpdateAttached extends Page
     /**
      * Create a new page instance for Belongs-to-Many.
      *
-     * @param  \Illuminate\Database\Eloquent\Model|string|int  $resourceId
-     * @param  \Illuminate\Database\Eloquent\Model|string|int  $relatedId
+     * @param  Model|string|int  $resourceId
+     * @param  Model|string|int  $relatedId
      * @return static
      */
     public static function belongsToMany(
@@ -62,8 +63,8 @@ class UpdateAttached extends Page
     /**
      * Create a new page instance for Morph-to-Many.
      *
-     * @param  \Illuminate\Database\Eloquent\Model|string|int  $resourceId
-     * @param  \Illuminate\Database\Eloquent\Model|string|int  $relatedId
+     * @param  Model|string|int  $resourceId
+     * @param  Model|string|int  $relatedId
      * @return static
      */
     public static function morphToMany(
@@ -120,7 +121,7 @@ class UpdateAttached extends Page
     /**
      * Assert that the browser is on the page.
      *
-     * @throws \Facebook\WebDriver\Exception\TimeOutException
+     * @throws TimeOutException
      */
     public function assert(Browser $browser): void
     {

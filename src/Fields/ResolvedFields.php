@@ -10,7 +10,7 @@ class ResolvedFields extends Fluent
     /**
      * The post-storage callbacks for the fields.
      *
-     * @var \Illuminate\Support\Collection
+     * @var Collection
      */
     public $callbacks;
 

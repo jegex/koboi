@@ -2,14 +2,19 @@
 
 namespace Jegex\Koboi\Fields;
 
+use Illuminate\Contracts\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
+use Jegex\Koboi\Actions\Action;
 use Jegex\Koboi\Contracts\Deletable as DeletableContract;
 use Jegex\Koboi\Contracts\FilterableField;
 use Jegex\Koboi\Contracts\ListableField;
 use Jegex\Koboi\Contracts\PivotableField;
 use Jegex\Koboi\Fields\Filters\EloquentFilter;
+use Jegex\Koboi\Fields\Filters\Filter;
 use Jegex\Koboi\Http\Requests\NovaRequest;
 use Jegex\Koboi\Panel;
+use Jegex\Koboi\Resource;
 use Jegex\Koboi\Rules\RelatableAttachment;
 use Stringable;
 
@@ -60,14 +65,14 @@ class BelongsToMany extends Field implements DeletableContract, FilterableField,
     /**
      * The callback that should be used to resolve the pivot fields.
      *
-     * @var callable(\Jegex\Koboi\Http\Requests\NovaRequest, \Illuminate\Database\Eloquent\Model):array<int, \Jegex\Koboi\Fields\Field>
+     * @var callable(NovaRequest, Model):array<int, Field>
      */
     public $fieldsCallback;
 
     /**
      * The callback that should be used to resolve the pivot actions.
      *
-     * @var callable(\Jegex\Koboi\Http\Requests\NovaRequest):array<int, \Jegex\Koboi\Actions\Action>
+     * @var callable(NovaRequest):array<int, Action>
      */
     public $actionsCallback;
 
@@ -81,14 +86,14 @@ class BelongsToMany extends Field implements DeletableContract, FilterableField,
     /**
      * The displayable singular label of the relation.
      *
-     * @var \Stringable|string|null
+     * @var Stringable|string|null
      */
     public $singularLabel = null;
 
     /**
      * Create a new field.
      *
-     * @param  \Stringable|string  $name
+     * @param  Stringable|string  $name
      * @param  class-string<\Jegex\Koboi\Resource>|null  $resource
      */
     public function __construct($name, ?string $attribute = null, ?string $resource = null)
@@ -140,7 +145,7 @@ class BelongsToMany extends Field implements DeletableContract, FilterableField,
     /**
      * Resolve the field's value.
      *
-     * @param  \Jegex\Koboi\Resource|\Illuminate\Database\Eloquent\Model|object  $resource
+     * @param  \Jegex\Koboi\Resource|Model|object  $resource
      */
     #[\Override]
     public function resolve($resource, ?string $attribute = null): void
@@ -177,7 +182,7 @@ class BelongsToMany extends Field implements DeletableContract, FilterableField,
     /**
      * Specify the callback to be executed to retrieve the pivot fields.
      *
-     * @param  callable(\Jegex\Koboi\Http\Requests\NovaRequest, \Illuminate\Database\Eloquent\Model):array<int, \Jegex\Koboi\Fields\Field>  $callback
+     * @param  callable(NovaRequest, Model):array<int, Field>  $callback
      * @return $this
      */
     public function fields(callable $callback)
@@ -190,7 +195,7 @@ class BelongsToMany extends Field implements DeletableContract, FilterableField,
     /**
      * Specify the callback to be executed to retrieve the pivot actions.
      *
-     * @param  callable(\Jegex\Koboi\Http\Requests\NovaRequest):array<int, \Jegex\Koboi\Actions\Action>  $callback
+     * @param  callable(NovaRequest):array<int, Action>  $callback
      * @return $this
      */
     public function actions(callable $callback)
@@ -237,7 +242,7 @@ class BelongsToMany extends Field implements DeletableContract, FilterableField,
     /**
      * Make the field filter.
      *
-     * @return \Jegex\Koboi\Fields\Filters\Filter|null
+     * @return Filter|null
      */
     protected function makeFilter(NovaRequest $request)
     {
@@ -268,7 +273,7 @@ class BelongsToMany extends Field implements DeletableContract, FilterableField,
     /**
      * Define the default filterable callback.
      *
-     * @return callable(\Jegex\Koboi\Http\Requests\NovaRequest, \Illuminate\Contracts\Database\Eloquent\Builder, mixed, string):void
+     * @return callable(NovaRequest, Builder, mixed, string):void
      */
     protected function defaultFilterableCallback()
     {

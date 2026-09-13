@@ -10,14 +10,14 @@ trait Peekable
     /**
      * Indicates if the related resource can be peeked at.
      *
-     * @var (callable(\Jegex\Koboi\Http\Requests\NovaRequest):(bool))|bool|null
+     * @var (callable(NovaRequest):(bool))|bool|null
      */
     public $peekable = true;
 
     /**
      * Specify if the related resource can be peeked at.
      *
-     * @param  (callable(\Jegex\Koboi\Http\Requests\NovaRequest):(bool))|bool  $callback
+     * @param  (callable(NovaRequest):(bool))|bool  $callback
      * @return $this
      */
     public function peekable(callable|bool $callback = true)

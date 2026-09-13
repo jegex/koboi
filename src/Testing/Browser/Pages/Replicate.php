@@ -9,14 +9,14 @@ class Replicate extends Create
     /**
      * The source Resource ID.
      *
-     * @var \Illuminate\Database\Eloquent\Model|string|int
+     * @var Model|string|int
      */
     public mixed $fromResourceId;
 
     /**
      * Create a new page instance.
      *
-     * @param  \Illuminate\Database\Eloquent\Model|string|int  $fromResourceId
+     * @param  Model|string|int  $fromResourceId
      * @param  array<string, mixed>  $queryParams
      */
     public function __construct(

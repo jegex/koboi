@@ -13,7 +13,7 @@ trait Searchable
     /**
      * Indicates if this relationship is searchable.
      *
-     * @var (callable(\Jegex\Koboi\Http\Requests\NovaRequest):(bool))|bool
+     * @var (callable(NovaRequest):(bool))|bool
      */
     public $searchable = false;
 
@@ -34,7 +34,7 @@ trait Searchable
     /**
      * Specify if the relationship should be searchable.
      *
-     * @param  (callable(\Jegex\Koboi\Http\Requests\NovaRequest):(bool))|bool  $searchable
+     * @param  (callable(NovaRequest):(bool))|bool  $searchable
      * @return $this
      */
     public function searchable(callable|bool $searchable = true)

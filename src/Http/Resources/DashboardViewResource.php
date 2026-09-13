@@ -2,6 +2,7 @@
 
 namespace Jegex\Koboi\Http\Resources;
 
+use Illuminate\Auth\Access\AuthorizationException;
 use Jegex\Koboi\Dashboard;
 use Jegex\Koboi\Dashboards\Main;
 use Jegex\Koboi\Http\Requests\DashboardRequest;
@@ -20,7 +21,7 @@ class DashboardViewResource extends Resource
     /**
      * Transform the resource into an array.
      *
-     * @param  \Jegex\Koboi\Http\Requests\DashboardRequest  $request
+     * @param  DashboardRequest  $request
      * @return array
      */
     public function toArray($request)
@@ -38,7 +39,7 @@ class DashboardViewResource extends Resource
     /**
      * Get authorized dashboard for the request.
      *
-     * @throws \Illuminate\Auth\Access\AuthorizationException
+     * @throws AuthorizationException
      */
     public function authorizedDashboardForRequest(DashboardRequest $request): Dashboard
     {

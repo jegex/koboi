@@ -3,6 +3,7 @@
 namespace Jegex\Koboi;
 
 use Illuminate\Support\Collection;
+use Jegex\Koboi\Filters\Filter;
 use Jegex\Koboi\Http\Requests\NovaRequest;
 
 trait ResolvesFilters
@@ -10,20 +11,20 @@ trait ResolvesFilters
     /**
      * Get the filters that are available for the given request.
      *
-     * @return \Illuminate\Support\Collection<int, \Jegex\Koboi\Filters\Filter>
+     * @return Collection<int, Filter>
      */
     public function availableFilters(NovaRequest $request): Collection
     {
         return $this->resolveFilters($request)
-                    ->concat($this->resolveFiltersFromFields($request))
-                    ->filter->authorizedToSee($request)
-                    ->values();
+            ->concat($this->resolveFiltersFromFields($request))
+            ->filter->authorizedToSee($request)
+            ->values();
     }
 
     /**
      * Get the filters for the given request.
      *
-     * @return \Illuminate\Support\Collection<int, \Jegex\Koboi\Filters\Filter>
+     * @return Collection<int, Filter>
      */
     public function resolveFilters(NovaRequest $request): Collection
     {

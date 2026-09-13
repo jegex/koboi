@@ -4,6 +4,7 @@ namespace Jegex\Koboi\Http\Controllers;
 
 use DateTime;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Database\Eloquent\Relations\Pivot;
 use Jegex\Koboi\Http\Requests\NovaRequest;
 use Jegex\Koboi\Util;
@@ -13,7 +14,7 @@ class MorphedResourceAttachController extends ResourceAttachController
     /**
      * {@inheritDoc}
      *
-     * @param  \Illuminate\Database\Eloquent\Relations\MorphToMany  $relationship
+     * @param  MorphToMany  $relationship
      */
     #[\Override]
     protected function initializePivot(NovaRequest $request, $relationship): Model|Pivot

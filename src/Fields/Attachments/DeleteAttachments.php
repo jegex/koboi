@@ -2,28 +2,31 @@
 
 namespace Jegex\Koboi\Fields\Attachments;
 
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
+use Jegex\Koboi\Contracts\Storable;
+use Jegex\Koboi\Fields\Field;
 
 class DeleteAttachments
 {
     /**
      * The field instance.
      *
-     * @var \Jegex\Koboi\Fields\Field&\Jegex\Koboi\Contracts\Storable
+     * @var Field&Storable
      */
     public $field;
 
     /**
      * The attachment model.
      *
-     * @var class-string<\Jegex\Koboi\Fields\Attachments\Attachment>
+     * @var class-string<Attachment>
      */
     public static $model = Attachment::class;
 
     /**
      * Create a new class instance.
      *
-     * @param  \Jegex\Koboi\Fields\Field&\Jegex\Koboi\Contracts\Storable  $field
+     * @param  Field&Storable  $field
      */
     public function __construct($field)
     {
@@ -33,7 +36,7 @@ class DeleteAttachments
     /**
      * Delete the attachments associated with the field.
      *
-     * @param  \Illuminate\Database\Eloquent\Model  $model
+     * @param  Model  $model
      */
     public function __invoke(Request $request, $model): array
     {

@@ -2,8 +2,10 @@
 
 namespace Jegex\Koboi\Fields;
 
+use Illuminate\Database\Eloquent\Model;
 use Jegex\Koboi\Http\Requests\NovaRequest;
 use Jegex\Koboi\Nova;
+use Jegex\Koboi\Support\Fluent;
 use Stringable;
 
 class KeyValue extends Field
@@ -27,28 +29,28 @@ class KeyValue extends Field
     /**
      * The label that should be used for the key heading.
      *
-     * @var \Stringable|string|null
+     * @var Stringable|string|null
      */
     public $keyLabel = null;
 
     /**
      * The label that should be used for the value heading.
      *
-     * @var \Stringable|string|null
+     * @var Stringable|string|null
      */
     public $valueLabel = null;
 
     /**
      * The label that should be used for the "add row" button.
      *
-     * @var \Stringable|string|null
+     * @var Stringable|string|null
      */
     public $actionText = null;
 
     /**
      * The callback used to determine if the keys are readonly.
      *
-     * @var (callable(\Jegex\Koboi\Http\Requests\NovaRequest):(bool))|bool|null
+     * @var (callable(NovaRequest):(bool))|bool|null
      */
     public $readonlyKeysCallback;
 
@@ -69,7 +71,7 @@ class KeyValue extends Field
     /**
      * Resolve the field's value.
      *
-     * @param  \Jegex\Koboi\Resource|\Illuminate\Database\Eloquent\Model|object  $resource
+     * @param  \Jegex\Koboi\Resource|Model|object  $resource
      */
     #[\Override]
     public function resolve($resource, ?string $attribute = null): void
@@ -84,7 +86,7 @@ class KeyValue extends Field
     /**
      * Hydrate the given attribute on the model based on the incoming request.
      *
-     * @param  \Illuminate\Database\Eloquent\Model|\Jegex\Koboi\Support\Fluent  $model
+     * @param  Model|Fluent  $model
      */
     #[\Override]
     protected function fillAttributeFromRequest(NovaRequest $request, string $requestAttribute, object $model, string $attribute): void
@@ -99,7 +101,7 @@ class KeyValue extends Field
     /**
      * Fill the model's attribute with data.
      *
-     * @param  \Illuminate\Database\Eloquent\Model|\Jegex\Koboi\Support\Fluent  $model
+     * @param  Model|Fluent  $model
      */
     #[\Override]
     public function fillModelWithData(object $model, mixed $value, string $attribute): void
@@ -146,7 +148,7 @@ class KeyValue extends Field
     /**
      * Set the callback used to determine if the keys are readonly.
      *
-     * @param  (callable(\Jegex\Koboi\Http\Requests\NovaRequest):(bool))|bool  $callback
+     * @param  (callable(NovaRequest):(bool))|bool  $callback
      * @return $this
      */
     public function disableEditingKeys(callable|bool $callback = true)

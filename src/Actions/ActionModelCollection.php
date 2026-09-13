@@ -2,6 +2,7 @@
 
 namespace Jegex\Koboi\Actions;
 
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Collection as EloquentCollection;
 use Jegex\Koboi\Http\Requests\ActionRequest;
 use Jegex\Koboi\Resource;
@@ -10,7 +11,7 @@ use Jegex\Koboi\Resource;
  * @template TKey of array-key
  * @template TModel of \Illuminate\Database\Eloquent\Model
  *
- * @extends \Illuminate\Database\Eloquent\Collection<TKey, TModel>
+ * @extends Collection<TKey, TModel>
  */
 class ActionModelCollection extends EloquentCollection
 {
@@ -37,7 +38,7 @@ class ActionModelCollection extends EloquentCollection
     /**
      * Remove models the user does not have permission to execute the action against.
      *
-     * @param  \Jegex\Koboi\Actions\Action|\Jegex\Koboi\Actions\DestructiveAction  $action
+     * @param  Action|DestructiveAction  $action
      */
     protected function filterByResourceAuthorization(ActionRequest $request, Resource $resource, Action $action): bool
     {

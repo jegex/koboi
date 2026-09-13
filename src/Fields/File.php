@@ -3,6 +3,7 @@
 namespace Jegex\Koboi\Fields;
 
 use Closure;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
@@ -10,6 +11,7 @@ use Jegex\Koboi\Contracts\Deletable as DeletableContract;
 use Jegex\Koboi\Contracts\Downloadable as DownloadableContract;
 use Jegex\Koboi\Contracts\Storable as StorableContract;
 use Jegex\Koboi\Http\Requests\NovaRequest;
+use Jegex\Koboi\Support\Fluent;
 
 /**
  * @method static static make(\Stringable|string $name, string|callable|null $attribute = null, string|null $disk = null, callable|null $storageCallback = null)
@@ -48,14 +50,14 @@ class File extends Field implements DeletableContract, DownloadableContract, Sto
     /**
      * The callback that should be executed to store the file.
      *
-     * @var callable(\Illuminate\Http\Request, \Illuminate\Database\Eloquent\Model|\Jegex\Koboi\Support\Fluent, string, string, ?string, ?string):mixed
+     * @var callable(Request, Model|Fluent, string, string, ?string, ?string):mixed
      */
     public $storageCallback;
 
     /**
      * The callback that should be used to determine the file's storage name.
      *
-     * @var (callable(\Illuminate\Http\Request, \Illuminate\Database\Eloquent\Model|\Jegex\Koboi\Support\Fluent, string, string, ?string, ?string):string)|null
+     * @var (callable(Request, Model|Fluent, string, string, ?string, ?string):string)|null
      * */
     public $storeAsCallback;
 
@@ -78,7 +80,7 @@ class File extends Field implements DeletableContract, DownloadableContract, Sto
      *
      * @param  \Stringable|string  $name
      * @param  string|callable|null  $attribute
-     * @param  (callable(\Illuminate\Http\Request, \Illuminate\Database\Eloquent\Model|\Jegex\Koboi\Support\Fluent, string, string, ?string, ?string):(mixed))|null  $storageCallback
+     * @param  (callable(Request, Model|Fluent, string, string, ?string, ?string):(mixed))|null  $storageCallback
      */
     public function __construct($name, mixed $attribute = null, ?string $disk = null, ?callable $storageCallback = null)
     {
@@ -112,7 +114,7 @@ class File extends Field implements DeletableContract, DownloadableContract, Sto
     /**
      * Store the file on disk.
      *
-     * @param  \Illuminate\Database\Eloquent\Model|\Jegex\Koboi\Support\Fluent  $model
+     * @param  Model|Fluent  $model
      */
     protected function storeFile(Request $request, $model, string $attribute, string $requestAttribute): string
     {
@@ -178,7 +180,7 @@ class File extends Field implements DeletableContract, DownloadableContract, Sto
     /**
      * Specify the callback that should be used to store the file.
      *
-     * @param  callable(\Illuminate\Http\Request, \Illuminate\Database\Eloquent\Model|\Jegex\Koboi\Support\Fluent, string, string, ?string, ?string):mixed  $storageCallback
+     * @param  callable(Request, Model|Fluent, string, string, ?string, ?string):mixed  $storageCallback
      * @return $this
      */
     public function store(callable $storageCallback)
@@ -191,7 +193,7 @@ class File extends Field implements DeletableContract, DownloadableContract, Sto
     /**
      * Specify the callback that should be used to determine the file's storage name.
      *
-     * @param  callable(\Illuminate\Http\Request, \Illuminate\Database\Eloquent\Model|\Jegex\Koboi\Support\Fluent, string, string, ?string, ?string):string  $storeAsCallback
+     * @param  callable(Request, Model|Fluent, string, string, ?string, ?string):string  $storeAsCallback
      * @return $this
      */
     public function storeAs(callable $storeAsCallback)
@@ -254,7 +256,7 @@ class File extends Field implements DeletableContract, DownloadableContract, Sto
     /**
      * Hydrate the given attribute on the model based on the incoming request.
      *
-     * @param  \Illuminate\Database\Eloquent\Model|\Jegex\Koboi\Support\Fluent  $model
+     * @param  Model|Fluent  $model
      */
     public function fillForAction(NovaRequest $request, object $model): void
     {
@@ -266,7 +268,7 @@ class File extends Field implements DeletableContract, DownloadableContract, Sto
     /**
      * Hydrate the given attribute on the model based on the incoming request.
      *
-     * @param  \Illuminate\Database\Eloquent\Model|\Jegex\Koboi\Support\Fluent  $model
+     * @param  Model|Fluent  $model
      */
     protected function fillAttribute(NovaRequest $request, string $requestAttribute, object $model, string $attribute): mixed
     {

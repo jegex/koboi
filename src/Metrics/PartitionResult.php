@@ -19,7 +19,7 @@ class PartitionResult implements JsonSerializable
     /**
      * The custom label colors.
      *
-     * @var \Jegex\Koboi\Metrics\PartitionColors
+     * @var PartitionColors
      */
     public $colors;
 
@@ -36,7 +36,7 @@ class PartitionResult implements JsonSerializable
     /**
      * Format the labels for the partition result.
      *
-     * @param  \Closure(string):string  $callback
+     * @param  Closure(string):string  $callback
      * @return $this
      */
     public function label(Closure $callback)

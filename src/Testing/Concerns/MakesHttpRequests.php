@@ -4,6 +4,7 @@ namespace Jegex\Koboi\Testing\Concerns;
 
 use Illuminate\Foundation\Testing\Concerns\MakesHttpRequests as IlluminateMakesHttpRequests;
 use Jegex\Koboi\Http\Requests\NovaRequest;
+use Symfony\Component\HttpFoundation\Request;
 
 trait MakesHttpRequests
 {
@@ -12,8 +13,8 @@ trait MakesHttpRequests
     /**
      * Create the request instance used for testing from the given Symfony request.
      *
-     * @param  \Symfony\Component\HttpFoundation\Request  $symfonyRequest
-     * @return \Jegex\Koboi\Http\Requests\NovaRequest
+     * @param  Request  $symfonyRequest
+     * @return NovaRequest
      */
     protected function createTestRequest($symfonyRequest)
     {

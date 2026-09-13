@@ -6,14 +6,16 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use Illuminate\Support\Traits\Macroable;
 use Illuminate\Support\Traits\Tappable;
-use JsonSerializable;
 use Jegex\Koboi\Contracts\RelatableField;
+use Jegex\Koboi\Exceptions\HelperNotSupported;
 use Jegex\Koboi\Exceptions\NovaException;
 use Jegex\Koboi\Fields\Collapsable;
+use Jegex\Koboi\Fields\Field;
 use Jegex\Koboi\Fields\FieldCollection;
 use Jegex\Koboi\Fields\FieldMergeValue;
 use Jegex\Koboi\Http\Requests\NovaRequest;
 use Jegex\Koboi\Metrics\HasHelpText;
+use JsonSerializable;
 use Stringable;
 
 /**
@@ -38,7 +40,7 @@ class Panel extends FieldMergeValue implements JsonSerializable, Stringable
     /**
      * The name of the panel.
      *
-     * @var \Stringable|string
+     * @var Stringable|string
      */
     public $name;
 
@@ -73,7 +75,7 @@ class Panel extends FieldMergeValue implements JsonSerializable, Stringable
     /**
      * Create a new panel instance.
      *
-     * @param  \Stringable|string  $name
+     * @param  Stringable|string  $name
      * @param  (callable():(iterable))|iterable  $fields
      *
      * @phpstan-param (callable():(TPanelFields))|TPanelFields $fields
@@ -91,7 +93,7 @@ class Panel extends FieldMergeValue implements JsonSerializable, Stringable
     /**
      * Create a new default panel instance.
      *
-     * @param  \Stringable|string  $name
+     * @param  Stringable|string  $name
      * @param  (callable():(iterable))|iterable  $fields
      *
      * @phpstan-param (callable():(TPanelFields))|TPanelFields $fields
@@ -106,12 +108,12 @@ class Panel extends FieldMergeValue implements JsonSerializable, Stringable
     /**
      * Mutate new panel from list of fields.
      *
-     * @param  \Stringable|string  $name
-     * @param  \Jegex\Koboi\Fields\FieldCollection<int, \Jegex\Koboi\Fields\Field>  $fields
+     * @param  Stringable|string  $name
+     * @param  FieldCollection<int, Field>  $fields
      *
-     * @phpstan-param \Jegex\Koboi\Fields\FieldCollection<int, TFields>  $fields
+     * @phpstan-param FieldCollection<int, TFields>  $fields
      *
-     * @return \Jegex\Koboi\Panel
+     * @return Panel
      */
     public static function mutate($name, FieldCollection $fields)
     {
@@ -146,8 +148,7 @@ class Panel extends FieldMergeValue implements JsonSerializable, Stringable
     /**
      * Get the default panel name for the given resource.
      *
-     * @param  \Jegex\Koboi\Resource  $resource
-     * @return \Stringable|string
+     * @return Stringable|string
      */
     public static function defaultNameForDetail(Resource $resource)
     {
@@ -160,8 +161,7 @@ class Panel extends FieldMergeValue implements JsonSerializable, Stringable
     /**
      * Get the default panel name for a create panel.
      *
-     * @param  \Jegex\Koboi\Resource  $resource
-     * @return \Stringable|string
+     * @return Stringable|string
      */
     public static function defaultNameForCreate(Resource $resource)
     {
@@ -173,8 +173,7 @@ class Panel extends FieldMergeValue implements JsonSerializable, Stringable
     /**
      * Get the default panel name for the update panel.
      *
-     * @param  \Jegex\Koboi\Resource  $resource
-     * @return \Stringable|string
+     * @return Stringable|string
      */
     public static function defaultNameForUpdate(Resource $resource)
     {
@@ -187,8 +186,7 @@ class Panel extends FieldMergeValue implements JsonSerializable, Stringable
     /**
      * Get the default panel name for the given resource.
      *
-     * @param  \Jegex\Koboi\Resource  $resource
-     * @return \Stringable|string
+     * @return Stringable|string
      */
     public static function defaultNameForViaRelationship(Resource $resource, NovaRequest $request)
     {
@@ -243,7 +241,7 @@ class Panel extends FieldMergeValue implements JsonSerializable, Stringable
      * @param  string  $helpWidth
      * @return never
      *
-     * @throws \Jegex\Koboi\Exceptions\HelperNotSupported
+     * @throws HelperNotSupported
      */
     public function helpWidth($helpWidth)
     {
@@ -255,7 +253,7 @@ class Panel extends FieldMergeValue implements JsonSerializable, Stringable
      *
      * @return never
      *
-     * @throws \Jegex\Koboi\Exceptions\HelperNotSupported
+     * @throws HelperNotSupported
      */
     public function getHelpWidth()
     {

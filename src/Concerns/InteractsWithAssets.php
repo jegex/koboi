@@ -15,21 +15,21 @@ trait InteractsWithAssets
     /**
      * All of the registered Nova tool scripts.
      *
-     * @var array<int, \Jegex\Koboi\Script>
+     * @var array<int, Script>
      */
     public static array $scripts = [];
 
     /**
      * All of the registered Nova tool CSS.
      *
-     * @var array<int, \Jegex\Koboi\Style>
+     * @var array<int, Style>
      */
     public static array $styles = [];
 
     /**
      * Get all of the additional scripts that should be registered.
      *
-     * @return array<int, \Jegex\Koboi\Script>
+     * @return array<int, Script>
      */
     public static function allScripts(): array
     {
@@ -39,7 +39,7 @@ trait InteractsWithAssets
     /**
      * Get all of the available scripts that should be registered.
      *
-     * @return array<int, \Jegex\Koboi\Script>
+     * @return array<int, Script>
      */
     public static function availableScripts(Request $request): array
     {
@@ -53,7 +53,7 @@ trait InteractsWithAssets
     /**
      * Get all of the additional stylesheets that should be registered.
      *
-     * @return array<int, \Jegex\Koboi\Style>
+     * @return array<int, Style>
      */
     public static function allStyles(): array
     {
@@ -63,7 +63,7 @@ trait InteractsWithAssets
     /**
      * Get all of the available stylesheets that should be registered.
      *
-     * @return array<int, \Jegex\Koboi\Style>
+     * @return array<int, Style>
      */
     public static function availableStyles(Request $request): array
     {

@@ -2,8 +2,13 @@
 
 namespace Jegex\Koboi\Http\Requests;
 
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Jegex\Koboi\Contracts\QueryBuilder;
 use Jegex\Koboi\Nova;
+use Jegex\Koboi\Resource;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 trait InteractsWithResources
 {
@@ -46,7 +51,7 @@ trait InteractsWithResources
      *
      * @return class-string<\Jegex\Koboi\Resource>
      *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
+     * @throws NotFoundHttpException
      */
     public function resource()
     {
@@ -60,7 +65,7 @@ trait InteractsWithResources
     /**
      * Get a new instance of the resource being requested.
      *
-     * @return \Jegex\Koboi\Resource<\Illuminate\Database\Eloquent\Model>
+     * @return \Jegex\Koboi\Resource<Model>
      */
     public function newResource()
     {
@@ -73,9 +78,9 @@ trait InteractsWithResources
      * Find the resource instance for the request or abort.
      *
      * @param  string|int|null  $resourceId
-     * @return \Jegex\Koboi\Resource<\Illuminate\Database\Eloquent\Model>
+     * @return \Jegex\Koboi\Resource<Model>
      *
-     * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
+     * @throws ModelNotFoundException
      */
     public function findResourceOrFail($resourceId = null)
     {
@@ -97,9 +102,9 @@ trait InteractsWithResources
      * Find the model instance for the request or throw an exception.
      *
      * @param  string|int|null  $resourceId
-     * @return \Illuminate\Database\Eloquent\Model
+     * @return Model
      *
-     * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
+     * @throws ModelNotFoundException
      */
     public function findModelOrFail($resourceId = null)
     {
@@ -116,7 +121,7 @@ trait InteractsWithResources
      * Find the model instance for the request.
      *
      * @param  string|int|null  $resourceId
-     * @return \Illuminate\Database\Eloquent\Model
+     * @return Model
      */
     public function findModel($resourceId = null)
     {
@@ -143,8 +148,8 @@ trait InteractsWithResources
     /**
      * Get a new instance of the resource being requested.
      *
-     * @param  \Illuminate\Database\Eloquent\Model  $model
-     * @return \Jegex\Koboi\Resource<\Illuminate\Database\Eloquent\Model>
+     * @param  Model  $model
+     * @return \Jegex\Koboi\Resource<Model>
      */
     public function newResourceWith($model)
     {
@@ -156,7 +161,7 @@ trait InteractsWithResources
     /**
      * Get a new query builder for the underlying model.
      *
-     * @return \Illuminate\Database\Eloquent\Builder
+     * @return Builder
      */
     public function newQuery()
     {
@@ -166,7 +171,7 @@ trait InteractsWithResources
     /**
      * Get a new, scopeless query builder for the underlying model.
      *
-     * @return \Illuminate\Database\Eloquent\Builder
+     * @return Builder
      */
     public function newQueryWithoutScopes()
     {
@@ -176,7 +181,7 @@ trait InteractsWithResources
     /**
      * Get a new instance of the underlying model.
      *
-     * @return \Illuminate\Database\Eloquent\Model
+     * @return Model
      */
     public function model()
     {

@@ -14,7 +14,7 @@ class PendingTranslation implements JsonSerializable, Stringable
     /**
      * The translation transformation callback.
      *
-     * @var (callable(\Illuminate\Support\Stringable):(\Stringable|string))|null
+     * @var (callable(\Illuminate\Support\Stringable):(Stringable|string))|null
      */
     public $transformCallback;
 
@@ -34,7 +34,7 @@ class PendingTranslation implements JsonSerializable, Stringable
     /**
      * Transform the translation.
      *
-     * @param  (callable(\Illuminate\Support\Stringable):(\Stringable|string))  $transformCallback
+     * @param  (callable(\Illuminate\Support\Stringable):(Stringable|string))  $transformCallback
      * @return $this
      */
     public function transform(callable $transformCallback)

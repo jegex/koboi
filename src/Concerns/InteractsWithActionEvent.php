@@ -11,7 +11,7 @@ trait InteractsWithActionEvent
     /**
      * Get the configured ActionResource class.
      *
-     * @return class-string<\Jegex\Koboi\Actions\ActionResource>
+     * @return class-string<ActionResource>
      */
     public static function actionResource(): string
     {
@@ -29,7 +29,7 @@ trait InteractsWithActionEvent
     /**
      * Invoke the callback with an instance of the configured ActionEvent if it is available.
      *
-     * @param  callable(\Jegex\Koboi\Actions\ActionEvent):mixed  $callback
+     * @param  callable(ActionEvent):mixed  $callback
      */
     public static function usingActionEvent(callable $callback): mixed
     {

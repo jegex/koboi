@@ -4,9 +4,11 @@ namespace Jegex\Koboi\Contracts;
 
 use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Contracts\Database\Query\Builder as BaseBuilder;
+use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Database\Eloquent\Collection as EloquentCollection;
 use Illuminate\Support\LazyCollection;
 use Jegex\Koboi\Http\Requests\NovaRequest;
+use Jegex\Koboi\Query\ApplyFilter;
 use Jegex\Koboi\TrashedStatus;
 
 /**
@@ -24,7 +26,7 @@ interface QueryBuilder
     /**
      * Build a "search" query for the given resource.
      *
-     * @param  array<int, \Jegex\Koboi\Query\ApplyFilter>  $filters
+     * @param  array<int, ApplyFilter>  $filters
      * @param  array<string, string>  $orderings
      * @return $this
      */
@@ -69,7 +71,7 @@ interface QueryBuilder
     /**
      * Get the paginated results of the query.
      *
-     * @return array{0: \Illuminate\Contracts\Pagination\Paginator, 1: int|null, 2: bool}
+     * @return array{0: Paginator, 1: int|null, 2: bool}
      */
     public function paginate(int $perPage): array;
 

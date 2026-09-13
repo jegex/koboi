@@ -2,6 +2,7 @@
 
 namespace Jegex\Koboi\Fields;
 
+use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use Jegex\Koboi\Http\Requests\NovaRequest;
 use Jegex\Koboi\Support\UndefinedValue;
@@ -88,7 +89,7 @@ trait DependentFields
      */
     protected function getDependentsAttributes(NovaRequest $request): ?array
     {
-        /** @var \Illuminate\Support\Collection<string, mixed> $attributes */
+        /** @var Collection<string, mixed> $attributes */
         $attributes = collect($this->fieldDependencies ?? [])
             ->map(static fn (Dependent $dependent) => $dependent->getAttributes())
             ->collapse();

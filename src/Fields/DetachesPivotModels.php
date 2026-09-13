@@ -4,6 +4,7 @@ namespace Jegex\Koboi\Fields;
 
 use Jegex\Koboi\Contracts\Deletable;
 use Jegex\Koboi\DeleteField;
+use Jegex\Koboi\Http\Requests\NovaRequest;
 use Jegex\Koboi\Nova;
 
 trait DetachesPivotModels
@@ -11,7 +12,7 @@ trait DetachesPivotModels
     /**
      * Get the pivot record detachment callback for the field.
      *
-     * @return callable(\Jegex\Koboi\Http\Requests\NovaRequest, mixed):bool
+     * @return callable(NovaRequest, mixed):bool
      */
     protected function detachmentCallback(): callable
     {
@@ -26,11 +27,11 @@ trait DetachesPivotModels
                 $pivotFields = $resource->resolvePivotFields($request, $request->resource);
 
                 $pivotFields->whereInstanceOf(Deletable::class)
-                        ->filter->isPrunable()
-                        ->each(static function ($field) use ($request, $pivot) {
-                            /** @var \Jegex\Koboi\Fields\Field&\Jegex\Koboi\Contracts\Deletable $field */
-                            DeleteField::forRequest($request, $field, $pivot)->save();
-                        });
+                    ->filter->isPrunable()
+                    ->each(static function ($field) use ($request, $pivot) {
+                        /** @var Field&Deletable $field */
+                        DeleteField::forRequest($request, $field, $pivot)->save();
+                    });
 
                 $pivot->delete();
             }

@@ -2,10 +2,10 @@
 
 namespace Jegex\Koboi\Testing\Browser\Pages;
 
-use Laravel\Dusk\Browser;
-use Laravel\Dusk\Page as Dusk;
 use Jegex\Koboi\Nova;
 use Jegex\Koboi\Testing\Browser\Concerns\InteractsWithElements;
+use Laravel\Dusk\Browser;
+use Laravel\Dusk\Page as Dusk;
 
 class Page extends Dusk
 {

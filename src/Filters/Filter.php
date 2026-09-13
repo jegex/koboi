@@ -5,7 +5,6 @@ namespace Jegex\Koboi\Filters;
 use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Support\Str;
 use Illuminate\Support\Traits\Macroable;
-use JsonSerializable;
 use Jegex\Koboi\AuthorizedToSee;
 use Jegex\Koboi\Contracts\Filter as FilterContract;
 use Jegex\Koboi\Http\Requests\NovaRequest;
@@ -14,6 +13,7 @@ use Jegex\Koboi\Metable;
 use Jegex\Koboi\Nova;
 use Jegex\Koboi\ProxiesCanSeeToGate;
 use Jegex\Koboi\WithComponent;
+use JsonSerializable;
 
 abstract class Filter implements FilterContract, JsonSerializable
 {
@@ -42,7 +42,7 @@ abstract class Filter implements FilterContract, JsonSerializable
     /**
      * Apply the filter to the given query.
      *
-     * @return \Illuminate\Contracts\Database\Eloquent\Builder
+     * @return Builder
      */
     abstract public function apply(NovaRequest $request, Builder $query, mixed $value);
 

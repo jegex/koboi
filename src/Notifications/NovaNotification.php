@@ -53,21 +53,21 @@ class NovaNotification extends LaravelNotification implements Arrayable
     /**
      * The message used for the notification.
      *
-     * @var \Stringable|string|null
+     * @var Stringable|string|null
      */
     public $message = null;
 
     /**
      * The text used for the call-to-action button label.
      *
-     * @var \Stringable|string
+     * @var Stringable|string
      */
     public $actionText = 'View';
 
     /**
      * The URL used for the call-to-action button.
      *
-     * @var \Jegex\Koboi\URL|string|null
+     * @var URL|string|null
      */
     public $actionUrl = null;
 

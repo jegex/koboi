@@ -3,6 +3,7 @@
 namespace Jegex\Koboi\Console;
 
 use Illuminate\Container\Container;
+use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Support\Str;
 use Jegex\Koboi\Events\NovaServiceProviderRegistered;
 use Jegex\Koboi\Events\ServingNova;
@@ -164,7 +165,7 @@ class PolicyMakeCommand extends \Illuminate\Foundation\Console\PolicyMakeCommand
             return;
         }
 
-        /** @var \Illuminate\Contracts\Foundation\Application $app */
+        /** @var Application $app */
         $app = Container::getInstance();
 
         ServingNova::dispatch($app, NovaRequest::create('/', 'OPTIONS'));

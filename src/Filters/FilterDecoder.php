@@ -28,7 +28,7 @@ class FilterDecoder
     /**
      * Decode the given filters.
      *
-     * @return \Illuminate\Support\Collection<int, \Jegex\Koboi\Query\ApplyFilter>
+     * @return Collection<int, ApplyFilter>
      */
     public function filters(): Collection
     {
@@ -64,7 +64,7 @@ class FilterDecoder
     /**
      * Decode the filter string from base64 encoding.
      *
-     * @return array<int, array<class-string<\Jegex\Koboi\Filters\Filter>|string, mixed>>
+     * @return array<int, array<class-string<Filter>|string, mixed>>
      */
     public function decodeFromBase64String(): array
     {

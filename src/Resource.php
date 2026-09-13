@@ -4,6 +4,7 @@ namespace Jegex\Koboi;
 
 use ArrayAccess;
 use Illuminate\Contracts\Routing\UrlRoutable;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\ConditionallyLoadsAttributes;
@@ -12,11 +13,12 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use InvalidArgumentException;
-use JsonSerializable;
+use Jegex\Koboi\Fields\Field;
 use Jegex\Koboi\Fields\HasAttachments;
 use Jegex\Koboi\Fields\ID;
 use Jegex\Koboi\Http\Requests\NovaRequest;
 use Jegex\Koboi\Menu\MenuItem;
+use JsonSerializable;
 use Laravel\Scout\Searchable;
 
 use function Orchestra\Sidekick\Eloquent\model_exists;
@@ -179,7 +181,7 @@ abstract class Resource implements ArrayAccess, JsonSerializable, UrlRoutable
     /**
      * The cached soft deleting statuses for various resources.
      *
-     * @var array<class-string<\Illuminate\Database\Eloquent\Model>, bool>
+     * @var array<class-string<Model>, bool>
      */
     public static $softDeletes = [];
 
@@ -284,7 +286,7 @@ abstract class Resource implements ArrayAccess, JsonSerializable, UrlRoutable
      *
      * @return static
      *
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     public function replicate()
     {
@@ -511,7 +513,7 @@ abstract class Resource implements ArrayAccess, JsonSerializable, UrlRoutable
     /**
      * Prepare the resource for JSON serialization.
      *
-     * @param  \Illuminate\Support\Collection<int, \Jegex\Koboi\Fields\Field>  $fields
+     * @param  Collection<int, Field>  $fields
      * @return array<string, mixed>
      */
     public function serializeForIndex(NovaRequest $request, $fields = null)
@@ -536,7 +538,6 @@ abstract class Resource implements ArrayAccess, JsonSerializable, UrlRoutable
     /**
      * Prepare the resource for JSON serialization.
      *
-     * @param  \Jegex\Koboi\Resource  $resource
      * @return array<string, mixed>
      */
     public function serializeForDetail(NovaRequest $request, self $resource)
@@ -642,7 +643,7 @@ abstract class Resource implements ArrayAccess, JsonSerializable, UrlRoutable
     /**
      * Prepare the resource for JSON serialization using the given fields.
      *
-     * @param  \Illuminate\Support\Collection<int, \Jegex\Koboi\Fields\Field>  $fields
+     * @param  Collection<int, Field>  $fields
      * @return array
      */
     protected function serializeWithId(Collection $fields)
@@ -656,8 +657,7 @@ abstract class Resource implements ArrayAccess, JsonSerializable, UrlRoutable
     /**
      * Return the location to redirect the user after creation.
      *
-     * @param  \Jegex\Koboi\Resource  $resource
-     * @return \Jegex\Koboi\URL|string
+     * @return URL|string
      */
     public static function redirectAfterCreate(NovaRequest $request, Resource $resource)
     {
@@ -667,8 +667,7 @@ abstract class Resource implements ArrayAccess, JsonSerializable, UrlRoutable
     /**
      * Return the location to redirect the user after an update.
      *
-     * @param  \Jegex\Koboi\Resource  $resource
-     * @return \Jegex\Koboi\URL|string
+     * @return URL|string
      */
     public static function redirectAfterUpdate(NovaRequest $request, Resource $resource)
     {
@@ -678,7 +677,7 @@ abstract class Resource implements ArrayAccess, JsonSerializable, UrlRoutable
     /**
      * Return the location to redirect the user after deletion.
      *
-     * @return \Jegex\Koboi\URL|string|null
+     * @return URL|string|null
      */
     public static function redirectAfterDelete(NovaRequest $request)
     {
@@ -730,7 +729,7 @@ abstract class Resource implements ArrayAccess, JsonSerializable, UrlRoutable
     /**
      * Return the menu item that should represent the resource.
      *
-     * @return \Jegex\Koboi\Menu\MenuItem
+     * @return MenuItem
      */
     public function menu(Request $request)
     {

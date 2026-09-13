@@ -21,7 +21,7 @@ class Search
      * Get the raw results of the search.
      *
      * @param  class-string<\Jegex\Koboi\Resource>  $resourceClass
-     * @param  array<int, string|\Jegex\Koboi\Query\Search\Column>  $searchColumns
+     * @param  array<int, string|Column>  $searchColumns
      */
     public function handle(string $resourceClass, array $searchColumns): EloquentBuilder
     {

@@ -4,6 +4,7 @@ namespace Jegex\Koboi\Fields\Filters;
 
 use Illuminate\Contracts\Database\Eloquent\Builder;
 use Jegex\Koboi\Contracts\FilterableField;
+use Jegex\Koboi\Fields\Field;
 use Jegex\Koboi\Filters\Filter as BaseFilter;
 use Jegex\Koboi\Http\Requests\NovaRequest;
 use Jegex\Koboi\Makeable;
@@ -18,7 +19,7 @@ abstract class Filter extends BaseFilter
     /**
      * Construct a new filter.
      *
-     * @param  \Jegex\Koboi\Contracts\FilterableField&\Jegex\Koboi\Fields\Field  $field
+     * @param  FilterableField&Field  $field
      */
     public function __construct(public FilterableField $field)
     {
@@ -48,7 +49,7 @@ abstract class Filter extends BaseFilter
     /**
      * Apply the filter to the given query.
      *
-     * @return \Illuminate\Contracts\Database\Eloquent\Builder
+     * @return Builder
      */
     public function apply(NovaRequest $request, Builder $query, mixed $value)
     {

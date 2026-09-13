@@ -39,21 +39,21 @@ class ValueResult implements JsonSerializable
     /**
      * The previous value label.
      *
-     * @var \Stringable|string
+     * @var Stringable|string
      */
     public $previousLabel;
 
     /**
      * The metric value prefix.
      *
-     * @var \Stringable|string
+     * @var Stringable|string
      */
     public $prefix;
 
     /**
      * The metric value suffix.
      *
-     * @var \Stringable|string
+     * @var Stringable|string
      */
     public $suffix;
 

@@ -7,6 +7,7 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use Jegex\Koboi\Contracts\ListableField;
+use Jegex\Koboi\Fields\Field;
 use Jegex\Koboi\Panel;
 
 /**
@@ -34,7 +35,7 @@ class TabsGroup extends Panel
     /**
      * List of tabs.
      *
-     * @var array<int, \Jegex\Koboi\Tabs\Tab>
+     * @var array<int, Tab>
      */
     public array $tabs = [];
 
@@ -94,7 +95,7 @@ class TabsGroup extends Panel
     {
         $this->convertFieldsToTabs($fields)
             ->each(function ($tab) {
-                /** @var \Jegex\Koboi\Tabs\Tab $tab */
+                /** @var Tab $tab */
                 $this->addFields($tab);
             });
 
@@ -104,7 +105,7 @@ class TabsGroup extends Panel
     /**
      * Convert fields to tabs.
      *
-     * @return \Illuminate\Support\Collection<int, \Jegex\Koboi\Tabs\Tab>
+     * @return Collection<int, Tab>
      */
     protected function convertFieldsToTabs(callable|iterable $fields): Collection
     {
@@ -150,7 +151,7 @@ class TabsGroup extends Panel
         $this->tabs[] = $tab;
 
         foreach ($tab->data as $field) {
-            /** @var \Jegex\Koboi\Panel|\Jegex\Koboi\Fields\Field $field */
+            /** @var Panel|Field $field */
             if ($field instanceof Panel) {
                 /** @phpstan-ignore property.notFound */
                 $field->panel = $this;

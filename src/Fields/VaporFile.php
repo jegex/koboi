@@ -4,12 +4,14 @@ namespace Jegex\Koboi\Fields;
 
 use Closure;
 use Exception;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Jegex\Koboi\Contracts\Deletable as DeletableContract;
 use Jegex\Koboi\Contracts\Downloadable as DownloadableContract;
 use Jegex\Koboi\Contracts\Storable as StorableContract;
 use Jegex\Koboi\Http\Requests\NovaRequest;
+use Jegex\Koboi\Support\Fluent;
 
 /**
  * @method static static make(\Stringable|string $name, string|null $attribute = null, callable|null $storageCallback = null)
@@ -48,14 +50,14 @@ class VaporFile extends Field implements DeletableContract, DownloadableContract
     /**
      * The callback that should be executed to store the file.
      *
-     * @var callable(\Jegex\Koboi\Http\Requests\NovaRequest, object, string, string, ?string, ?string):mixed
+     * @var callable(NovaRequest, object, string, string, ?string, ?string):mixed
      */
     public $storageCallback;
 
     /**
      * The callback that should be used to determine the file's storage name.
      *
-     * @var (callable(\Illuminate\Http\Request):(string))|null
+     * @var (callable(Request):(string))|null
      */
     public $storeAsCallback;
 
@@ -71,7 +73,7 @@ class VaporFile extends Field implements DeletableContract, DownloadableContract
      *
      * @param  \Stringable|string  $name
      * @param  string|callable|null  $attribute
-     * @param  (callable(\Jegex\Koboi\Http\Requests\NovaRequest, object, string, string, ?string, ?string):(mixed))|null  $storageCallback
+     * @param  (callable(NovaRequest, object, string, string, ?string, ?string):(mixed))|null  $storageCallback
      */
     public function __construct($name, mixed $attribute = null, ?callable $storageCallback = null)
     {
@@ -98,7 +100,7 @@ class VaporFile extends Field implements DeletableContract, DownloadableContract
      * @param  string  $disk
      * @return never
      *
-     * @throws \Exception
+     * @throws Exception
      */
     public function disk($disk)
     {
@@ -128,7 +130,7 @@ class VaporFile extends Field implements DeletableContract, DownloadableContract
     /**
      * Specify the callback that should be used to determine the file's storage name.
      *
-     * @param  callable(\Illuminate\Http\Request):string  $storeAsCallback
+     * @param  callable(Request):string  $storeAsCallback
      * @return $this
      */
     public function storeAs(callable $storeAsCallback)
@@ -141,7 +143,7 @@ class VaporFile extends Field implements DeletableContract, DownloadableContract
     /**
      * Prepare the storage callback.
      *
-     * @param  (callable(\Jegex\Koboi\Http\Requests\NovaRequest, object, string, string, ?string, ?string):(mixed))|null  $storageCallback
+     * @param  (callable(NovaRequest, object, string, string, ?string, ?string):(mixed))|null  $storageCallback
      */
     protected function prepareStorageCallback(?callable $storageCallback): void
     {
@@ -209,7 +211,7 @@ class VaporFile extends Field implements DeletableContract, DownloadableContract
     /**
      * Hydrate the given attribute on the model based on the incoming request.
      *
-     * @param  \Illuminate\Database\Eloquent\Model|\Jegex\Koboi\Support\Fluent  $model
+     * @param  Model|Fluent  $model
      */
     protected function fillAttribute(NovaRequest $request, string $requestAttribute, $model, string $attribute): mixed
     {

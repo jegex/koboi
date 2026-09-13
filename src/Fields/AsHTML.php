@@ -26,7 +26,7 @@ trait AsHTML
      *
      * @return $this
      *
-     * @throws \Jegex\Koboi\Exceptions\HelperNotSupported
+     * @throws HelperNotSupported
      */
     public function asHtml()
     {
@@ -44,7 +44,7 @@ trait AsHTML
      *
      * @return $this
      *
-     * @throws \Jegex\Koboi\Exceptions\HelperNotSupported
+     * @throws HelperNotSupported
      */
     public function asEncodedHtml()
     {

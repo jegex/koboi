@@ -2,6 +2,7 @@
 
 namespace Jegex\Koboi;
 
+use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
 /**
@@ -16,7 +17,7 @@ class ResourceTool extends Panel
     /**
      * The resource tool element.
      *
-     * @var \Jegex\Koboi\Element
+     * @var Element
      */
     public $element;
 
@@ -60,7 +61,7 @@ class ResourceTool extends Panel
     /**
      * Set the callback to be run to authorize viewing the card.
      *
-     * @param  callable(\Illuminate\Http\Request):bool  $callback
+     * @param  callable(Request):bool  $callback
      * @return $this
      */
     public function canSee(callable $callback)

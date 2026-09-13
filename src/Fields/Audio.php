@@ -2,6 +2,7 @@
 
 namespace Jegex\Koboi\Fields;
 
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
 class Audio extends File
@@ -26,7 +27,7 @@ class Audio extends File
      *
      * @param  \Stringable|string  $name
      * @param  string|callable|null  $attribute
-     * @param  (callable(\Illuminate\Http\Request, object, string, string, ?string, ?string):mixed)|null  $storageCallback
+     * @param  (callable(Request, object, string, string, ?string, ?string):mixed)|null  $storageCallback
      */
     public function __construct($name, mixed $attribute = null, ?string $disk = 'public', ?callable $storageCallback = null)
     {

@@ -5,6 +5,7 @@ namespace Jegex\Koboi\Support;
 use ArrayAccess;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Contracts\Support\Jsonable;
+use Illuminate\Support\Fluent;
 use Illuminate\Support\Traits\ForwardsCalls;
 use JsonSerializable;
 
@@ -12,10 +13,10 @@ use JsonSerializable;
  * @template TKey of array-key
  * @template TValue
  *
- * @implements \Illuminate\Contracts\Support\Arrayable<TKey, TValue>
- * @implements \ArrayAccess<TKey, TValue>
+ * @implements Arrayable<TKey, TValue>
+ * @implements ArrayAccess<TKey, TValue>
  *
- * @mixin \Illuminate\Support\Fluent
+ * @mixin Fluent
  */
 abstract class FluentDecorator implements Arrayable, ArrayAccess, Jsonable, JsonSerializable
 {
@@ -24,7 +25,7 @@ abstract class FluentDecorator implements Arrayable, ArrayAccess, Jsonable, Json
     /**
      * The Fluent instance.
      *
-     * @var \Illuminate\Support\Fluent<TKey, TValue>
+     * @var Fluent<TKey, TValue>
      */
     protected $fluent;
 
@@ -35,7 +36,7 @@ abstract class FluentDecorator implements Arrayable, ArrayAccess, Jsonable, Json
      */
     public function __construct($attributes = [])
     {
-        $this->fluent = new \Illuminate\Support\Fluent($attributes);
+        $this->fluent = new Fluent($attributes);
     }
 
     /**

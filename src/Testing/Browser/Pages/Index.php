@@ -2,9 +2,10 @@
 
 namespace Jegex\Koboi\Testing\Browser\Pages;
 
-use Laravel\Dusk\Browser;
+use Facebook\WebDriver\Exception\TimeOutException;
 use Jegex\Koboi\Testing\Browser\Components\FormComponent;
 use Jegex\Koboi\Testing\Browser\Components\IndexComponent;
+use Laravel\Dusk\Browser;
 
 class Index extends Page
 {
@@ -23,7 +24,7 @@ class Index extends Page
     /**
      * Create the related resource.
      *
-     * @throws \Facebook\WebDriver\Exception\TimeOutException
+     * @throws TimeOutException
      */
     public function runCreate(Browser $browser, ?callable $fieldCallback = null): void
     {

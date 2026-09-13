@@ -4,16 +4,19 @@ namespace Jegex\Koboi\Menu;
 
 use Illuminate\Support\Traits\Conditionable;
 use Illuminate\Support\Traits\Macroable;
-use JsonSerializable;
 use Jegex\Koboi\AuthorizedToSee;
+use Jegex\Koboi\Dashboard;
 use Jegex\Koboi\Exceptions\NovaException;
 use Jegex\Koboi\Fields\Collapsable;
 use Jegex\Koboi\Http\Requests\NovaRequest;
+use Jegex\Koboi\Lenses\Lens;
 use Jegex\Koboi\Makeable;
+use Jegex\Koboi\Resource;
 use Jegex\Koboi\URL;
 use Jegex\Koboi\WithBadge;
 use Jegex\Koboi\WithComponent;
 use Jegex\Koboi\WithIcon;
+use JsonSerializable;
 use Stringable;
 
 /**
@@ -47,7 +50,7 @@ class MenuSection implements JsonSerializable
     /**
      * The menu's path.
      *
-     * @var \Jegex\Koboi\URL|string|null
+     * @var URL|string|null
      */
     public $path = null;
 
@@ -73,7 +76,7 @@ class MenuSection implements JsonSerializable
     /**
      * Create a menu from dashboard class.
      *
-     * @param  class-string<\Jegex\Koboi\Dashboard>  $dashboard
+     * @param  class-string<Dashboard>  $dashboard
      * @return static
      */
     public static function dashboard(string $dashboard)
@@ -82,7 +85,7 @@ class MenuSection implements JsonSerializable
             return static::make(
                 $dashboard->label()
             )->path('/dashboards/'.$dashboard->uriKey())
-            ->canSee(static fn ($request) => $dashboard->authorizedToSee($request));
+                ->canSee(static fn ($request) => $dashboard->authorizedToSee($request));
         });
     }
 
@@ -97,14 +100,14 @@ class MenuSection implements JsonSerializable
         return static::make(
             $resourceClass::label()
         )->path('/resources/'.$resourceClass::uriKey())
-        ->canSee(static fn ($request) => $resourceClass::availableForNavigation($request) && $resourceClass::authorizedToViewAny($request));
+            ->canSee(static fn ($request) => $resourceClass::availableForNavigation($request) && $resourceClass::authorizedToViewAny($request));
     }
 
     /**
      * Create a menu section from a lens class.
      *
      * @param  class-string<\Jegex\Koboi\Resource>  $resourceClass
-     * @param  class-string<\Jegex\Koboi\Lenses\Lens>  $lensClass
+     * @param  class-string<Lens>  $lensClass
      * @return static
      */
     public static function lens(string $resourceClass, string $lensClass)
@@ -121,7 +124,7 @@ class MenuSection implements JsonSerializable
      *
      * @return $this
      *
-     * @throws \Jegex\Koboi\Exceptions\NovaException
+     * @throws NovaException
      */
     public function path(URL|string|null $href)
     {
@@ -139,7 +142,7 @@ class MenuSection implements JsonSerializable
      *
      * @return $this
      *
-     * @throws \Jegex\Koboi\Exceptions\NovaException
+     * @throws NovaException
      */
     public function collapsable()
     {

@@ -2,6 +2,7 @@
 
 namespace Jegex\Koboi\Http\Resources;
 
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Contracts\Database\Eloquent\Builder;
 use Jegex\Koboi\Http\Requests\LensRequest;
 use Jegex\Koboi\Lenses\Lens;
@@ -11,7 +12,7 @@ class LensViewResource extends Resource
     /**
      * Transform the resource into an array.
      *
-     * @param  \Jegex\Koboi\Http\Requests\LensRequest  $request
+     * @param  LensRequest  $request
      * @return array
      */
     public function toArray($request)
@@ -50,7 +51,7 @@ class LensViewResource extends Resource
      * Get authorized resource for the request.
      *
      *
-     * @throws \Illuminate\Auth\Access\AuthorizationException
+     * @throws AuthorizationException
      */
     public function authorizedLensForRequest(LensRequest $request): Lens
     {

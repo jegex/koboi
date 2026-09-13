@@ -2,7 +2,10 @@
 
 namespace Jegex\Koboi;
 
+use Illuminate\Database\Eloquent\Model;
+use Jegex\Koboi\Contracts\Deletable;
 use Jegex\Koboi\Contracts\Storable;
+use Jegex\Koboi\Fields\Field;
 use Jegex\Koboi\Http\Requests\NovaRequest;
 
 class DeleteField
@@ -10,9 +13,9 @@ class DeleteField
     /**
      * Delete the given field.
      *
-     * @param  \Jegex\Koboi\Fields\Field&\Jegex\Koboi\Contracts\Deletable  $field
-     * @param  \Illuminate\Database\Eloquent\Model  $model
-     * @return \Illuminate\Database\Eloquent\Model
+     * @param  Field&Deletable  $field
+     * @param  Model  $model
+     * @return Model
      */
     public static function forRequest(NovaRequest $request, $field, $model)
     {

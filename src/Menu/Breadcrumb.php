@@ -3,13 +3,13 @@
 namespace Jegex\Koboi\Menu;
 
 use Illuminate\Support\Traits\Conditionable;
-use JsonSerializable;
 use Jegex\Koboi\AuthorizedToSee;
 use Jegex\Koboi\Http\Requests\NovaRequest;
 use Jegex\Koboi\Makeable;
 use Jegex\Koboi\Nova;
 use Jegex\Koboi\Resource;
 use Jegex\Koboi\URL;
+use JsonSerializable;
 use Stringable;
 
 use function Orchestra\Sidekick\Eloquent\model_exists;
@@ -44,13 +44,13 @@ class Breadcrumb implements JsonSerializable
                     'title' => $resourceClass->title(),
                 ])
             )->path('/resources/'.$resourceClass::uriKey().'/'.$resourceClass->getKey())
-            ->canSee(static fn ($request) => $resourceClass->authorizedToView($request));
+                ->canSee(static fn ($request) => $resourceClass->authorizedToView($request));
         }
 
         return static::make(
             Nova::__($resourceClass::label())
         )->path('/resources/'.$resourceClass::uriKey())
-        ->canSee(static fn ($request) => $resourceClass::availableForNavigation($request) && $resourceClass::authorizedToViewAny($request));
+            ->canSee(static fn ($request) => $resourceClass::availableForNavigation($request) && $resourceClass::authorizedToViewAny($request));
     }
 
     /**

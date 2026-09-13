@@ -2,14 +2,16 @@
 
 namespace Jegex\Koboi\Http\Resources;
 
+use Illuminate\Auth\Access\AuthorizationException;
 use Jegex\Koboi\Http\Requests\ResourceIndexRequest;
+use Jegex\Koboi\Resource;
 
 class IndexViewResource extends Resource
 {
     /**
      * Transform the resource into an array.
      *
-     * @param  \Jegex\Koboi\Http\Requests\ResourceIndexRequest  $request
+     * @param  ResourceIndexRequest  $request
      * @return array
      */
     public function toArray($request)
@@ -38,7 +40,7 @@ class IndexViewResource extends Resource
      *
      * @return class-string<\Jegex\Koboi\Resource>
      *
-     * @throws \Illuminate\Auth\Access\AuthorizationException
+     * @throws AuthorizationException
      */
     public function authorizedResourceForRequest(ResourceIndexRequest $request): string
     {

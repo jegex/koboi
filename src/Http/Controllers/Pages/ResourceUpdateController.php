@@ -2,6 +2,8 @@
 
 namespace Jegex\Koboi\Http\Controllers\Pages;
 
+use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Routing\Controller;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -35,8 +37,8 @@ class ResourceUpdateController extends Controller
     /**
      * Get breadcrumb menu for the page.
      *
-     * @throws \Illuminate\Auth\Access\AuthorizationException
-     * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
+     * @throws AuthorizationException
+     * @throws ModelNotFoundException
      */
     protected function breadcrumbs(ResourceUpdateOrUpdateAttachedRequest $request): Breadcrumbs
     {

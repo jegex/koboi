@@ -3,13 +3,14 @@
 namespace Jegex\Koboi\Metrics;
 
 use Laravel\SerializableClosure\SerializableClosure;
+use Laravel\SerializableClosure\UnsignedSerializableClosure;
 
 trait TransformsResults
 {
     /**
      * The callback used to transform the value before display.
      *
-     * @var \Laravel\SerializableClosure\UnsignedSerializableClosure|null
+     * @var UnsignedSerializableClosure|null
      */
     public $transformCallback;
 

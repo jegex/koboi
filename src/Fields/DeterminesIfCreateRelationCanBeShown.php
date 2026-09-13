@@ -9,7 +9,7 @@ trait DeterminesIfCreateRelationCanBeShown
     /**
      * The callback used to determine if the create relation button should be shown.
      *
-     * @var (callable(\Jegex\Koboi\Http\Requests\NovaRequest):(bool))|bool
+     * @var (callable(NovaRequest):(bool))|bool
      */
     public $showCreateRelationButtonCallback;
 
@@ -23,7 +23,7 @@ trait DeterminesIfCreateRelationCanBeShown
     /**
      * Set the callback used to determine if the field is required.
      *
-     * @param  (callable(\Jegex\Koboi\Http\Requests\NovaRequest):(bool))|bool  $callback
+     * @param  (callable(NovaRequest):(bool))|bool  $callback
      * @return $this
      */
     public function showCreateRelationButton(callable|bool $callback = true)

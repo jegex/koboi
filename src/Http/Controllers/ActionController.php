@@ -79,7 +79,7 @@ class ActionController extends Controller
     /**
      * Get the available actions for the request.
      *
-     * @return \Jegex\Koboi\Actions\ActionCollection<int, \Jegex\Koboi\Actions\Action>
+     * @return ActionCollection<int, Action>
      */
     protected function availableActions(NovaRequest $request, Resource $resource): ActionCollection
     {

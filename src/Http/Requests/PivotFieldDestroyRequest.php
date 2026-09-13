@@ -3,18 +3,24 @@
 namespace Jegex\Koboi\Http\Requests;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Database\Eloquent\Relations\Concerns\AsPivot;
 use Illuminate\Database\Eloquent\Relations\Pivot;
+use Jegex\Koboi\Fields\Field;
+use Jegex\Koboi\Fields\File;
 use Jegex\Koboi\Fields\File as FileField;
 use Jegex\Koboi\Nova;
 use Jegex\Koboi\Resource;
 use Jegex\Koboi\Util;
+use Symfony\Component\HttpKernel\Exception\HttpException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class PivotFieldDestroyRequest extends NovaRequest
 {
     /**
      * Authorize that the user may attach resources of the given type.
      *
-     * @throws \Symfony\Component\HttpKernel\Exception\HttpException
+     * @throws HttpException
      */
     public function authorizeForAttachment(): void
     {
@@ -28,11 +34,11 @@ class PivotFieldDestroyRequest extends NovaRequest
     /**
      * Get the pivot model for the relationship.
      *
-     * @return (\Illuminate\Database\Eloquent\Model&\Illuminate\Database\Eloquent\Relations\Concerns\AsPivot)|\Illuminate\Database\Eloquent\Relations\Pivot
+     * @return (Model&AsPivot)|Pivot
      *
      * @throws \RuntimeException
-     * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
+     * @throws ModelNotFoundException
+     * @throws NotFoundHttpException
      */
     public function findPivotModel(): Model|Pivot
     {
@@ -78,9 +84,9 @@ class PivotFieldDestroyRequest extends NovaRequest
     /**
      * Find the field being deleted or fail if it is not found.
      *
-     * @return \Jegex\Koboi\Fields\Field&\Jegex\Koboi\Fields\File
+     * @return Field&File
      *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
+     * @throws NotFoundHttpException
      */
     public function findFieldOrFail(): FileField
     {

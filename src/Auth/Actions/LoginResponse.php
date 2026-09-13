@@ -3,16 +3,18 @@
 namespace Jegex\Koboi\Auth\Actions;
 
 use Illuminate\Http\JsonResponse;
-use Laravel\Fortify\Contracts\LoginResponse as Responsable;
+use Illuminate\Http\Request;
 use Jegex\Koboi\Nova;
+use Laravel\Fortify\Contracts\LoginResponse as Responsable;
+use Symfony\Component\HttpFoundation\Response;
 
 class LoginResponse implements Responsable
 {
     /**
      * Create an HTTP response that represents the object.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @param  Request  $request
+     * @return Response
      */
     public function toResponse($request)
     {

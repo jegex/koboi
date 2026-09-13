@@ -64,7 +64,7 @@ abstract class Metric extends Card
     /**
      * Return a resolver function for the metric.
      *
-     * @return \Closure(): mixed
+     * @return Closure(): mixed
      */
     public function getResolver(NovaRequest $request): Closure
     {
@@ -106,7 +106,7 @@ abstract class Metric extends Card
     /**
      * Determine for how many minutes the metric should be cached.
      *
-     * @return \DateTimeInterface|\DateInterval|float|int|null
+     * @return \DateTimeInterface|DateInterval|float|int|null
      */
     public function cacheFor()
     {
@@ -153,7 +153,7 @@ abstract class Metric extends Card
      *
      * @return $this
      *
-     * @throws \Jegex\Koboi\Exceptions\HelperNotSupported
+     * @throws HelperNotSupported
      */
     public function refreshWhenFiltersChange(bool $value = true)
     {
@@ -171,7 +171,7 @@ abstract class Metric extends Card
      *
      * @return $this
      *
-     * @throws \Jegex\Koboi\Exceptions\HelperNotSupported
+     * @throws HelperNotSupported
      */
     public function onlyOnDetail()
     {

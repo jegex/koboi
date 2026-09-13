@@ -4,6 +4,7 @@ namespace Jegex\Koboi\Query\Search;
 
 use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Contracts\Database\Query\Expression;
+use Illuminate\Database\Eloquent\Model;
 
 /**
  * @method static static make(string $relation, \Illuminate\Contracts\Database\Query\Expression|string $column, array $types)
@@ -14,7 +15,7 @@ class SearchableMorphToRelation extends SearchableRelation
     /**
      * Construct a new search.
      *
-     * @param  array<int, class-string<\Illuminate\Database\Eloquent\Model|\Jegex\Koboi\Resource>|string>  $types
+     * @param  array<int, class-string<Model|\Jegex\Koboi\Resource>|string>  $types
      */
     public function __construct(
         string $relation,
@@ -38,7 +39,7 @@ class SearchableMorphToRelation extends SearchableRelation
     /**
      * Get available morph types.
      *
-     * @return array<int, class-string<\Illuminate\Database\Eloquent\Model>|string>|string
+     * @return array<int, class-string<Model>|string>|string
      */
     protected function morphTypes(): array|string
     {

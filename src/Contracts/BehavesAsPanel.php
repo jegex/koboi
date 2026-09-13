@@ -2,12 +2,14 @@
 
 namespace Jegex\Koboi\Contracts;
 
+use Jegex\Koboi\Panel;
+
 interface BehavesAsPanel
 {
     /**
      * Make current field behaves as panel.
      *
-     * @return \Jegex\Koboi\Panel
+     * @return Panel
      */
     public function asPanel();
 }

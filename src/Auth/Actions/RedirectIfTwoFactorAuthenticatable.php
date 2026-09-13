@@ -2,9 +2,9 @@
 
 namespace Jegex\Koboi\Auth\Actions;
 
+use Jegex\Koboi\Nova;
 use Laravel\Fortify\Actions\RedirectIfTwoFactorAuthenticatable as Action;
 use Laravel\Fortify\Fortify;
-use Jegex\Koboi\Nova;
 
 class RedirectIfTwoFactorAuthenticatable extends Action
 {

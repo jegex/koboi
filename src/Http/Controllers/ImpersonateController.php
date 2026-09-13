@@ -2,6 +2,8 @@
 
 namespace Jegex\Koboi\Http\Controllers;
 
+use Illuminate\Contracts\Auth\Authenticatable;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -21,7 +23,7 @@ class ImpersonateController extends Controller
             return $this->stopImpersonating($request, $impersonator);
         }
 
-        /** @var class-string<\Illuminate\Contracts\Auth\Authenticatable&\Illuminate\Database\Eloquent\Model> $userModel */
+        /** @var class-string<Authenticatable&Model> $userModel */
         $userModel = with(
             Nova::modelInstanceForKey($request->input('resource')),
             static fn ($model) => ! \is_null($model) ? $model::class : Util::userModel()
@@ -31,7 +33,7 @@ class ImpersonateController extends Controller
 
         $currentUser = Nova::user($request);
 
-        /** @var \Illuminate\Contracts\Auth\Authenticatable&\Illuminate\Database\Eloquent\Model $user */
+        /** @var Authenticatable&Model $user */
         $user = $userModel::findOrFail($request->input('resourceId'));
 
         // Now that we're guaranteed to be a 'real' user, we'll make sure we're

@@ -2,10 +2,13 @@
 
 namespace Jegex\Koboi\Contracts;
 
+use Illuminate\Database\Eloquent\Model;
+use Jegex\Koboi\Fields\Field;
 use Jegex\Koboi\Http\Requests\NovaRequest;
+use Jegex\Koboi\Resource;
 
 /**
- * @mixin \Jegex\Koboi\Fields\Field
+ * @mixin Field
  *
  * @property bool $allowDuplicateRelations
  * @property string $manyToManyRelationship
@@ -20,7 +23,7 @@ interface PivotableField extends RelatableField
     /**
      * Format the given attachable resource.
      *
-     * @param  \Jegex\Koboi\Resource|\Illuminate\Database\Eloquent\Model  $resource
+     * @param  \Jegex\Koboi\Resource|Model  $resource
      */
     public function formatAttachableResource(NovaRequest $request, $resource): array;
 

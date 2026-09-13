@@ -17,8 +17,11 @@ use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Support\Collection;
 use InvalidArgumentException;
 use OpenSpout\Common\Entity\Row;
+use OpenSpout\Common\Exception\IOException;
+use OpenSpout\Common\Exception\UnsupportedTypeException;
 use OpenSpout\Writer\CSV;
 use OpenSpout\Writer\CSV\Options as CsvWriterOptions;
+use OpenSpout\Writer\Exception\WriterNotOpenedException;
 use OpenSpout\Writer\ODS;
 use OpenSpout\Writer\WriterInterface;
 use OpenSpout\Writer\XLSX;
@@ -60,9 +63,9 @@ class StreamExportableCsv
      * Export the CSV file to the given path.
      *
      * @throws \OpenSpout\Common\Exception\InvalidArgumentException
-     * @throws \OpenSpout\Common\Exception\UnsupportedTypeException
-     * @throws \OpenSpout\Writer\Exception\WriterNotOpenedException
-     * @throws \OpenSpout\Common\Exception\IOException
+     * @throws UnsupportedTypeException
+     * @throws WriterNotOpenedException
+     * @throws IOException
      */
     public function export(string $path, ?callable $callback = null): string
     {
@@ -75,9 +78,9 @@ class StreamExportableCsv
      * Download the CSV file to the browser.
      *
      * @throws \OpenSpout\Common\Exception\InvalidArgumentException
-     * @throws \OpenSpout\Common\Exception\UnsupportedTypeException
-     * @throws \OpenSpout\Writer\Exception\WriterNotOpenedException
-     * @throws \OpenSpout\Common\Exception\IOException
+     * @throws UnsupportedTypeException
+     * @throws WriterNotOpenedException
+     * @throws IOException
      */
     public function download(string $path, ?callable $callback = null): StreamedResponse
     {
@@ -91,12 +94,12 @@ class StreamExportableCsv
      *
      * @param  'openToBrowser'|'openToFile'  $method
      *
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     protected function exportOrDownload(string $path, string $method, ?callable $callback = null): void
     {
         if (str_ends_with($path, 'csv')) {
-            $options = new CSV\Options;
+            $options = new CsvWriterOptions;
             $writer = new CSV\Writer($options);
         } elseif (str_ends_with($path, 'ods')) {
             $options = new ODS\Options;

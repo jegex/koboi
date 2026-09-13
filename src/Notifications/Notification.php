@@ -54,7 +54,7 @@ class Notification extends Model
     /**
      * Return the notifiable relationship.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\MorphTo<\Illuminate\Database\Eloquent\Model, $this>
+     * @return MorphTo<Model, $this>
      */
     public function notifiable(): MorphTo
     {
@@ -80,7 +80,7 @@ class Notification extends Model
     /**
      * Scope a query to only include current authenticated user from request.
      *
-     * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
+     * @throws ModelNotFoundException
      */
     public function scopeCurrentUserFromRequest(Builder $query, NovaRequest $request): Builder
     {

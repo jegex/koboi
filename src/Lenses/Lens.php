@@ -4,14 +4,17 @@ namespace Jegex\Koboi\Lenses;
 
 use ArrayAccess;
 use Illuminate\Contracts\Database\Eloquent\Builder;
+use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Contracts\Routing\UrlRoutable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Resources\ConditionallyLoadsAttributes;
 use Illuminate\Http\Resources\DelegatesToResource;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
-use JsonSerializable;
+use Jegex\Koboi\Actions\Action;
 use Jegex\Koboi\AuthorizedToSee;
+use Jegex\Koboi\Contracts\FilterableField;
+use Jegex\Koboi\Fields\Field;
 use Jegex\Koboi\Fields\FieldCollection;
 use Jegex\Koboi\Fields\ID;
 use Jegex\Koboi\Http\Requests\LensRequest;
@@ -23,6 +26,7 @@ use Jegex\Koboi\ResolvesActions;
 use Jegex\Koboi\ResolvesCards;
 use Jegex\Koboi\ResolvesFilters;
 use Jegex\Koboi\SupportsPolling;
+use JsonSerializable;
 use stdClass;
 
 abstract class Lens implements ArrayAccess, JsonSerializable, UrlRoutable
@@ -47,7 +51,7 @@ abstract class Lens implements ArrayAccess, JsonSerializable, UrlRoutable
     /**
      * The underlying model resource instance.
      *
-     * @var \Illuminate\Database\Eloquent\Model|\stdClass
+     * @var Model|stdClass
      */
     public $resource;
 
@@ -68,21 +72,21 @@ abstract class Lens implements ArrayAccess, JsonSerializable, UrlRoutable
     /**
      * Execute the query for the lens.
      *
-     * @return \Illuminate\Contracts\Database\Eloquent\Builder|\Illuminate\Contracts\Pagination\Paginator
+     * @return Builder|Paginator
      */
     abstract public static function query(LensRequest $request, Builder $query);
 
     /**
      * Get the fields displayed by the lens.
      *
-     * @return array<int, \Jegex\Koboi\Fields\Field>
+     * @return array<int, Field>
      */
     abstract public function fields(NovaRequest $request);
 
     /**
      * Create a new lens instance.
      *
-     * @param  \Illuminate\Database\Eloquent\Model|null  $resource
+     * @param  Model|null  $resource
      */
     public function __construct($resource = null)
     {
@@ -92,7 +96,7 @@ abstract class Lens implements ArrayAccess, JsonSerializable, UrlRoutable
     /**
      * Set the resource of the lens.
      *
-     * @param  \Illuminate\Database\Eloquent\Model  $resource
+     * @param  Model  $resource
      * @return $this
      */
     public function setResource($resource)
@@ -125,7 +129,7 @@ abstract class Lens implements ArrayAccess, JsonSerializable, UrlRoutable
     /**
      * Get the actions available on the lens.
      *
-     * @return array<int, \Jegex\Koboi\Actions\Action>
+     * @return array<int, Action>
      */
     public function actions(NovaRequest $request)
     {
@@ -137,7 +141,7 @@ abstract class Lens implements ArrayAccess, JsonSerializable, UrlRoutable
     /**
      * Resolve the given fields to their values.
      *
-     * @return \Jegex\Koboi\Fields\FieldCollection<int, \Jegex\Koboi\Fields\Field>
+     * @return FieldCollection<int, Field>
      */
     public function resolveFields(NovaRequest $request)
     {
@@ -152,7 +156,7 @@ abstract class Lens implements ArrayAccess, JsonSerializable, UrlRoutable
     /**
      * Resolve the filterable fields.
      *
-     * @return \Jegex\Koboi\Fields\FieldCollection<int, \Jegex\Koboi\Fields\Field&\Jegex\Koboi\Contracts\FilterableField>
+     * @return FieldCollection<int, Field&FilterableField>
      */
     public function filterableFields(NovaRequest $request)
     {
@@ -166,7 +170,7 @@ abstract class Lens implements ArrayAccess, JsonSerializable, UrlRoutable
     /**
      * Get the fields that are available for the given request.
      *
-     * @return \Jegex\Koboi\Fields\FieldCollection
+     * @return FieldCollection
      */
     public function availableFields(NovaRequest $request)
     {
@@ -210,7 +214,7 @@ abstract class Lens implements ArrayAccess, JsonSerializable, UrlRoutable
     /**
      * Prepare the lens for JSON serialization using the given fields.
      *
-     * @param  \Jegex\Koboi\Fields\FieldCollection<int, \Jegex\Koboi\Fields\Field>  $fields
+     * @param  FieldCollection<int, Field>  $fields
      * @return array
      */
     protected function serializeWithId(FieldCollection $fields)

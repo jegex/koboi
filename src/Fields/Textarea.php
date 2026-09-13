@@ -2,10 +2,14 @@
 
 namespace Jegex\Koboi\Fields;
 
+use Illuminate\Database\Eloquent\Model;
 use Jegex\Koboi\Contracts\FilterableField;
+use Jegex\Koboi\Exceptions\HelperNotSupported;
 use Jegex\Koboi\Exceptions\NovaException;
+use Jegex\Koboi\Fields\Filters\Filter;
 use Jegex\Koboi\Fields\Filters\TextFilter;
 use Jegex\Koboi\Http\Requests\NovaRequest;
+use Jegex\Koboi\Support\Fluent;
 
 class Textarea extends Field implements FilterableField
 {
@@ -50,7 +54,7 @@ class Textarea extends Field implements FilterableField
     /**
      * Resolve the field's value for display.
      *
-     * @param  \Illuminate\Database\Eloquent\Model|\Jegex\Koboi\Support\Fluent|object  $resource
+     * @param  Model|Fluent|object  $resource
      */
     #[\Override]
     public function resolveForDisplay($resource, ?string $attribute = null): void
@@ -63,7 +67,7 @@ class Textarea extends Field implements FilterableField
     /**
      * Make the field filter.
      *
-     * @return \Jegex\Koboi\Fields\Filters\Filter
+     * @return Filter
      */
     protected function makeFilter(NovaRequest $request)
     {
@@ -76,7 +80,7 @@ class Textarea extends Field implements FilterableField
      * @param  (callable():(bool))|bool  $callback
      * @return never
      *
-     * @throws \Jegex\Koboi\Exceptions\HelperNotSupported
+     * @throws HelperNotSupported
      */
     public function showOnIndex($callback = true)
     {

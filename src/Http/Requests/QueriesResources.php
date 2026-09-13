@@ -3,6 +3,7 @@
 namespace Jegex\Koboi\Http\Requests;
 
 use Illuminate\Contracts\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Relations\Relation;
 use Jegex\Koboi\TrashedStatus;
 
 trait QueriesResources
@@ -34,7 +35,7 @@ trait QueriesResources
 
         abort_unless($this->newViaResource()->hasRelatableFieldOrRelationship($this, $this->viaRelationship), 409);
 
-        /** @return \Illuminate\Database\Eloquent\Relations\Relation */
+        /** @return Relation */
         return forward_static_call([$this->viaResource(), 'newModel'])
             ->newQueryWithoutScopes()->findOrFail(
                 $this->viaResourceId
@@ -53,7 +54,7 @@ trait QueriesResources
 
         abort_unless($this->newViaResource()->hasRelatableFieldOrRelationship($this, $this->viaRelationship), 409);
 
-        /** @return \Illuminate\Database\Eloquent\Relations\Relation */
+        /** @return Relation */
         return forward_static_call([$this->viaResource(), 'newModel'])
             ->newQueryWithoutScopes()->findOrFail(
                 $this->viaResourceId

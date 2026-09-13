@@ -2,23 +2,26 @@
 
 namespace Jegex\Koboi\Menu;
 
+use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Traits\Conditionable;
 use Illuminate\Support\Traits\Macroable;
 use InvalidArgumentException;
-use JsonSerializable;
 use Jegex\Koboi\AuthorizedToSee;
 use Jegex\Koboi\Contracts\Filter as FilterContract;
+use Jegex\Koboi\Dashboard;
 use Jegex\Koboi\Filters\Filter;
 use Jegex\Koboi\Filters\FilterEncoder;
 use Jegex\Koboi\Http\Requests\NovaRequest;
+use Jegex\Koboi\Lenses\Lens;
 use Jegex\Koboi\Makeable;
 use Jegex\Koboi\Nova;
 use Jegex\Koboi\Resource;
 use Jegex\Koboi\URL;
 use Jegex\Koboi\WithBadge;
 use Jegex\Koboi\WithComponent;
+use JsonSerializable;
 use Stringable;
 
 /**
@@ -78,7 +81,7 @@ class MenuItem implements JsonSerializable
     /**
      * The active menu callback.
      *
-     * @var (callable(\Illuminate\Http\Request, \Jegex\Koboi\URL):bool)|bool|null
+     * @var (callable(Request, URL):bool)|bool|null
      */
     public $activeMenuCallback = null;
 
@@ -123,7 +126,7 @@ class MenuItem implements JsonSerializable
      * Create a menu item from a lens class.
      *
      * @param  class-string<\Jegex\Koboi\Resource>  $resourceClass
-     * @param  class-string<\Jegex\Koboi\Lenses\Lens>  $lensClass
+     * @param  class-string<Lens>  $lensClass
      * @return static
      */
     public static function lens(string $resourceClass, string $lensClass)
@@ -227,7 +230,7 @@ class MenuItem implements JsonSerializable
     /**
      * Create a menu from dashboard class.
      *
-     * @param  class-string<\Jegex\Koboi\Dashboard>  $dashboard
+     * @param  class-string<Dashboard>  $dashboard
      * @return static
      */
     public static function dashboard(string $dashboard)
@@ -359,7 +362,7 @@ class MenuItem implements JsonSerializable
     /**
      * Determine the default active URL state.
      *
-     * @param  (callable(\Illuminate\Http\Request, \Jegex\Koboi\URL):bool)|bool  $activeMenuCallback
+     * @param  (callable(Request, URL):bool)|bool  $activeMenuCallback
      * @return $this
      */
     public function activeWhen(callable|bool $activeMenuCallback)
@@ -372,7 +375,7 @@ class MenuItem implements JsonSerializable
     /**
      * Determine the default active URL state.
      *
-     * @param  (callable(\Illuminate\Http\Request, \Jegex\Koboi\URL):bool)|bool  $activeMenuCallback
+     * @param  (callable(Request, URL):bool)|bool  $activeMenuCallback
      * @return $this
      */
     public function activeUnless(callable|bool $activeMenuCallback)

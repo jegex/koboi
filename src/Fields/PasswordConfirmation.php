@@ -2,7 +2,9 @@
 
 namespace Jegex\Koboi\Fields;
 
+use Illuminate\Database\Eloquent\Model;
 use Jegex\Koboi\Http\Requests\NovaRequest;
+use Jegex\Koboi\Support\Fluent;
 
 class PasswordConfirmation extends Password
 {
@@ -30,7 +32,7 @@ class PasswordConfirmation extends Password
     /**
      * Hydrate the given attribute on the model based on the incoming request.
      *
-     * @param  \Illuminate\Database\Eloquent\Model|\Jegex\Koboi\Support\Fluent  $model
+     * @param  Model|Fluent  $model
      */
     #[\Override]
     protected function fillAttribute(NovaRequest $request, string $requestAttribute, object $model, string $attribute): void

@@ -6,13 +6,14 @@ use Illuminate\Routing\Controller;
 use Jegex\Koboi\Http\Requests\NovaRequest;
 use Jegex\Koboi\Nova;
 use Jegex\Koboi\Script;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class ScriptController extends Controller
 {
     /**
      * Serve the requested script.
      *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
+     * @throws NotFoundHttpException
      */
     public function __invoke(NovaRequest $request): Script
     {

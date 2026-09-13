@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Prunable;
 use Illuminate\Support\Facades\Storage;
 use Jegex\Koboi\Contracts\Storable;
+use Jegex\Koboi\Fields\Field;
 
 /**
  * @property string $attachment
@@ -33,14 +34,14 @@ class PendingAttachment extends Model
     /**
      * The persist attachment model.
      *
-     * @var class-string<\Jegex\Koboi\Fields\Attachments\Attachment>
+     * @var class-string<Attachment>
      */
     protected static $persistModel = Attachment::class;
 
     /**
      * Get persist model instance.
      *
-     * @return \Jegex\Koboi\Fields\Attachments\Attachment
+     * @return Attachment
      */
     public function getPersistModel()
     {
@@ -50,9 +51,9 @@ class PendingAttachment extends Model
     /**
      * Persist the given draft's pending attachments.
      *
-     * @param  \Illuminate\Database\Eloquent\Model  $model
+     * @param  Model  $model
      *
-     * @phpstan-param \Jegex\Koboi\Fields\Field&\Jegex\Koboi\Contracts\Storable  $field
+     * @phpstan-param Field&Storable  $field
      */
     public static function persistDraft(string $draftId, Storable $field, $model): void
     {
@@ -62,9 +63,9 @@ class PendingAttachment extends Model
     /**
      * Persist the pending attachment.
      *
-     * @param  \Illuminate\Database\Eloquent\Model  $model
+     * @param  Model  $model
      *
-     * @phpstan-param \Jegex\Koboi\Fields\Field&\Jegex\Koboi\Contracts\Storable  $field
+     * @phpstan-param Field&Storable  $field
      */
     public function persist(Storable $field, $model): void
     {

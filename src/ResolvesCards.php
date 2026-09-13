@@ -4,13 +4,14 @@ namespace Jegex\Koboi;
 
 use Illuminate\Support\Collection;
 use Jegex\Koboi\Http\Requests\NovaRequest;
+use Jegex\Koboi\Metrics\Metric;
 
 trait ResolvesCards
 {
     /**
      * Get the cards that are available for the given request.
      *
-     * @return \Illuminate\Support\Collection<int, \Jegex\Koboi\Metrics\Metric|\Jegex\Koboi\Card>
+     * @return Collection<int, Metric|Card>
      */
     public function availableCards(NovaRequest $request): Collection
     {
@@ -22,7 +23,7 @@ trait ResolvesCards
     /**
      * Get the cards that are available for the given request.
      *
-     * @return \Illuminate\Support\Collection<int, \Jegex\Koboi\Metrics\Metric|\Jegex\Koboi\Card>
+     * @return Collection<int, Metric|Card>
      */
     public function availableCardsForDetail(NovaRequest $request): Collection
     {
@@ -34,7 +35,7 @@ trait ResolvesCards
     /**
      * Get the cards for the given request.
      *
-     * @return \Illuminate\Support\Collection<int, \Jegex\Koboi\Metrics\Metric|\Jegex\Koboi\Card>
+     * @return Collection<int, Metric|Card>
      */
     public function resolveCards(NovaRequest $request): Collection
     {

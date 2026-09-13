@@ -2,7 +2,10 @@
 
 namespace Jegex\Koboi;
 
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\Pivot;
 use Illuminate\Support\Collection;
+use Jegex\Koboi\Fields\Field;
 use Jegex\Koboi\Http\Requests\NovaRequest;
 
 trait FillsFields
@@ -10,8 +13,8 @@ trait FillsFields
     /**
      * Fill a new model instance using the given request.
      *
-     * @param  \Illuminate\Database\Eloquent\Model  $model
-     * @return array{\Illuminate\Database\Eloquent\Model, array<int, callable>}
+     * @param  Model  $model
+     * @return array{Model, array<int, callable>}
      */
     public static function fill(NovaRequest $request, $model): array
     {
@@ -29,8 +32,8 @@ trait FillsFields
     /**
      * Fill a new model instance using the given request.
      *
-     * @param  \Illuminate\Database\Eloquent\Model  $model
-     * @return array{\Illuminate\Database\Eloquent\Model, array<int, callable>}
+     * @param  Model  $model
+     * @return array{Model, array<int, callable>}
      */
     public static function fillForUpdate(NovaRequest $request, $model): array
     {
@@ -48,9 +51,9 @@ trait FillsFields
     /**
      * Fill a new pivot model instance using the given request.
      *
-     * @param  \Illuminate\Database\Eloquent\Model  $model
-     * @param  \Illuminate\Database\Eloquent\Relations\Pivot  $pivot
-     * @return array{\Illuminate\Database\Eloquent\Relations\Pivot, array<int, callable>}
+     * @param  Model  $model
+     * @param  Pivot  $pivot
+     * @return array{Pivot, array<int, callable>}
      */
     public static function fillPivot(NovaRequest $request, $model, $pivot): array
     {
@@ -69,9 +72,9 @@ trait FillsFields
     /**
      * Fill a new pivot model instance using the given request.
      *
-     * @param  \Illuminate\Database\Eloquent\Model  $model
-     * @param  \Illuminate\Database\Eloquent\Relations\Pivot  $pivot
-     * @return array{\Illuminate\Database\Eloquent\Relations\Pivot, array<int, callable>}
+     * @param  Model  $model
+     * @param  Pivot  $pivot
+     * @return array{Pivot, array<int, callable>}
      */
     public static function fillPivotForUpdate(NovaRequest $request, $model, $pivot): array
     {
@@ -92,7 +95,7 @@ trait FillsFields
      * @template TModelOrPivot of \Illuminate\Database\Eloquent\Relations\Pivot|\Illuminate\Database\Eloquent\Model
      *
      * @param  TModelOrPivot  $model
-     * @param  \Illuminate\Support\Collection<int, \Jegex\Koboi\Fields\Field>  $fields
+     * @param  Collection<int, Field>  $fields
      * @return array{TModelOrPivot, array<int, callable>}
      */
     protected static function fillFields(NovaRequest $request, $model, Collection $fields): array

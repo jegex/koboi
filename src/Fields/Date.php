@@ -7,10 +7,13 @@ use Carbon\CarbonInterface;
 use Carbon\CarbonInterval;
 use DateTimeInterface;
 use Exception;
+use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Support\Arr;
 use Jegex\Koboi\Contracts\FilterableField;
 use Jegex\Koboi\Fields\Filters\DateFilter;
+use Jegex\Koboi\Fields\Filters\Filter;
 use Jegex\Koboi\Http\Requests\NovaRequest;
+use Jegex\Koboi\Support\UndefinedValue;
 
 class Date extends Field implements FilterableField
 {
@@ -114,12 +117,12 @@ class Date extends Field implements FilterableField
     /**
      * Resolve the default value for the field.
      *
-     * @return \Jegex\Koboi\Support\UndefinedValue|string|null
+     * @return UndefinedValue|string|null
      */
     #[\Override]
     public function resolveDefaultValue(NovaRequest $request): mixed
     {
-        /** @var \Jegex\Koboi\Support\UndefinedValue|\DateTimeInterface|string|null $value */
+        /** @var UndefinedValue|DateTimeInterface|string|null $value */
         $value = parent::resolveDefaultValue($request);
 
         if ($value instanceof DateTimeInterface) {
@@ -134,7 +137,7 @@ class Date extends Field implements FilterableField
     /**
      * Make the field filter.
      *
-     * @return \Jegex\Koboi\Fields\Filters\Filter
+     * @return Filter
      */
     protected function makeFilter(NovaRequest $request)
     {
@@ -144,7 +147,7 @@ class Date extends Field implements FilterableField
     /**
      * Define the default filterable callback.
      *
-     * @return callable(\Jegex\Koboi\Http\Requests\NovaRequest, \Illuminate\Contracts\Database\Eloquent\Builder, mixed, string):\Illuminate\Contracts\Database\Eloquent\Builder
+     * @return callable(NovaRequest, Builder, mixed, string):Builder
      */
     protected function defaultFilterableCallback()
     {

@@ -4,6 +4,7 @@ namespace Jegex\Koboi\Http\Requests;
 
 use Closure;
 use Illuminate\Contracts\Database\Eloquent\Builder;
+use Illuminate\Support\Collection;
 use LogicException;
 
 /**
@@ -17,8 +18,8 @@ class LensResourceDeletionRequest extends NovaRequest
     /**
      * Get the selected models for the action in chunks.
      *
-     * @param  \Closure(\Illuminate\Support\Collection):void  $callback
-     * @param  \Closure(\Illuminate\Support\Collection):\Illuminate\Support\Collection  $authCallback
+     * @param  Closure(Collection):void  $callback
+     * @param  Closure(Collection):Collection  $authCallback
      */
     protected function chunkWithAuthorization(int $count, Closure $callback, Closure $authCallback): void
     {
@@ -48,7 +49,7 @@ class LensResourceDeletionRequest extends NovaRequest
     /**
      * Transform the request into a query.
      *
-     * @throws \LogicException
+     * @throws LogicException
      */
     public function toQuery(): Builder
     {

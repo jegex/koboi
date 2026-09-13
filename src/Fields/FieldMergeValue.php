@@ -67,7 +67,7 @@ abstract class FieldMergeValue extends MergeValue
     /**
      * Transform each field in the panel using a callback.
      *
-     * @param  callable(\Jegex\Koboi\Fields\Field, int):mixed  $callback
+     * @param  callable(Field, int):mixed  $callback
      * @return $this
      */
     public function each(callable $callback)
@@ -75,7 +75,7 @@ abstract class FieldMergeValue extends MergeValue
         $this->data = Collection::make($this->data)
             ->transform(static function ($field, $key) use ($callback) {
                 /**
-                 * @var \Jegex\Koboi\Fields\Field $field
+                 * @var Field $field
                  * @var int $key
                  */
                 \call_user_func($callback, $field, $key);

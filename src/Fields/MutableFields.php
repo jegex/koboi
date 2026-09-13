@@ -21,7 +21,7 @@ trait MutableFields
     /**
      * The callback used to determine if the field is writable.
      *
-     * @var (callable(\Jegex\Koboi\Http\Requests\NovaRequest):(bool))|bool|null
+     * @var (callable(NovaRequest):(bool))|bool|null
      */
     public $writableCallback;
 
@@ -42,7 +42,7 @@ trait MutableFields
     /**
      * The callback to be used for the field's default value.
      *
-     * @var (callable(\Jegex\Koboi\Http\Requests\NovaRequest):(mixed))|null
+     * @var (callable(NovaRequest):(mixed))|null
      */
     protected $defaultCallback;
 
@@ -56,14 +56,14 @@ trait MutableFields
     /**
      * The callback used to determine if the field is readonly.
      *
-     * @var (callable(\Jegex\Koboi\Http\Requests\NovaRequest):(bool))|bool|null
+     * @var (callable(NovaRequest):(bool))|bool|null
      */
     public $readonlyCallback;
 
     /**
      * Set field as immutable.
      *
-     * @param  (callable(\Jegex\Koboi\Http\Requests\NovaRequest):(bool))|bool  $callback
+     * @param  (callable(NovaRequest):(bool))|bool  $callback
      * @return $this
      */
     public function immutable(callable|bool $callback = true)
@@ -136,7 +136,7 @@ trait MutableFields
     /**
      * Set the callback to be used for determining the field's default value.
      *
-     * @param  (callable(\Jegex\Koboi\Http\Requests\NovaRequest):(mixed))|mixed  $callback
+     * @param  (callable(NovaRequest):(mixed))|mixed  $callback
      * @return $this
      */
     public function default(mixed $callback)
@@ -179,7 +179,7 @@ trait MutableFields
     /**
      * Set the callback used to determine if the field is readonly.
      *
-     * @param  (callable(\Jegex\Koboi\Http\Requests\NovaRequest):(bool))|bool  $callback
+     * @param  (callable(NovaRequest):(bool))|bool  $callback
      * @return $this
      */
     public function readonly(callable|bool $callback = true)

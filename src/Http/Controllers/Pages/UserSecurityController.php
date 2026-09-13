@@ -5,11 +5,11 @@ namespace Jegex\Koboi\Http\Controllers\Pages;
 use Illuminate\Routing\Controller;
 use Inertia\Inertia;
 use Inertia\Response;
-use Laravel\Fortify\Features;
 use Jegex\Koboi\Auth\Concerns\ConfirmsTwoFactorAuthentication;
 use Jegex\Koboi\Http\Requests\NovaRequest;
 use Jegex\Koboi\Nova;
 use Jegex\Koboi\Util;
+use Laravel\Fortify\Features;
 
 class UserSecurityController extends Controller
 {

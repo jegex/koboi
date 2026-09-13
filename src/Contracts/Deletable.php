@@ -2,17 +2,20 @@
 
 namespace Jegex\Koboi\Contracts;
 
+use Jegex\Koboi\Fields\Field;
+use Jegex\Koboi\Http\Requests\NovaRequest;
+
 /**
- * @mixin \Jegex\Koboi\Fields\Field
+ * @mixin Field
  *
- * @property callable(\Jegex\Koboi\Http\Requests\NovaRequest, mixed, ?string, ?string):mixed $deleteCallback
+ * @property callable(NovaRequest, mixed, ?string, ?string):mixed $deleteCallback
  */
 interface Deletable
 {
     /**
      * Specify the callback that should be used to delete the field.
      *
-     * @param  callable(\Jegex\Koboi\Http\Requests\NovaRequest, mixed, ?string, ?string):mixed  $deleteCallback
+     * @param  callable(NovaRequest, mixed, ?string, ?string):mixed  $deleteCallback
      * @return $this
      */
     public function delete(callable $deleteCallback);

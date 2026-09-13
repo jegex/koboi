@@ -22,7 +22,7 @@ abstract class Partition extends Metric
     /**
      * Return a partition result showing the segments of a count aggregate.
      *
-     * @param  \Illuminate\Contracts\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Model|class-string<\Illuminate\Database\Eloquent\Model>  $model
+     * @param  Builder|Model|class-string<Model>  $model
      */
     public function count(NovaRequest $request, Builder|Model|string $model, Expression|string $groupBy, Expression|string|null $column = null): PartitionResult
     {
@@ -32,7 +32,7 @@ abstract class Partition extends Metric
     /**
      * Return a partition result showing the segments of an average aggregate.
      *
-     * @param  \Illuminate\Contracts\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Model|class-string<\Illuminate\Database\Eloquent\Model>  $model
+     * @param  Builder|Model|class-string<Model>  $model
      */
     public function average(NovaRequest $request, Builder|Model|string $model, Expression|string|null $column, Expression|string $groupBy): PartitionResult
     {
@@ -42,7 +42,7 @@ abstract class Partition extends Metric
     /**
      * Return a partition result showing the segments of a sum aggregate.
      *
-     * @param  \Illuminate\Contracts\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Model|class-string<\Illuminate\Database\Eloquent\Model>  $model
+     * @param  Builder|Model|class-string<Model>  $model
      */
     public function sum(NovaRequest $request, Builder|Model|string $model, Expression|string|null $column, Expression|string $groupBy): PartitionResult
     {
@@ -52,7 +52,7 @@ abstract class Partition extends Metric
     /**
      * Return a partition result showing the segments of a max aggregate.
      *
-     * @param  \Illuminate\Contracts\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Model|class-string<\Illuminate\Database\Eloquent\Model>  $model
+     * @param  Builder|Model|class-string<Model>  $model
      */
     public function max(NovaRequest $request, Builder|Model|string $model, Expression|string|null $column, Expression|string $groupBy): PartitionResult
     {
@@ -62,7 +62,7 @@ abstract class Partition extends Metric
     /**
      * Return a partition result showing the segments of a min aggregate.
      *
-     * @param  \Illuminate\Contracts\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Model|class-string<\Illuminate\Database\Eloquent\Model>  $model
+     * @param  Builder|Model|class-string<Model>  $model
      */
     public function min(NovaRequest $request, Builder|Model|string $model, Expression|string|null $column, Expression|string $groupBy): PartitionResult
     {
@@ -72,7 +72,7 @@ abstract class Partition extends Metric
     /**
      * Return a partition result showing the segments of a aggregate.
      *
-     * @param  \Illuminate\Contracts\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Model|class-string<\Illuminate\Database\Eloquent\Model>  $model
+     * @param  Builder|Model|class-string<Model>  $model
      */
     protected function aggregate(
         NovaRequest $request,
@@ -104,7 +104,7 @@ abstract class Partition extends Metric
     /**
      * Format the aggregate result for the partition.
      *
-     * @param  \Illuminate\Database\Eloquent\Model  $result
+     * @param  Model  $result
      * @return array<string|int, int|float>
      */
     protected function formatAggregateResult($result)

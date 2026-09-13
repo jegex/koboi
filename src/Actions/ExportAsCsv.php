@@ -3,11 +3,14 @@
 namespace Jegex\Koboi\Actions;
 
 use Closure;
+use Illuminate\Contracts\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 use InvalidArgumentException;
 use Jegex\Koboi\Fields\ActionFields;
+use Jegex\Koboi\Fields\Field;
 use Jegex\Koboi\Fields\Select;
 use Jegex\Koboi\Fields\Text;
 use Jegex\Koboi\Http\Requests\ActionRequest;
@@ -42,21 +45,21 @@ class ExportAsCsv extends Action
     /**
      * The custom query callback.
      *
-     * @var (\Closure(\Illuminate\Contracts\Database\Eloquent\Builder, \Jegex\Koboi\Fields\ActionFields):(\Illuminate\Contracts\Database\Eloquent\Builder))|null
+     * @var (Closure(Builder, ActionFields):(Builder))|null
      */
     public ?Closure $withQueryCallback = null;
 
     /**
      * The custom field callback.
      *
-     * @var (\Closure(\Jegex\Koboi\Http\Requests\NovaRequest):(array<int, \Jegex\Koboi\Fields\Field>))|null
+     * @var (Closure(NovaRequest):(array<int, Field>))|null
      */
     public ?Closure $withFieldsCallback = null;
 
     /**
      * The custom format callback.
      *
-     * @var (\Closure(\Illuminate\Database\Eloquent\Model):(array<string, mixed>))|null
+     * @var (Closure(Model):(array<string, mixed>))|null
      */
     public ?Closure $withFormatCallback = null;
 
@@ -135,7 +138,7 @@ class ExportAsCsv extends Action
     /**
      * Specify a callback that modifies the query used to retrieve the selected models.
      *
-     * @param  (\Closure(\Illuminate\Contracts\Database\Eloquent\Builder, \Jegex\Koboi\Fields\ActionFields):(\Illuminate\Contracts\Database\Eloquent\Builder))|null  $withQueryCallback
+     * @param  (Closure(Builder, ActionFields):(Builder))|null  $withQueryCallback
      * @return $this
      */
     public function withQuery(?Closure $withQueryCallback)
@@ -148,7 +151,7 @@ class ExportAsCsv extends Action
     /**
      * Specify a callback that defines the fields that should be present within the generated file.
      *
-     * @param  (\Closure(\Jegex\Koboi\Http\Requests\NovaRequest):(array<int, \Jegex\Koboi\Fields\Field>))|null  $withFieldsCallback
+     * @param  (Closure(NovaRequest):(array<int, Field>))|null  $withFieldsCallback
      * @return $this
      */
     public function withFields(?Closure $withFieldsCallback)
@@ -161,7 +164,7 @@ class ExportAsCsv extends Action
     /**
      * Specify a callback that defines the field formatting for the generated file.
      *
-     * @param  (\Closure(\Illuminate\Database\Eloquent\Model):(array<string, mixed>))|null  $withFormatCallback
+     * @param  (Closure(Model):(array<string, mixed>))|null  $withFormatCallback
      * @return $this
      */
     public function withFormat(?Closure $withFormatCallback)
@@ -174,7 +177,7 @@ class ExportAsCsv extends Action
     /**
      * Add a Select field to the action that allows the selection of the generated file's type.
      *
-     * @param  (\Closure(\Jegex\Koboi\Http\Requests\NovaRequest):(?string))|string|null  $default
+     * @param  (Closure(NovaRequest):(?string))|string|null  $default
      * @return $this
      */
     public function withTypeSelector(Closure|string|null $default = null)
@@ -192,7 +195,7 @@ class ExportAsCsv extends Action
     /**
      * Add a Text field to the action to allow users to define the generated file's name.
      *
-     * @param  (\Closure(\Jegex\Koboi\Http\Requests\NovaRequest):(?string))|string|null  $default
+     * @param  (Closure(NovaRequest):(?string))|string|null  $default
      * @return $this
      */
     public function nameable(Closure|string|null $default = null)
@@ -216,7 +219,7 @@ class ExportAsCsv extends Action
      *
      * @return never
      *
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     #[\Override]
     public function standalone()

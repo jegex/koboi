@@ -9,14 +9,14 @@ trait PeekableFields
     /**
      * Indicates whether to show the field in the modal preview.
      *
-     * @var (callable(\Jegex\Koboi\Http\Requests\NovaRequest):(bool))|bool
+     * @var (callable(NovaRequest):(bool))|bool
      */
     public $showWhenPeeking = false;
 
     /**
      * Show the field in the modal preview.
      *
-     * @param  (callable(\Jegex\Koboi\Http\Requests\NovaRequest):(bool))|bool  $callback
+     * @param  (callable(NovaRequest):(bool))|bool  $callback
      * @return $this
      */
     public function showWhenPeeking(callable|bool $callback = true)

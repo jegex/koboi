@@ -3,6 +3,7 @@
 namespace Jegex\Koboi\Fields\Filters;
 
 use Jegex\Koboi\Contracts\FilterableField;
+use Jegex\Koboi\Fields\Field;
 
 /**
  * @method static static make(\Jegex\Koboi\Contracts\FilterableField&\Jegex\Koboi\Fields\Field $field, string $resourceName)
@@ -19,7 +20,7 @@ class BelongsToFilter extends EloquentFilter
     /**
      * Construct a new filter.
      *
-     * @param  \Jegex\Koboi\Contracts\FilterableField&\Jegex\Koboi\Fields\Field  $field
+     * @param  FilterableField&Field  $field
      * @param  class-string<\Jegex\Koboi\Resource>  $resourceName
      */
     public function __construct(

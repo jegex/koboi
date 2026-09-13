@@ -2,6 +2,7 @@
 
 namespace Jegex\Koboi\Fields\Repeater\Presets;
 
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use Jegex\Koboi\Fields\Field;
@@ -15,7 +16,7 @@ class JSON implements Preset
     /**
      * Save the field value to permanent storage.
      *
-     * @param  \Illuminate\Database\Eloquent\Model|\Jegex\Koboi\Support\Fluent  $model
+     * @param  Model|Fluent  $model
      */
     public function set(
         NovaRequest $request,
@@ -34,7 +35,7 @@ class JSON implements Preset
 
         $model->setAttribute($attribute, null);
 
-        /** @var \Illuminate\Support\Collection<int, \Closure> $callbacks */
+        /** @var Collection<int, \Closure> $callbacks */
         $callbacks = collect($repeaterItemsInput)
             ->map(function ($item, $itemIndex) use ($request, $requestAttribute, $repeatables, $model, $attribute, $existingItems, $uniqueField) {
                 $repeatable = $repeatables->findByKey($item['type']);
@@ -73,7 +74,7 @@ class JSON implements Preset
     /**
      * Retrieve the value from storage and hydrate the field's value.
      *
-     * @param  \Illuminate\Database\Eloquent\Model|\Jegex\Koboi\Support\Fluent  $model
+     * @param  Model|Fluent  $model
      */
     public function get(NovaRequest $request, $model, string $attribute, RepeatableCollection $repeatables): Collection
     {

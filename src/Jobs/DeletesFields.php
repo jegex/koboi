@@ -2,6 +2,7 @@
 
 namespace Jegex\Koboi\Jobs;
 
+use Illuminate\Database\Eloquent\Model;
 use Jegex\Koboi\DeleteField;
 use Jegex\Koboi\Http\Requests\NovaRequest;
 
@@ -10,7 +11,7 @@ trait DeletesFields
     /**
      * Delete the deletable fields on the given model / resource.
      *
-     * @param  \Illuminate\Database\Eloquent\Model  $model
+     * @param  Model  $model
      */
     protected function forceDeleteFields(NovaRequest $request, $model): void
     {
@@ -20,7 +21,7 @@ trait DeletesFields
     /**
      * Delete the deletable fields on the given model / resource.
      *
-     * @param  \Illuminate\Database\Eloquent\Model  $model
+     * @param  Model  $model
      */
     protected function deleteFields(NovaRequest $request, $model, bool $skipSoftDeletes = true): void
     {
@@ -29,10 +30,10 @@ trait DeletesFields
         }
 
         $request->newResourceWith($model)
-                    ->deletableFields($request)
-                    ->filter->isPrunable()
-                    ->each(static function ($field) use ($request, $model) {
-                        DeleteField::forRequest($request, $field, $model);
-                    });
+            ->deletableFields($request)
+            ->filter->isPrunable()
+            ->each(static function ($field) use ($request, $model) {
+                DeleteField::forRequest($request, $field, $model);
+            });
     }
 }

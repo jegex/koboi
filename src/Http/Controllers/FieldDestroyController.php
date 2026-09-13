@@ -6,6 +6,7 @@ use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use Jegex\Koboi\Contracts\Deletable;
 use Jegex\Koboi\DeleteField;
+use Jegex\Koboi\Fields\Field;
 use Jegex\Koboi\Http\Requests\NovaRequest;
 use Jegex\Koboi\Nova;
 
@@ -20,7 +21,7 @@ class FieldDestroyController extends Controller
 
         $resource->authorizeToUpdate($request);
 
-        /** @var \Jegex\Koboi\Fields\Field&\Jegex\Koboi\Contracts\Deletable $field */
+        /** @var Field&Deletable $field */
         $field = $resource->updateFields($request)
             ->whereInstanceOf(Deletable::class)
             ->findFieldByAttributeOrFail($request->field);

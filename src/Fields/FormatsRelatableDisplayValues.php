@@ -2,6 +2,7 @@
 
 namespace Jegex\Koboi\Fields;
 
+use Illuminate\Database\Eloquent\Model;
 use Jegex\Koboi\Nova;
 use Jegex\Koboi\Resource;
 
@@ -19,7 +20,7 @@ trait FormatsRelatableDisplayValues
     /**
      * Format the associatable display value.
      *
-     * @param  \Jegex\Koboi\Resource|\Illuminate\Database\Eloquent\Model  $resource
+     * @param  \Jegex\Koboi\Resource|Model  $resource
      */
     protected function formatDisplayValue($resource): string
     {

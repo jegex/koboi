@@ -10,6 +10,7 @@ use Jegex\Koboi\Contracts\BehavesAsPanel;
 use Jegex\Koboi\Contracts\Cover;
 use Jegex\Koboi\Contracts\Deletable;
 use Jegex\Koboi\Contracts\Downloadable;
+use Jegex\Koboi\Contracts\FilterableField;
 use Jegex\Koboi\Contracts\ListableField;
 use Jegex\Koboi\Contracts\RelatableField;
 use Jegex\Koboi\Contracts\Resolvable;
@@ -34,7 +35,7 @@ trait ResolvesFields
     /**
      * Resolve the index fields.
      *
-     * @return \Jegex\Koboi\Fields\FieldCollection<int, \Jegex\Koboi\Fields\Field>
+     * @return FieldCollection<int, Field>
      */
     public function indexFields(NovaRequest $request): FieldCollection
     {
@@ -50,7 +51,7 @@ trait ResolvesFields
     /**
      * Resolve the detail fields.
      *
-     * @return \Jegex\Koboi\Fields\FieldCollection<int, \Jegex\Koboi\Fields\Field>
+     * @return FieldCollection<int, Field>
      */
     public function detailFields(NovaRequest $request): FieldCollection
     {
@@ -66,7 +67,7 @@ trait ResolvesFields
     /**
      * Resolve the authorized preview fields.
      *
-     * @return \Jegex\Koboi\Fields\FieldCollection<int, TFields>
+     * @return FieldCollection<int, TFields>
      */
     protected function previewFieldsCollection(NovaRequest $request): FieldCollection
     {
@@ -87,7 +88,7 @@ trait ResolvesFields
     /**
      * Resolve the preview fields.
      *
-     * @return \Jegex\Koboi\Fields\FieldCollection<int, TFields>
+     * @return FieldCollection<int, TFields>
      */
     public function previewFields(NovaRequest $request): FieldCollection
     {
@@ -109,7 +110,7 @@ trait ResolvesFields
     /**
      * Resolve the authorized preview fields.
      *
-     * @return \Jegex\Koboi\Fields\FieldCollection<int, \Jegex\Koboi\Fields\Field>
+     * @return FieldCollection<int, Field>
      */
     protected function peekableFieldsCollection(NovaRequest $request): FieldCollection
     {
@@ -130,7 +131,7 @@ trait ResolvesFields
     /**
      * Resolve the peekable fields.
      *
-     * @return \Jegex\Koboi\Fields\FieldCollection<int, \Jegex\Koboi\Fields\Field>
+     * @return FieldCollection<int, Field>
      */
     public function peekableFields(NovaRequest $request): FieldCollection
     {
@@ -157,7 +158,7 @@ trait ResolvesFields
     /**
      * Resolve the deletable fields.
      *
-     * @return \Jegex\Koboi\Fields\FieldCollection<int, \Jegex\Koboi\Fields\Field&\Jegex\Koboi\Contracts\Deletable>
+     * @return FieldCollection<int, Field&Deletable>
      */
     public function deletableFields(NovaRequest $request): FieldCollection
     {
@@ -167,7 +168,7 @@ trait ResolvesFields
             ->reject(static fn ($field) => $field instanceof Unfillable)
             ->whereInstanceOf(Deletable::class)
             ->unique(static function ($field) {
-                /** @var \Jegex\Koboi\Fields\Field&\Jegex\Koboi\Contracts\Deletable $field */
+                /** @var Field&Deletable $field */
                 return $field->attribute;
             })
             ->authorized($request)
@@ -177,7 +178,7 @@ trait ResolvesFields
     /**
      * Resolve the downloadable fields.
      *
-     * @return \Jegex\Koboi\Fields\FieldCollection<int, \Jegex\Koboi\Fields\Field&\Jegex\Koboi\Contracts\Downloadable>
+     * @return FieldCollection<int, Field&Downloadable>
      */
     public function downloadableFields(NovaRequest $request): FieldCollection
     {
@@ -186,7 +187,7 @@ trait ResolvesFields
             ->when($request->viaManyToMany(), $this->fieldResolverCallback($request))
             ->whereInstanceOf(Downloadable::class)
             ->unique(static function ($field) {
-                /** @var \Jegex\Koboi\Fields\Field&\Jegex\Koboi\Contracts\Downloadable $field */
+                /** @var Field&Downloadable $field */
                 return $field->attribute;
             })
             ->authorized($request)
@@ -196,7 +197,7 @@ trait ResolvesFields
     /**
      * Resolve the filterable fields.
      *
-     * @return \Jegex\Koboi\Fields\FieldCollection<int, \Jegex\Koboi\Fields\Field&\Jegex\Koboi\Contracts\FilterableField>
+     * @return FieldCollection<int, Field&FilterableField>
      */
     public function filterableFields(NovaRequest $request): FieldCollection
     {
@@ -252,7 +253,7 @@ trait ResolvesFields
     /**
      * Determine if the resource should have an Action field.
      *
-     * @return \Closure(mixed):(bool)
+     * @return Closure(mixed):(bool)
      */
     protected function shouldAddActionsField(NovaRequest $request): Closure
     {
@@ -279,8 +280,7 @@ trait ResolvesFields
     /**
      * Resolve the detail fields and assign them to their associated panel.
      *
-     * @param  \Jegex\Koboi\Resource  $resource
-     * @return \Jegex\Koboi\Fields\FieldCollection<int, \Jegex\Koboi\Fields\Field>
+     * @return FieldCollection<int, Field>
      */
     public function detailFieldsWithinPanels(NovaRequest $request, Resource $resource): FieldCollection
     {
@@ -295,7 +295,7 @@ trait ResolvesFields
     /**
      * Resolve the creation fields.
      *
-     * @return \Jegex\Koboi\Fields\FieldCollection<int, \Jegex\Koboi\Fields\Field>
+     * @return FieldCollection<int, Field>
      */
     public function creationFields(NovaRequest $request): FieldCollection
     {
@@ -312,7 +312,7 @@ trait ResolvesFields
     /**
      * Return the creation fields excluding any readonly ones.
      *
-     * @return \Jegex\Koboi\Fields\FieldCollection<int, \Jegex\Koboi\Fields\Field>
+     * @return FieldCollection<int, Field>
      */
     public function creationFieldsWithoutReadonly(NovaRequest $request): FieldCollection
     {
@@ -323,7 +323,7 @@ trait ResolvesFields
     /**
      * Resolve the creation fields and assign them to their associated panel.
      *
-     * @return \Jegex\Koboi\Fields\FieldCollection<int, \Jegex\Koboi\Fields\Field>
+     * @return FieldCollection<int, Field>
      */
     public function creationFieldsWithinPanels(NovaRequest $request): FieldCollection
     {
@@ -334,7 +334,7 @@ trait ResolvesFields
     /**
      * Resolve the creation pivot fields for a related resource.
      *
-     * @return \Jegex\Koboi\Fields\FieldCollection<int, \Jegex\Koboi\Fields\Field>
+     * @return FieldCollection<int, Field>
      */
     public function creationPivotFields(NovaRequest $request, string $relatedResource): FieldCollection
     {
@@ -345,7 +345,7 @@ trait ResolvesFields
     /**
      * Resolve the update fields.
      *
-     * @return \Jegex\Koboi\Fields\FieldCollection<int, \Jegex\Koboi\Fields\Field>
+     * @return FieldCollection<int, Field>
      */
     public function updateFields(NovaRequest $request): FieldCollection
     {
@@ -356,7 +356,7 @@ trait ResolvesFields
     /**
      * Return the update fields excluding any readonly ones.
      *
-     * @return \Jegex\Koboi\Fields\FieldCollection<int, \Jegex\Koboi\Fields\Field>
+     * @return FieldCollection<int, Field>
      */
     public function updateFieldsWithoutReadonly(NovaRequest $request): FieldCollection
     {
@@ -367,8 +367,7 @@ trait ResolvesFields
     /**
      * Resolve the update fields and assign them to their associated panel.
      *
-     * @param  \Jegex\Koboi\Resource|null  $resource
-     * @return \Jegex\Koboi\Fields\FieldCollection<int, \Jegex\Koboi\Fields\Field>
+     * @return FieldCollection<int, Field>
      */
     public function updateFieldsWithinPanels(NovaRequest $request, ?Resource $resource = null): FieldCollection
     {
@@ -380,7 +379,7 @@ trait ResolvesFields
      * Resolve the update pivot fields for a related resource.
      *
      * @param  string  $relatedResource
-     * @return \Jegex\Koboi\Fields\FieldCollection<int, \Jegex\Koboi\Fields\Field>
+     * @return FieldCollection<int, Field>
      */
     public function updatePivotFields(NovaRequest $request, $relatedResource): FieldCollection
     {
@@ -404,8 +403,8 @@ trait ResolvesFields
     /**
      * Resolve the given fields to their values.
      *
-     * @param  (\Closure(\Jegex\Koboi\Fields\FieldCollection):(\Jegex\Koboi\Fields\FieldCollection))|null  $filter
-     * @return \Jegex\Koboi\Fields\FieldCollection<int, \Jegex\Koboi\Fields\Field>
+     * @param  (Closure(FieldCollection):(FieldCollection))|null  $filter
+     * @return FieldCollection<int, Field>
      */
     protected function resolveFields(NovaRequest $request, ?Closure $filter = null): FieldCollection
     {
@@ -500,8 +499,8 @@ trait ResolvesFields
     /**
      * Get the panels that are available for the given create request.
      *
-     * @param  \Jegex\Koboi\Fields\FieldCollection<int, \Jegex\Koboi\Fields\Field>|null  $fields
-     * @return array<int, \Jegex\Koboi\Panel>
+     * @param  FieldCollection<int, Field>|null  $fields
+     * @return array<int, Panel>
      */
     public function availablePanelsForCreate(NovaRequest $request, ?FieldCollection $fields = null): array
     {
@@ -521,9 +520,8 @@ trait ResolvesFields
     /**
      * Get the panels that are available for the given update request.
      *
-     * @param  \Jegex\Koboi\Resource  $resource
-     * @param  \Jegex\Koboi\Fields\FieldCollection<int, \Jegex\Koboi\Fields\Field>|null  $fields
-     * @return array<int, \Jegex\Koboi\Panel>
+     * @param  FieldCollection<int, Field>|null  $fields
+     * @return array<int, Panel>
      */
     public function availablePanelsForUpdate(NovaRequest $request, ?Resource $resource = null, ?FieldCollection $fields = null): array
     {
@@ -543,9 +541,8 @@ trait ResolvesFields
     /**
      * Get the panels that are available for the given detail request.
      *
-     * @param  \Jegex\Koboi\Resource  $resource
-     * @param  \Jegex\Koboi\Fields\FieldCollection<int, \Jegex\Koboi\Fields\Field>  $fields
-     * @return array<int, \Jegex\Koboi\Panel>
+     * @param  FieldCollection<int, Field>  $fields
+     * @return array<int, Panel>
      */
     public function availablePanelsForDetail(NovaRequest $request, Resource $resource, FieldCollection $fields): array
     {
@@ -561,7 +558,7 @@ trait ResolvesFields
     /**
      * Get the fields that are available for the given request.
      *
-     * @return \Jegex\Koboi\Fields\FieldCollection<int, \Jegex\Koboi\Fields\Field>
+     * @return FieldCollection<int, Field>
      */
     public function availableFields(NovaRequest $request): FieldCollection
     {
@@ -573,7 +570,7 @@ trait ResolvesFields
     /**
      * Get the fields that are available on "index" or "detail" for the given request.
      *
-     * @return \Jegex\Koboi\Fields\FieldCollection<int, \Jegex\Koboi\Fields\Field>
+     * @return FieldCollection<int, Field>
      */
     public function availableFieldsOnIndexOrDetail(NovaRequest $request): FieldCollection
     {
@@ -583,7 +580,7 @@ trait ResolvesFields
     /**
      * Get the fields that are available for the given request.
      *
-     * @return \Jegex\Koboi\Fields\FieldCollection<int, \Jegex\Koboi\Fields\Field>
+     * @return FieldCollection<int, Field>
      */
     public function buildAvailableFields(NovaRequest $request, array $methods): FieldCollection
     {
@@ -631,8 +628,8 @@ trait ResolvesFields
     /**
      * Merge the available pivot fields with the given fields.
      *
-     * @param  array<int, \Jegex\Koboi\Fields\Field>  $fields
-     * @return \Jegex\Koboi\Fields\FieldCollection<int, \Jegex\Koboi\Fields\Field>
+     * @param  array<int, Field>  $fields
+     * @return FieldCollection<int, Field>
      */
     protected function withPivotFields(NovaRequest $request, array $fields): FieldCollection
     {
@@ -650,7 +647,7 @@ trait ResolvesFields
     /**
      * Resolve the pivot fields for the requested resource.
      *
-     * @return \Jegex\Koboi\Fields\FieldCollection<int, \Jegex\Koboi\Fields\Field>
+     * @return FieldCollection<int, Field>
      */
     public function resolvePivotFields(NovaRequest $request, string $relatedResource): FieldCollection
     {
@@ -670,13 +667,13 @@ trait ResolvesFields
      */
     protected function pivotFieldsFor(NovaRequest $request, string $relatedResource): FieldCollection
     {
-        /** @var \Jegex\Koboi\Fields\FieldCollection<int, \Jegex\Koboi\Fields\BelongsToMany|\Jegex\Koboi\Fields\MorphToMany> $fields */
+        /** @var FieldCollection<int, BelongsToMany|MorphToMany> $fields */
         $fields = $this->availableFields($request)->filter(static function ($field) use ($relatedResource) {
             return ($field instanceof BelongsToMany || $field instanceof MorphToMany) &&
                 isset($field->resourceName) && $field->resourceName == $relatedResource;
         });
 
-        /** @var \Jegex\Koboi\Fields\BelongsToMany|\Jegex\Koboi\Fields\MorphToMany|null $field */
+        /** @var BelongsToMany|MorphToMany|null $field */
         $field = $fields->count() === 1
             ? $fields->first()
             : $fields->first(fn ($field) => $field->manyToManyRelationship === $request->viaRelationship);
@@ -705,13 +702,13 @@ trait ResolvesFields
     {
         $resource = Nova::resourceInstanceForKey($relatedResource);
 
-        /** @var \Jegex\Koboi\Fields\FieldCollection<int, \Jegex\Koboi\Fields\BelongsToMany|\Jegex\Koboi\Fields\MorphToMany> $fields */
+        /** @var FieldCollection<int, BelongsToMany|MorphToMany> $fields */
         $fields = $resource->availableFields($request)->filter(function ($field) {
             return ($field instanceof BelongsToMany || $field instanceof MorphToMany) &&
                 isset($field->resourceName) && $field->resourceName == $this->uriKey();
         });
 
-        /** @var \Jegex\Koboi\Fields\BelongsToMany|\Jegex\Koboi\Fields\MorphToMany|null $field */
+        /** @var BelongsToMany|MorphToMany|null $field */
         $field = $fields->count() === 1
             ? $fields->first()
             : $fields->first(static fn ($field) => $field->manyToManyRelationship === $request->viaRelationship);
@@ -735,7 +732,7 @@ trait ResolvesFields
     /**
      * Get the index where the pivot fields should be spliced into the field array.
      *
-     * @param  array<int, \Jegex\Koboi\Fields\Field>  $fields
+     * @param  array<int, Field>  $fields
      */
     protected function indexToInsertPivotFields(NovaRequest $request, array $fields): ?int
     {
@@ -768,8 +765,8 @@ trait ResolvesFields
     /**
      * Resolve available panels from fields.
      *
-     * @param  \Jegex\Koboi\Fields\FieldCollection<int, \Jegex\Koboi\Fields\Field>  $fields
-     * @return \Illuminate\Support\Collection<int, \Jegex\Koboi\Panel>
+     * @param  FieldCollection<int, Field>  $fields
+     * @return Collection<int, Panel>
      */
     protected function resolvePanelsFromFields(NovaRequest $request, FieldCollection $fields, string $label): Collection
     {
@@ -818,9 +815,9 @@ trait ResolvesFields
     /**
      * Return the panels for this request with the default label.
      *
-     * @param  \Illuminate\Support\Collection<int, \Jegex\Koboi\Panel>  $panels
-     * @param  \Jegex\Koboi\Fields\FieldCollection<int, \Jegex\Koboi\Fields\Field>  $fields
-     * @return \Illuminate\Support\Collection<int, \Jegex\Koboi\Panel>
+     * @param  Collection<int, Panel>  $panels
+     * @param  FieldCollection<int, Field>  $fields
+     * @return Collection<int, Panel>
      */
     protected function panelsWithDefaultLabel(Collection $panels, FieldCollection $fields, string $label): Collection
     {
@@ -851,7 +848,7 @@ trait ResolvesFields
     /**
      * Return the callback used for resolving fields.
      *
-     * @return \Closure(\Jegex\Koboi\Fields\FieldCollection):\Jegex\Koboi\Fields\FieldCollection
+     * @return Closure(FieldCollection):FieldCollection
      */
     protected function fieldResolverCallback(NovaRequest $request): Closure
     {
@@ -872,7 +869,7 @@ trait ResolvesFields
     /**
      * Return the callback used for resolving fields with pivot from related relationship.
      *
-     * @return \Closure(\Jegex\Koboi\Fields\FieldCollection):\Jegex\Koboi\Fields\FieldCollection
+     * @return Closure(FieldCollection):FieldCollection
      */
     protected function relatedFieldResolverCallback(NovaRequest $request): Closure
     {

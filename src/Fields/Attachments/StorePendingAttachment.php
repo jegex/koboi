@@ -5,20 +5,21 @@ namespace Jegex\Koboi\Fields\Attachments;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Jegex\Koboi\Contracts\Storable;
+use Jegex\Koboi\Fields\Field;
 
 class StorePendingAttachment
 {
     /**
      * The field instance.
      *
-     * @var \Jegex\Koboi\Fields\Field&\Jegex\Koboi\Contracts\Storable
+     * @var Field&Storable
      */
     public $field;
 
     /**
      * The pending attachment model.
      *
-     * @var class-string<\Jegex\Koboi\Fields\Attachments\PendingAttachment>
+     * @var class-string<PendingAttachment>
      */
     public static $model = PendingAttachment::class;
 
@@ -26,7 +27,7 @@ class StorePendingAttachment
      * Create a new invokable instance.
      *
      *
-     * @phpstan-param \Jegex\Koboi\Fields\Field&\Jegex\Koboi\Contracts\Storable $field
+     * @phpstan-param Field&Storable $field
      *
      * @return void
      */

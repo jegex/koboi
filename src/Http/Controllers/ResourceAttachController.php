@@ -4,6 +4,9 @@ namespace Jegex\Koboi\Http\Controllers;
 
 use DateTime;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\Concerns\AsPivot;
 use Illuminate\Database\Eloquent\Relations\Pivot;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
@@ -12,6 +15,7 @@ use Illuminate\Support\Facades\Validator;
 use Jegex\Koboi\Actions\ActionEvent;
 use Jegex\Koboi\Http\Requests\NovaRequest;
 use Jegex\Koboi\Nova;
+use Jegex\Koboi\Resource;
 use Jegex\Koboi\Util;
 use Throwable;
 
@@ -76,7 +80,7 @@ class ResourceAttachController extends Controller
     /**
      * Validate the attachment request.
      *
-     * @param  \Illuminate\Database\Eloquent\Model  $model
+     * @param  Model  $model
      * @param  class-string<\Jegex\Koboi\Resource>  $resourceClass
      */
     protected function validate(NovaRequest $request, $model, string $resourceClass): void
@@ -111,11 +115,11 @@ class ResourceAttachController extends Controller
     /**
      * Initialize a fresh pivot model for the relationship.
      *
-     * @param  \Illuminate\Database\Eloquent\Relations\BelongsToMany  $relationship
-     * @return (\Illuminate\Database\Eloquent\Model&\Illuminate\Database\Eloquent\Relations\Concerns\AsPivot)|\Illuminate\Database\Eloquent\Relations\Pivot
+     * @param  BelongsToMany  $relationship
+     * @return (Model&AsPivot)|Pivot
      *
      * @throws \RuntimeException
-     * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
+     * @throws ModelNotFoundException
      */
     protected function initializePivot(NovaRequest $request, $relationship): Model|Pivot
     {

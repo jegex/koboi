@@ -4,9 +4,9 @@ namespace Jegex\Koboi\Menu;
 
 use Illuminate\Support\Collection;
 use Illuminate\Support\Traits\Conditionable;
-use JsonSerializable;
 use Jegex\Koboi\Http\Requests\NovaRequest;
 use Jegex\Koboi\Makeable;
+use JsonSerializable;
 
 /**
  * @phpstan-type TMenu \Jegex\Koboi\Menu\MenuGroup|\Jegex\Koboi\Menu\MenuItem|\Jegex\Koboi\Menu\MenuList|\Jegex\Koboi\Menu\MenuSection
@@ -46,7 +46,7 @@ class Menu implements JsonSerializable
     /**
      * Push items into the menu.
      *
-     * @param  \JsonSerializable|iterable  $items
+     * @param  JsonSerializable|iterable  $items
      *
      * @phpstan-param TMenu|iterable $items
      *
@@ -60,7 +60,7 @@ class Menu implements JsonSerializable
     /**
      * Append items into the menu.
      *
-     * @param  \JsonSerializable|iterable  $items
+     * @param  JsonSerializable|iterable  $items
      *
      * @phpstan-param TMenu|iterable $items
      *
@@ -76,7 +76,7 @@ class Menu implements JsonSerializable
     /**
      * Prepend items to the menu.
      *
-     * @param  \JsonSerializable|iterable  $items
+     * @param  JsonSerializable|iterable  $items
      *
      * @phpstan-param TMenu|iterable $items
      *
@@ -99,8 +99,8 @@ class Menu implements JsonSerializable
         $request = app(NovaRequest::class);
 
         return $this->items->flatten()
-                ->reject(static fn ($item) => method_exists($item, 'authorizedToSee') && ! $item->authorizedToSee($request))
-                ->values()
-                ->jsonSerialize();
+            ->reject(static fn ($item) => method_exists($item, 'authorizedToSee') && ! $item->authorizedToSee($request))
+            ->values()
+            ->jsonSerialize();
     }
 }

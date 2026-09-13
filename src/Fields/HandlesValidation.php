@@ -25,27 +25,27 @@ trait HandlesValidation
     /**
      * The validation rules for creation and updates.
      *
-     * @var (callable(\Jegex\Koboi\Http\Requests\NovaRequest):(array|\Stringable|string|callable))|array|\Stringable|string
+     * @var (callable(NovaRequest):(array|Stringable|string|callable))|array|Stringable|string
      *
-     * @phpstan-var (callable(\Jegex\Koboi\Http\Requests\NovaRequest):TValidationRules)|TValidationRules
+     * @phpstan-var (callable(NovaRequest):TValidationRules)|TValidationRules
      */
     public $rules = [];
 
     /**
      * The validation rules for creation.
      *
-     * @var (callable(\Jegex\Koboi\Http\Requests\NovaRequest):(array|\Stringable|string|callable))|array|\Stringable|string
+     * @var (callable(NovaRequest):(array|Stringable|string|callable))|array|Stringable|string
      *
-     * @phpstan-var (callable(\Jegex\Koboi\Http\Requests\NovaRequest):TValidationRules)|TValidationRules
+     * @phpstan-var (callable(NovaRequest):TValidationRules)|TValidationRules
      */
     public $creationRules = [];
 
     /**
      * The validation rules for updates.
      *
-     * @var (callable(\Jegex\Koboi\Http\Requests\NovaRequest):(array|\Stringable|string|callable))|array|\Stringable|string
+     * @var (callable(NovaRequest):(array|Stringable|string|callable))|array|Stringable|string
      *
-     * @phpstan-var (callable(\Jegex\Koboi\Http\Requests\NovaRequest):TValidationRules)|TValidationRules
+     * @phpstan-var (callable(NovaRequest):TValidationRules)|TValidationRules
      */
     public $updateRules = [];
 
@@ -54,9 +54,9 @@ trait HandlesValidation
      *
      * @no-named-arguments
      *
-     * @param  (callable(\Jegex\Koboi\Http\Requests\NovaRequest):(array|\Stringable|string|callable))|array|\Stringable|string  ...$rules
+     * @param  (callable(NovaRequest):(array|Stringable|string|callable))|array|Stringable|string  ...$rules
      *
-     * @phpstan-param (callable(\Jegex\Koboi\Http\Requests\NovaRequest):TValidationRules)|TValidationRules ...$rules
+     * @phpstan-param (callable(NovaRequest):TValidationRules)|TValidationRules ...$rules
      *
      * @return $this
      */
@@ -113,9 +113,9 @@ trait HandlesValidation
      *
      * @no-named-arguments
      *
-     * @param  (callable(\Jegex\Koboi\Http\Requests\NovaRequest):(array|\Stringable|string|callable))|array|\Stringable|string  ...$rules
+     * @param  (callable(NovaRequest):(array|Stringable|string|callable))|array|Stringable|string  ...$rules
      *
-     * @phpstan-param (callable(\Jegex\Koboi\Http\Requests\NovaRequest):TValidationRules)|TValidationRules ...$rules
+     * @phpstan-param (callable(NovaRequest):TValidationRules)|TValidationRules ...$rules
      *
      * @return $this
      */
@@ -158,9 +158,9 @@ trait HandlesValidation
      *
      * @no-named-arguments
      *
-     * @param  (callable(\Jegex\Koboi\Http\Requests\NovaRequest):(array|\Stringable|string|callable))|array|\Stringable|string  ...$rules
+     * @param  (callable(NovaRequest):(array|Stringable|string|callable))|array|Stringable|string  ...$rules
      *
-     * @phpstan-param (callable(\Jegex\Koboi\Http\Requests\NovaRequest):TValidationRules)|TValidationRules ...$rules
+     * @phpstan-param (callable(NovaRequest):TValidationRules)|TValidationRules ...$rules
      *
      * @return $this
      */

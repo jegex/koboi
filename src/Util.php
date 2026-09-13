@@ -10,6 +10,7 @@ use Illuminate\Foundation\Auth\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Str;
+use Illuminate\Validation\Validator;
 use Laravel\Fortify\Features;
 use RuntimeException;
 
@@ -101,8 +102,8 @@ class Util
             "{$appNamespace}Providers\FortifyServiceProvider",
             "{$appNamespace}Providers\JetstreamServiceProvider",
         ])->map(static fn ($provider) => app()->getProvider($provider))
-        ->filter()
-        ->isNotEmpty();
+            ->filter()
+            ->isNotEmpty();
     }
 
     /**
@@ -140,7 +141,7 @@ class Util
     /**
      * Get the user model for Laravel Nova.
      *
-     * @return class-string<\Illuminate\Database\Eloquent\Model>|null
+     * @return class-string<Model>|null
      */
     public static function userModel(): ?string
     {
@@ -150,7 +151,7 @@ class Util
     /**
      * Get the user model for Laravel Nova, use the default User model available from Framework as a fallback.
      *
-     * @return class-string<\Illuminate\Foundation\Auth\User|\Illuminate\Database\Eloquent\Model>
+     * @return class-string<User|Model>
      */
     public static function userModelOrFallback(): string
     {
@@ -160,7 +161,7 @@ class Util
     /**
      * Get the user model for Laravel Nova.
      *
-     * @return class-string<\Illuminate\Database\Eloquent\Model>|null
+     * @return class-string<Model>|null
      */
     public static function userModelFromGuard(string $guard): ?string
     {
@@ -172,7 +173,7 @@ class Util
     /**
      * Get the session authentication guard for the model.
      *
-     * @param  class-string<\Illuminate\Database\Eloquent\Model>|\Illuminate\Database\Eloquent\Model  $model
+     * @param  class-string<Model>|Model  $model
      */
     public static function sessionAuthGuardForModel($model): ?string
     {
@@ -193,9 +194,6 @@ class Util
 
     /**
      * Resolve the model/resource for policy.
-     *
-     * @param  \Jegex\Koboi\Resource  $resource
-     * @return \Jegex\Koboi\Resource|\Illuminate\Database\Eloquent\Model
      */
     public static function resolveResourceOrModelForAuthorization(Resource $resource): Model|Resource
     {
@@ -211,7 +209,7 @@ class Util
      *
      * @return array<string, string>
      *
-     * @see \Illuminate\Validation\Validator::$dependentRules
+     * @see Validator::$dependentRules
      */
     public static function dependentRules(string $attribute): array
     {
@@ -244,8 +242,8 @@ class Util
             'Prohibits',
             'Same',
         ])->transform(static fn ($rule) => Str::snake($rule))
-        ->mapWithKeys(static fn ($rule) => ["{$rule}:" => "{$rule}:{$attribute}."])
-        ->all();
+            ->mapWithKeys(static fn ($rule) => ["{$rule}:" => "{$rule}:{$attribute}."])
+            ->all();
     }
 
     /**
@@ -265,10 +263,10 @@ class Util
     /**
      * Expect the given model to implement `Pivot` class or use `AsPivot` trait.
      *
-     * @param  (\Illuminate\Database\Eloquent\Model&\Illuminate\Database\Eloquent\Relations\Concerns\AsPivot)|\Illuminate\Database\Eloquent\Relations\Pivot  $pivot
-     * @return (\Illuminate\Database\Eloquent\Model&\Illuminate\Database\Eloquent\Relations\Concerns\AsPivot)|\Illuminate\Database\Eloquent\Relations\Pivot
+     * @param  (Model&AsPivot)|Pivot  $pivot
+     * @return (Model&AsPivot)|Pivot
      *
-     * @throws \RuntimeException
+     * @throws RuntimeException
      */
     public static function expectPivotModel(Model|Pivot $pivot): Model|Pivot
     {

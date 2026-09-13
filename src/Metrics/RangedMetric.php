@@ -2,12 +2,14 @@
 
 namespace Jegex\Koboi\Metrics;
 
+use Illuminate\Support\Collection;
+
 abstract class RangedMetric extends Metric
 {
     /**
      * The ranges available for the metric.
      *
-     * @var \Illuminate\Support\Collection<string|int, string>|array<string|int, string>
+     * @var Collection<string|int, string>|array<string|int, string>
      */
     public $ranges = [];
 
@@ -21,7 +23,7 @@ abstract class RangedMetric extends Metric
     /**
      * Get the ranges available for the metric.
      *
-     * @return \Illuminate\Support\Collection|array
+     * @return Collection|array
      */
     public function ranges()
     {

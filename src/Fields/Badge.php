@@ -6,6 +6,7 @@ use Exception;
 use Illuminate\Support\Arr;
 use Jegex\Koboi\Badge as BadgeComponent;
 use Jegex\Koboi\Contracts\FilterableField;
+use Jegex\Koboi\Fields\Filters\Filter;
 use Jegex\Koboi\Fields\Filters\SelectFilter;
 use Jegex\Koboi\Http\Requests\NovaRequest;
 use Stringable;
@@ -31,7 +32,7 @@ class Badge extends Field implements FilterableField, Unfillable
     /**
      * The labels that should be applied to the field's possible values.
      *
-     * @var array<array-key, \Stringable|string>
+     * @var array<array-key, Stringable|string>
      */
     public $labels = [];
 
@@ -78,7 +79,7 @@ class Badge extends Field implements FilterableField, Unfillable
     /**
      * Create a new field.
      *
-     * @param  \Stringable|string  $name
+     * @param  Stringable|string  $name
      * @param  string|callable|object|null  $attribute
      * @param  (callable(mixed, mixed, ?string):(mixed))|null  $resolveCallback
      */
@@ -184,7 +185,7 @@ class Badge extends Field implements FilterableField, Unfillable
     /**
      * Resolve the Badge's CSS classes based on the field's value.
      *
-     * @throws \Exception
+     * @throws Exception
      */
     public function resolveBadgeClasses(): array|string
     {
@@ -220,7 +221,7 @@ class Badge extends Field implements FilterableField, Unfillable
     /**
      * Make the field filter.
      *
-     * @return \Jegex\Koboi\Fields\Filters\Filter
+     * @return Filter
      */
     protected function makeFilter(NovaRequest $request)
     {

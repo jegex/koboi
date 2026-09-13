@@ -2,14 +2,18 @@
 
 namespace Jegex\Koboi\Fields;
 
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 use Jegex\Koboi\Contracts\BehavesAsPanel;
 use Jegex\Koboi\Contracts\RelatableField;
+use Jegex\Koboi\Exceptions\HelperNotSupported;
 use Jegex\Koboi\Exceptions\NovaException;
 use Jegex\Koboi\Http\Requests\NovaRequest;
 use Jegex\Koboi\Nova;
 use Jegex\Koboi\Panel;
 use Jegex\Koboi\Resource;
+use Jegex\Koboi\Support\Fluent;
 use Jegex\Koboi\Util;
 use Stringable;
 
@@ -46,7 +50,7 @@ class HasOne extends Field implements BehavesAsPanel, RelatableField
     /**
      * The displayable singular label of the relation.
      *
-     * @var \Stringable|string
+     * @var Stringable|string
      */
     public $singularLabel;
 
@@ -74,7 +78,7 @@ class HasOne extends Field implements BehavesAsPanel, RelatableField
     /**
      * The callback use to determine if the HasOne field has already been filled.
      *
-     * @var callable(\Jegex\Koboi\Http\Requests\NovaRequest):bool
+     * @var callable(NovaRequest):bool
      */
     public $filledCallback;
 
@@ -102,7 +106,7 @@ class HasOne extends Field implements BehavesAsPanel, RelatableField
     /**
      * Create a new field.
      *
-     * @param  \Stringable|string  $name
+     * @param  Stringable|string  $name
      * @param  class-string<\Jegex\Koboi\Resource>|null  $resource
      */
     public function __construct($name, ?string $attribute = null, ?string $resource = null)
@@ -121,22 +125,22 @@ class HasOne extends Field implements BehavesAsPanel, RelatableField
 
             if ($this->ofManyRelationship === false && $request->viaRelationship === $this->attribute && $request->viaResourceId) {
                 $parent = $parentResource::newModel()
-                            ->with($this->attribute)
-                            ->find($request->viaResourceId);
+                    ->with($this->attribute)
+                    ->find($request->viaResourceId);
 
                 return model_exists($parent->{$this->attribute});
             }
 
             return false;
         })->showOnCreating(static fn ($request) => ! \in_array($request->relationshipType, ['hasOne', 'morphOne']))
-        ->showOnUpdating(static fn ($request) => ! \in_array($request->relationshipType, ['hasOne', 'morphOne']))
-        ->nullable();
+            ->showOnUpdating(static fn ($request) => ! \in_array($request->relationshipType, ['hasOne', 'morphOne']))
+            ->nullable();
     }
 
     /**
      * Make one-of-many relationship field.
      *
-     * @param  \Stringable|string  $name
+     * @param  Stringable|string  $name
      * @param  class-string<\Jegex\Koboi\Resource>|null  $resource
      */
     public static function ofMany($name, ?string $attribute = null, ?string $resource = null): static
@@ -180,7 +184,7 @@ class HasOne extends Field implements BehavesAsPanel, RelatableField
     /**
      * Determine if the field should be for the given request.
      *
-     * @param  \Jegex\Koboi\Http\Requests\NovaRequest  $request
+     * @param  NovaRequest  $request
      */
     public function authorizedToRelate(Request $request): bool
     {
@@ -191,7 +195,7 @@ class HasOne extends Field implements BehavesAsPanel, RelatableField
     /**
      * Resolve the field's value.
      *
-     * @param  \Jegex\Koboi\Resource|\Illuminate\Database\Eloquent\Model|object  $resource
+     * @param  \Jegex\Koboi\Resource|Model|object  $resource
      */
     #[\Override]
     public function resolve($resource, ?string $attribute = null): void
@@ -296,7 +300,7 @@ class HasOne extends Field implements BehavesAsPanel, RelatableField
     /**
      * Set the Closure used to determine if the HasOne field has already been filled.
      *
-     * @param  callable(\Jegex\Koboi\Http\Requests\NovaRequest):bool  $callback
+     * @param  callable(NovaRequest):bool  $callback
      * @return $this
      */
     public function alreadyFilledWhen(callable $callback)
@@ -318,7 +322,7 @@ class HasOne extends Field implements BehavesAsPanel, RelatableField
     /**
      * Check showing on index.
      *
-     * @param  \Illuminate\Database\Eloquent\Model|\Jegex\Koboi\Support\Fluent|object  $resource
+     * @param  Model|Fluent|object  $resource
      */
     #[\Override]
     public function isShownOnIndex(NovaRequest $request, $resource): bool
@@ -329,7 +333,7 @@ class HasOne extends Field implements BehavesAsPanel, RelatableField
     /**
      * Hydrate the given attribute on the model based on the incoming request.
      *
-     * @param  \Illuminate\Database\Eloquent\Model|\Jegex\Koboi\Support\Fluent  $model
+     * @param  Model|Fluent  $model
      * @return (callable():(void))|null
      */
     #[\Override]
@@ -392,7 +396,7 @@ class HasOne extends Field implements BehavesAsPanel, RelatableField
     /**
      * Get the creation rules for this field.
      *
-     * @return array<string, array<int, string|\Illuminate\Validation\Rule|\Illuminate\Contracts\Validation\Rule|callable>>
+     * @return array<string, array<int, string|Rule|\Illuminate\Contracts\Validation\Rule|callable>>
      */
     public function getCreationRules(NovaRequest $request): array
     {
@@ -402,7 +406,7 @@ class HasOne extends Field implements BehavesAsPanel, RelatableField
     /**
      * Get the update rules for this field.
      *
-     * @return array<string, array<int, string|\Illuminate\Validation\Rule|\Illuminate\Contracts\Validation\Rule|callable>>
+     * @return array<string, array<int, string|Rule|\Illuminate\Contracts\Validation\Rule|callable>>
      */
     public function getUpdateRules(NovaRequest $request): array
     {
@@ -412,7 +416,7 @@ class HasOne extends Field implements BehavesAsPanel, RelatableField
     /**
      * Get the available rules for this field.
      *
-     * @return array<string, array<int, string|\Illuminate\Validation\Rule|\Illuminate\Contracts\Validation\Rule|callable>>
+     * @return array<string, array<int, string|Rule|\Illuminate\Contracts\Validation\Rule|callable>>
      */
     protected function getAvailableValidationRules(NovaRequest $request): array
     {
@@ -437,7 +441,7 @@ class HasOne extends Field implements BehavesAsPanel, RelatableField
     /**
      * Get the creation rules for this field.
      *
-     * @return array<string, array<int, string|\Illuminate\Validation\Rule|\Illuminate\Contracts\Validation\Rule|callable>>
+     * @return array<string, array<int, string|Rule|\Illuminate\Contracts\Validation\Rule|callable>>
      */
     public function getResourceCreationRules(NovaRequest $request, Resource $resource): array
     {
@@ -469,7 +473,7 @@ class HasOne extends Field implements BehavesAsPanel, RelatableField
     /**
      * Get the update rules for this resource fields.
      *
-     * @return array<string, array<int, string|\Illuminate\Validation\Rule|\Illuminate\Contracts\Validation\Rule|callable>>
+     * @return array<string, array<int, string|Rule|\Illuminate\Contracts\Validation\Rule|callable>>
      */
     public function getResourceUpdateRules(NovaRequest $request, Resource $resource): array
     {
@@ -540,7 +544,7 @@ class HasOne extends Field implements BehavesAsPanel, RelatableField
     /**
      * Check for showing when updating.
      *
-     * @param  \Illuminate\Database\Eloquent\Model|\Jegex\Koboi\Support\Fluent|object  $resource
+     * @param  Model|Fluent|object  $resource
      */
     #[\Override]
     public function isShownOnUpdate(NovaRequest $request, $resource): bool
@@ -569,10 +573,10 @@ class HasOne extends Field implements BehavesAsPanel, RelatableField
     /**
      * Show the field in the modal preview.
      *
-     * @param  (callable(\Jegex\Koboi\Http\Requests\NovaRequest):(bool))|bool  $callback
+     * @param  (callable(NovaRequest):(bool))|bool  $callback
      * @return never
      *
-     * @throws \Jegex\Koboi\Exceptions\HelperNotSupported
+     * @throws HelperNotSupported
      */
     public function showOnPreview(callable|bool $callback = true)
     {
@@ -584,7 +588,7 @@ class HasOne extends Field implements BehavesAsPanel, RelatableField
      *
      * @return never
      *
-     * @throws \Jegex\Koboi\Exceptions\HelperNotSupported
+     * @throws HelperNotSupported
      */
     public function onlyOnPreview()
     {

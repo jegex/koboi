@@ -2,20 +2,22 @@
 
 namespace Jegex\Koboi\Fields;
 
+use Jegex\Koboi\Http\Requests\NovaRequest;
+
 trait SupportsDependentFields
 {
     /**
      * List of field dependencies.
      *
-     * @var array<int, \Jegex\Koboi\Fields\Dependent>
+     * @var array<int, Dependent>
      */
     protected $fieldDependencies = [];
 
     /**
      * Register depends on to a field.
      *
-     * @param  \Jegex\Koboi\Fields\Field|array<int, string|\Jegex\Koboi\Fields\Field>|string  $attributes
-     * @param  (callable(static, \Jegex\Koboi\Http\Requests\NovaRequest, \Jegex\Koboi\Fields\FormData):(void))|class-string  $mixin
+     * @param  Field|array<int, string|Field>|string  $attributes
+     * @param  (callable(static, NovaRequest, FormData):(void))|class-string  $mixin
      * @return $this
      */
     public function dependsOn(Field|array|string $attributes, callable|string $mixin)
@@ -28,8 +30,8 @@ trait SupportsDependentFields
     /**
      * Register depends on to a field on creating request.
      *
-     * @param  \Jegex\Koboi\Fields\Field|array<int, string|\Jegex\Koboi\Fields\Field>|string  $attributes
-     * @param  (callable(static, \Jegex\Koboi\Http\Requests\NovaRequest, \Jegex\Koboi\Fields\FormData):(void))|class-string  $mixin
+     * @param  Field|array<int, string|Field>|string  $attributes
+     * @param  (callable(static, NovaRequest, FormData):(void))|class-string  $mixin
      * @return $this
      */
     public function dependsOnCreating(Field|array|string $attributes, callable|string $mixin)
@@ -42,8 +44,8 @@ trait SupportsDependentFields
     /**
      * Register depends on to a field on updating request.
      *
-     * @param  string|\Jegex\Koboi\Fields\Field|array<int, string|\Jegex\Koboi\Fields\Field>  $attributes
-     * @param  (callable(static, \Jegex\Koboi\Http\Requests\NovaRequest, \Jegex\Koboi\Fields\FormData):(void))|class-string  $mixin
+     * @param  string|Field|array<int, string|Field>  $attributes
+     * @param  (callable(static, NovaRequest, FormData):(void))|class-string  $mixin
      * @return $this
      */
     public function dependsOnUpdating($attributes, $mixin)

@@ -4,6 +4,8 @@ namespace Jegex\Koboi\Rules;
 
 use Illuminate\Contracts\Validation\Rule;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Support\Arr;
 use Jegex\Koboi\Http\Requests\NovaRequest;
 use Jegex\Koboi\Nova;
@@ -27,13 +29,13 @@ class NotExactlyAttached implements Rule
      */
     public function passes($attribute, $value)
     {
-        /** @var \Illuminate\Database\Eloquent\Relations\MorphToMany|\Illuminate\Database\Eloquent\Relations\BelongsToMany $relation */
+        /** @var MorphToMany|BelongsToMany $relation */
         $relation = $this->model->{$this->request->viaRelationship}();
 
         $pivot = $relation->newPivot();
         $pivotAccessor = $relation->getPivotAccessor();
         $query = $relation->withoutGlobalScopes()
-                        ->where($relation->getQualifiedRelatedPivotKeyName(), '=', $this->request->input($this->request->relatedResource));
+            ->where($relation->getQualifiedRelatedPivotKeyName(), '=', $this->request->input($this->request->relatedResource));
 
         $resource = Nova::newResourceFromModel($this->model);
 

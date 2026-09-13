@@ -24,7 +24,7 @@ class ResourceStoreController extends Controller
     /**
      * Create a new resource.
      *
-     * @throws \Throwable
+     * @throws Throwable
      */
     public function __invoke(CreateResourceRequest $request): JsonResponse
     {
@@ -71,7 +71,7 @@ class ResourceStoreController extends Controller
     /**
      * Save the resource.
      *
-     * @param  \Illuminate\Database\Eloquent\Model  $model
+     * @param  Model  $model
      */
     protected function storeResource(CreateResourceRequest $request, $model): bool
     {

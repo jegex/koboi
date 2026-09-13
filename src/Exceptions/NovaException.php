@@ -10,7 +10,7 @@ class NovaException extends Exception
      * Create a new exception instance.
      *
      * @param  class-string  $class
-     * @return \Jegex\Koboi\Exceptions\HelperNotSupported
+     * @return HelperNotSupported
      */
     public static function helperNotSupported(string $method, string $class)
     {
@@ -20,7 +20,7 @@ class NovaException extends Exception
     /**
      * Create a new exception instance.
      *
-     * @return \Jegex\Koboi\Exceptions\ResourceMissingException
+     * @return ResourceMissingException
      */
     public static function missingResourceForRepeater(string $name)
     {

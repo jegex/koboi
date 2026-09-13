@@ -2,17 +2,20 @@
 
 namespace Jegex\Koboi\Fields;
 
+use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Http\Request;
 use Jegex\Koboi\Contracts\FilterableField;
 use Jegex\Koboi\Contracts\RelatableField;
 use Jegex\Koboi\Fields\Filters\BelongsToFilter;
+use Jegex\Koboi\Fields\Filters\Filter;
 use Jegex\Koboi\Http\Requests\NovaRequest;
 use Jegex\Koboi\Http\Requests\ResourceIndexRequest;
 use Jegex\Koboi\Nova;
 use Jegex\Koboi\Resource;
 use Jegex\Koboi\Rules\Relatable;
+use Jegex\Koboi\Support\Fluent;
 use Stringable;
 
 use function Orchestra\Sidekick\Http\safe_int;
@@ -84,7 +87,7 @@ class BelongsTo extends Field implements FilterableField, RelatableField
     /**
      * The callback that should be run when the field is filled.
      *
-     * @var callable(\Jegex\Koboi\Http\Requests\NovaRequest, mixed):void
+     * @var callable(NovaRequest, mixed):void
      */
     public $filledCallback;
 
@@ -98,14 +101,14 @@ class BelongsTo extends Field implements FilterableField, RelatableField
     /**
      * The displayable singular label of the relation.
      *
-     * @var \Stringable|string
+     * @var Stringable|string
      */
     public $singularLabel;
 
     /**
      * Create a new field.
      *
-     * @param  \Stringable|string  $name
+     * @param  Stringable|string  $name
      * @param  class-string<\Jegex\Koboi\Resource>|null  $resource
      */
     public function __construct($name, ?string $attribute = null, ?string $resource = null)
@@ -139,7 +142,7 @@ class BelongsTo extends Field implements FilterableField, RelatableField
     /**
      * Determine if the field should be displayed for the given request.
      *
-     * @param  \Illuminate\Http\Request&\Jegex\Koboi\Http\Requests\NovaRequest  $request
+     * @param  Request&NovaRequest  $request
      * @return bool
      */
     #[\Override]
@@ -161,7 +164,7 @@ class BelongsTo extends Field implements FilterableField, RelatableField
     /**
      * Resolve the field's value.
      *
-     * @param  \Jegex\Koboi\Resource|\Illuminate\Database\Eloquent\Model|object  $resource
+     * @param  \Jegex\Koboi\Resource|Model|object  $resource
      */
     #[\Override]
     public function resolve($resource, ?string $attribute = null): void
@@ -226,7 +229,7 @@ class BelongsTo extends Field implements FilterableField, RelatableField
     /**
      * Hydrate the given attribute on the model based on the incoming request.
      *
-     * @param  \Illuminate\Database\Eloquent\Model|\Jegex\Koboi\Support\Fluent  $model
+     * @param  Model|Fluent  $model
      */
     #[\Override]
     public function fill(NovaRequest $request, object $model): void
@@ -247,7 +250,7 @@ class BelongsTo extends Field implements FilterableField, RelatableField
     /**
      * Hydrate the given attribute on the model based on the incoming request.
      *
-     * @param  \Illuminate\Database\Eloquent\Model|\Jegex\Koboi\Support\Fluent  $model
+     * @param  Model|Fluent  $model
      */
     #[\Override]
     public function fillForAction(NovaRequest $request, object $model): void
@@ -262,7 +265,7 @@ class BelongsTo extends Field implements FilterableField, RelatableField
     /**
      * Hydrate the given attribute on the model based on the incoming request.
      *
-     * @param  \Illuminate\Database\Eloquent\Model|\Jegex\Koboi\Support\Fluent  $model
+     * @param  Model|Fluent  $model
      */
     #[\Override]
     protected function fillAttributeFromRequest(NovaRequest $request, string $requestAttribute, object $model, string $attribute): void
@@ -285,7 +288,7 @@ class BelongsTo extends Field implements FilterableField, RelatableField
     /**
      * Format the given associatable resource.
      *
-     * @param  \Jegex\Koboi\Resource|\Illuminate\Database\Eloquent\Model  $resource
+     * @param  \Jegex\Koboi\Resource|Model  $resource
      */
     public function formatAssociatableResource(NovaRequest $request, $resource): array
     {
@@ -316,7 +319,7 @@ class BelongsTo extends Field implements FilterableField, RelatableField
     /**
      * Specify a callback that should be run when the field is filled.
      *
-     * @param  (callable(\Jegex\Koboi\Http\Requests\NovaRequest, mixed):void)|null  $callback
+     * @param  (callable(NovaRequest, mixed):void)|null  $callback
      * @return $this
      */
     public function filled(?callable $callback)
@@ -373,7 +376,7 @@ class BelongsTo extends Field implements FilterableField, RelatableField
     /**
      * Make the field filter.
      *
-     * @return \Jegex\Koboi\Fields\Filters\Filter|null
+     * @return Filter|null
      */
     protected function makeFilter(NovaRequest $request)
     {
@@ -401,7 +404,7 @@ class BelongsTo extends Field implements FilterableField, RelatableField
     /**
      * Define the default filterable callback.
      *
-     * @return callable(\Jegex\Koboi\Http\Requests\NovaRequest, \Illuminate\Contracts\Database\Eloquent\Builder, mixed, string):void
+     * @return callable(NovaRequest, Builder, mixed, string):void
      */
     protected function defaultFilterableCallback()
     {

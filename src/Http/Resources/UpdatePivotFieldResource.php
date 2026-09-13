@@ -2,7 +2,10 @@
 
 namespace Jegex\Koboi\Http\Resources;
 
+use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Jegex\Koboi\Http\Requests\ResourceUpdateOrUpdateAttachedRequest;
+use Jegex\Koboi\Resource;
 use Jegex\Koboi\Resource as NovaResource;
 
 class UpdatePivotFieldResource extends Resource
@@ -10,7 +13,7 @@ class UpdatePivotFieldResource extends Resource
     /**
      * Transform the resource into an array.
      *
-     * @param  \Jegex\Koboi\Http\Requests\ResourceUpdateOrUpdateAttachedRequest  $request
+     * @param  ResourceUpdateOrUpdateAttachedRequest  $request
      * @return array
      */
     public function toArray($request)
@@ -31,8 +34,8 @@ class UpdatePivotFieldResource extends Resource
      *
      * @return \Jegex\Koboi\Resource
      *
-     * @throws \Illuminate\Auth\Access\AuthorizationException
-     * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
+     * @throws AuthorizationException
+     * @throws ModelNotFoundException
      */
     public function newResourceWith(ResourceUpdateOrUpdateAttachedRequest $request)
     {
@@ -61,8 +64,8 @@ class UpdatePivotFieldResource extends Resource
     /**
      * Determine if resource is authorized for the request.
      *
-     * @throws \Illuminate\Auth\Access\AuthorizationException
-     * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
+     * @throws AuthorizationException
+     * @throws ModelNotFoundException
      */
     public function authorizedResourceForRequest(ResourceUpdateOrUpdateAttachedRequest $request): NovaResource
     {

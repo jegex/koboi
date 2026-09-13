@@ -3,11 +3,15 @@
 namespace Jegex\Koboi\Fields;
 
 use Closure;
+use Illuminate\Contracts\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
 use Jegex\Koboi\Contracts\FilterableField;
 use Jegex\Koboi\Fields\Filters\BooleanGroupFilter;
+use Jegex\Koboi\Fields\Filters\Filter;
 use Jegex\Koboi\Http\Requests\NovaRequest;
 use Jegex\Koboi\Nova;
+use Jegex\Koboi\Support\Fluent;
 use Stringable;
 
 use function Orchestra\Sidekick\is_safe_callable;
@@ -39,7 +43,7 @@ class BooleanGroup extends Field implements FilterableField
     /**
      * The text to be used when there are no booleans to show.
      *
-     * @var \Stringable|string
+     * @var Stringable|string
      */
     public $noValueText = 'No Data';
 
@@ -145,7 +149,7 @@ class BooleanGroup extends Field implements FilterableField
     /**
      * Hydrate the given attribute on the model based on the incoming request.
      *
-     * @param  \Illuminate\Database\Eloquent\Model|\Jegex\Koboi\Support\Fluent  $model
+     * @param  Model|Fluent  $model
      */
     #[\Override]
     protected function fillAttributeFromRequest(NovaRequest $request, string $requestAttribute, object $model, string $attribute): void
@@ -158,7 +162,7 @@ class BooleanGroup extends Field implements FilterableField
     /**
      * Make the field filter.
      *
-     * @return \Jegex\Koboi\Fields\Filters\Filter
+     * @return Filter
      */
     protected function makeFilter(NovaRequest $request)
     {
@@ -168,7 +172,7 @@ class BooleanGroup extends Field implements FilterableField
     /**
      * Define the default filterable callback.
      *
-     * @return callable(\Jegex\Koboi\Http\Requests\NovaRequest, \Illuminate\Contracts\Database\Eloquent\Builder, mixed, string):void
+     * @return callable(NovaRequest, Builder, mixed, string):void
      */
     protected function defaultFilterableCallback()
     {

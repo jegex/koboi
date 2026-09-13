@@ -40,7 +40,7 @@ trait InteractsWithElements
     /**
      * Type on "date" input.
      *
-     * @param  \Carbon\CarbonInterface|empty-string|null  $carbon
+     * @param  CarbonInterface|empty-string|null  $carbon
      */
     public function typeOnDate(Browser $browser, string $selector, $carbon): void
     {
@@ -58,7 +58,7 @@ trait InteractsWithElements
     /**
      * Type in a "datetime" filter input.
      *
-     * @param  \Carbon\CarbonInterface|empty-string|null  $carbon
+     * @param  CarbonInterface|empty-string|null  $carbon
      * @return void
      */
     public function typeInDateTimeField(Browser $browser, string $selector, $carbon)
@@ -76,7 +76,7 @@ trait InteractsWithElements
     /**
      * Type on "datetime-local" input.
      *
-     * @param  \Carbon\CarbonInterface|empty-string|null  $carbon
+     * @param  CarbonInterface|empty-string|null  $carbon
      */
     public function typeOnDateTimeLocal(Browser $browser, string $selector, $carbon): void
     {

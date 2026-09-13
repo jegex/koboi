@@ -2,17 +2,21 @@
 
 namespace Jegex\Koboi\Fields;
 
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
 use Jegex\Koboi\Contracts\Deletable as DeletableContract;
 use Jegex\Koboi\Contracts\FilterableField;
 use Jegex\Koboi\Contracts\Previewable;
 use Jegex\Koboi\Contracts\Storable as StorableContract;
+use Jegex\Koboi\Fields\Filters\Filter;
 use Jegex\Koboi\Fields\Filters\TextFilter;
 use Jegex\Koboi\Fields\Markdown\CommonMarkPreset;
 use Jegex\Koboi\Fields\Markdown\DefaultPreset;
+use Jegex\Koboi\Fields\Markdown\MarkdownPreset;
 use Jegex\Koboi\Fields\Markdown\ZeroPreset;
 use Jegex\Koboi\Http\Requests\NovaRequest;
 use Jegex\Koboi\ManagesPresets;
+use Jegex\Koboi\Support\Fluent;
 
 class Markdown extends Field implements DeletableContract, FilterableField, Previewable, StorableContract
 {
@@ -40,7 +44,7 @@ class Markdown extends Field implements DeletableContract, FilterableField, Prev
     /**
      * The built-in presets for the Markdown field.
      *
-     * @var array<string, class-string<\Jegex\Koboi\Fields\Markdown\MarkdownPreset>>
+     * @var array<string, class-string<MarkdownPreset>>
      */
     public $presets = [
         'default' => DefaultPreset::class,
@@ -51,7 +55,7 @@ class Markdown extends Field implements DeletableContract, FilterableField, Prev
     /**
      * Hydrate the given attribute on the model based on the incoming request.
      *
-     * @param  \Illuminate\Database\Eloquent\Model|\Jegex\Koboi\Support\Fluent  $model
+     * @param  Model|Fluent  $model
      */
     protected function fillAttribute(NovaRequest $request, string $requestAttribute, object $model, string $attribute): ?callable
     {
@@ -71,7 +75,7 @@ class Markdown extends Field implements DeletableContract, FilterableField, Prev
     /**
      * Make the field filter.
      *
-     * @return \Jegex\Koboi\Fields\Filters\Filter
+     * @return Filter
      */
     protected function makeFilter(NovaRequest $request)
     {
@@ -102,7 +106,7 @@ class Markdown extends Field implements DeletableContract, FilterableField, Prev
     }
 
     /**
-     * @return \Jegex\Koboi\Fields\Markdown\MarkdownPreset
+     * @return MarkdownPreset
      */
     public function renderer()
     {

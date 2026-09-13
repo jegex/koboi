@@ -21,8 +21,8 @@ abstract class Progress extends Metric
     /**
      * Return a progress result showing the growth of an count aggregate.
      *
-     * @param  \Illuminate\Contracts\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Model|class-string<\Illuminate\Database\Eloquent\Model>  $model
-     * @param  callable(\Illuminate\Contracts\Database\Eloquent\Builder):(mixed)  $progress
+     * @param  Builder|Model|class-string<Model>  $model
+     * @param  callable(Builder):(mixed)  $progress
      */
     public function count(
         NovaRequest $request,
@@ -37,8 +37,8 @@ abstract class Progress extends Metric
     /**
      * Return a progress result showing the growth of a sum aggregate.
      *
-     * @param  \Illuminate\Contracts\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Model|class-string<\Illuminate\Database\Eloquent\Model>  $model
-     * @param  callable(\Illuminate\Contracts\Database\Eloquent\Builder):(mixed)  $progress
+     * @param  Builder|Model|class-string<Model>  $model
+     * @param  callable(Builder):(mixed)  $progress
      */
     public function sum(
         NovaRequest $request,
@@ -53,8 +53,8 @@ abstract class Progress extends Metric
     /**
      * Return a progress result showing the segments of a aggregate.
      *
-     * @param  \Illuminate\Contracts\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Model|class-string<\Illuminate\Database\Eloquent\Model>  $model
-     * @param  callable(\Illuminate\Contracts\Database\Eloquent\Builder):(mixed)  $progress
+     * @param  Builder|Model|class-string<Model>  $model
+     * @param  callable(Builder):(mixed)  $progress
      */
     protected function aggregate(
         NovaRequest $request,

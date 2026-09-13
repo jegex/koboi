@@ -3,8 +3,13 @@
 namespace Jegex\Koboi\Actions;
 
 use DateTime;
+use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
+use Illuminate\Database\Eloquent\Relations\Pivot;
 use Illuminate\Database\Eloquent\Relations\Relation;
+use Illuminate\Foundation\Auth\User;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use Jegex\Koboi\Http\Requests\ActionRequest;
@@ -16,8 +21,8 @@ use Throwable;
 use function Orchestra\Sidekick\Eloquent\model_state;
 
 /**
- * @property \Illuminate\Database\Eloquent\Model $target
- * @property \Illuminate\Foundation\Auth\User $user
+ * @property Model $target
+ * @property User $user
  * @property array|null $changes
  * @property array|null $original
  */
@@ -50,7 +55,7 @@ class ActionEvent extends Model
     /**
      * Get the user that initiated the action.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return BelongsTo
      */
     public function user()
     {
@@ -60,7 +65,7 @@ class ActionEvent extends Model
     /**
      * Get the target of the action for user interface linking.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\MorphTo
+     * @return MorphTo
      */
     public function target()
     {
@@ -69,19 +74,19 @@ class ActionEvent extends Model
         };
 
         return $this->morphTo('target', 'target_type', 'target_id')
-                    ->constrain(
-                        collect(Nova::$resources)
-                            ->filter(static fn ($resource) => $resource::softDeletes())
-                            ->mapWithKeys(static fn ($resource) => [$resource::$model => $queryWithTrashed])
-                            ->all()
-                    )->when(true, static fn ($query) => $query->hasMacro('withTrashed') ? $queryWithTrashed($query) : $query);
+            ->constrain(
+                collect(Nova::$resources)
+                    ->filter(static fn ($resource) => $resource::softDeletes())
+                    ->mapWithKeys(static fn ($resource) => [$resource::$model => $queryWithTrashed])
+                    ->all()
+            )->when(true, static fn ($query) => $query->hasMacro('withTrashed') ? $queryWithTrashed($query) : $query);
     }
 
     /**
      * Create a new action event instance for a resource creation.
      *
-     * @param  \Illuminate\Contracts\Auth\Authenticatable  $user
-     * @param  \Illuminate\Database\Eloquent\Model  $model
+     * @param  Authenticatable  $user
+     * @param  Model  $model
      * @return static
      */
     public static function forResourceCreate($user, $model)
@@ -109,8 +114,8 @@ class ActionEvent extends Model
     /**
      * Create a new action event instance for a resource update.
      *
-     * @param  \Illuminate\Contracts\Auth\Authenticatable  $user
-     * @param  \Illuminate\Database\Eloquent\Model  $model
+     * @param  Authenticatable  $user
+     * @param  Model  $model
      * @return static
      */
     public static function forResourceUpdate($user, $model)
@@ -138,8 +143,8 @@ class ActionEvent extends Model
     /**
      * Create a new action event instance for an attached resource.
      *
-     * @param  \Illuminate\Database\Eloquent\Model  $parent
-     * @param  \Illuminate\Database\Eloquent\Relations\Pivot  $pivot
+     * @param  Model  $parent
+     * @param  Pivot  $pivot
      * @return static
      */
     public static function forAttachedResource(NovaRequest $request, $parent, $pivot)
@@ -167,8 +172,8 @@ class ActionEvent extends Model
     /**
      * Create a new action event instance for an attached resource update.
      *
-     * @param  \Illuminate\Database\Eloquent\Model  $parent
-     * @param  \Illuminate\Database\Eloquent\Relations\Pivot  $pivot
+     * @param  Model  $parent
+     * @param  Pivot  $pivot
      * @return static
      */
     public static function forAttachedResourceUpdate(NovaRequest $request, $parent, $pivot)
@@ -196,7 +201,7 @@ class ActionEvent extends Model
     /**
      * Create new action event instances for resource deletes.
      *
-     * @param  \Illuminate\Contracts\Auth\Authenticatable  $user
+     * @param  Authenticatable  $user
      */
     public static function forResourceDelete($user, Collection $models): Collection
     {
@@ -206,7 +211,7 @@ class ActionEvent extends Model
     /**
      * Create new action event instances for resource restorations.
      *
-     * @param  \Illuminate\Contracts\Auth\Authenticatable  $user
+     * @param  Authenticatable  $user
      */
     public static function forResourceRestore($user, Collection $models): Collection
     {
@@ -216,7 +221,7 @@ class ActionEvent extends Model
     /**
      * Create new action event instances for resource soft deletions.
      *
-     * @param  \Illuminate\Contracts\Auth\Authenticatable  $user
+     * @param  Authenticatable  $user
      */
     public static function forSoftDeleteAction(string $action, $user, Collection $models): Collection
     {
@@ -245,8 +250,8 @@ class ActionEvent extends Model
     /**
      * Create new action event instances for resource detachments.
      *
-     * @param  \Illuminate\Contracts\Auth\Authenticatable  $user
-     * @param  \Illuminate\Database\Eloquent\Model  $parent
+     * @param  Authenticatable  $user
+     * @param  Model  $parent
      */
     public static function forResourceDetach($user, $parent, Collection $models, string $pivotClass): Collection
     {
@@ -350,9 +355,9 @@ class ActionEvent extends Model
                 ->whereNotIn('id', static function ($query) use ($model, $limit) {
                     $query->select('id')->fromSub(
                         static::select('id')->orderBy('id', 'desc')
-                                ->where('actionable_id', $model['actionable_id'])
-                                ->where('actionable_type', $model['actionable_type'])
-                                ->limit($limit)->toBase(),
+                            ->where('actionable_id', $model['actionable_id'])
+                            ->where('actionable_type', $model['actionable_type'])
+                            ->limit($limit)->toBase(),
                         'action_events_temp'
                     );
                 })->delete();
@@ -365,7 +370,7 @@ class ActionEvent extends Model
     public static function markBatchAsRunning(string $batchId): int
     {
         return static::where('batch_id', $batchId)
-                    ->whereNotIn('status', ['finished', 'failed'])->update([
+            ->whereNotIn('status', ['finished', 'failed'])->update([
                         'status' => 'running',
                     ]);
     }
@@ -376,7 +381,7 @@ class ActionEvent extends Model
     public static function markBatchAsFinished(string $batchId): int
     {
         return static::where('batch_id', $batchId)
-                    ->whereNotIn('status', ['finished', 'failed'])->update([
+            ->whereNotIn('status', ['finished', 'failed'])->update([
                         'status' => 'finished',
                     ]);
     }
@@ -384,7 +389,7 @@ class ActionEvent extends Model
     /**
      * Mark a given action event record as finished.
      *
-     * @param  \Illuminate\Database\Eloquent\Model  $model
+     * @param  Model  $model
      */
     public static function markAsFinished(string $batchId, $model): int
     {
@@ -394,12 +399,12 @@ class ActionEvent extends Model
     /**
      * Mark the given batch as failed.
      *
-     * @param  \Throwable  $e
+     * @param  Throwable  $e
      */
     public static function markBatchAsFailed(string $batchId, Throwable|string|null $e = null): int
     {
         return static::where('batch_id', $batchId)
-                    ->whereNotIn('status', ['finished', 'failed'])->update([
+            ->whereNotIn('status', ['finished', 'failed'])->update([
                         'status' => 'failed',
                         'exception' => $e ? (string) $e : '',
                     ]);
@@ -408,7 +413,7 @@ class ActionEvent extends Model
     /**
      * Mark a given action event record as failed.
      *
-     * @param  \Illuminate\Database\Eloquent\Model  $model
+     * @param  Model  $model
      */
     public static function markAsFailed(string $batchId, $model, Throwable|string|null $e = null): int
     {
@@ -418,14 +423,14 @@ class ActionEvent extends Model
     /**
      * Update the status of a given action event.
      *
-     * @param  \Illuminate\Database\Eloquent\Model  $model
+     * @param  Model  $model
      */
     public static function updateStatus(string $batchId, $model, string $status, Throwable|string|null $e = null): int
     {
         return static::where('batch_id', $batchId)
-                        ->where('model_type', $model->getMorphClass())
-                        ->where('model_id', $model->getKey())
-                        ->update(['status' => $status, 'exception' => (string) $e]);
+            ->where('model_type', $model->getMorphClass())
+            ->where('model_id', $model->getKey())
+            ->update(['status' => $status, 'exception' => (string) $e]);
     }
 
     /**

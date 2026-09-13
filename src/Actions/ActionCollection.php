@@ -2,6 +2,7 @@
 
 namespace Jegex\Koboi\Actions;
 
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 use Jegex\Koboi\Http\Requests\NovaRequest;
 
@@ -9,7 +10,7 @@ use Jegex\Koboi\Http\Requests\NovaRequest;
  * @template TKey of array-key
  * @template TValue of \Jegex\Koboi\Actions\Action
  *
- * @extends \Illuminate\Support\Collection<TKey, TValue>
+ * @extends Collection<TKey, TValue>
  */
 class ActionCollection extends Collection
 {
@@ -60,7 +61,7 @@ class ActionCollection extends Collection
     /**
      * Determine whether the actions available for display can be executed.
      *
-     * @param  \Illuminate\Database\Eloquent\Model  $model
+     * @param  Model  $model
      * @return $this
      */
     public function withAuthorizedToRun(NovaRequest $request, $model)

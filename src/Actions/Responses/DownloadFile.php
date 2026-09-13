@@ -20,7 +20,7 @@ class DownloadFile implements JsonSerializable
     /**
      * Prepare for JSON serialization.
      *
-     * @return array{url: string, name: \Stringable|string}
+     * @return array{url: string, name: Stringable|string}
      */
     public function jsonSerialize(): array
     {

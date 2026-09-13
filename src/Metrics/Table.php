@@ -17,7 +17,7 @@ class Table extends Metric
     /**
      * The text to be displayed when the table is empty.
      *
-     * @var \Stringable|string
+     * @var Stringable|string
      */
     public $emptyText = 'No Results Found...';
 

@@ -3,6 +3,7 @@
 namespace Jegex\Koboi\Fields;
 
 use Illuminate\Support\Facades\Storage;
+use Jegex\Koboi\Http\Requests\NovaRequest;
 
 class VaporAudio extends VaporFile
 {
@@ -20,7 +21,7 @@ class VaporAudio extends VaporFile
      *
      * @param  \Stringable|string  $name
      * @param  string|callable|null  $attribute
-     * @param  (callable(\Jegex\Koboi\Http\Requests\NovaRequest, object, string, string, ?string, ?string):mixed)|null  $storageCallback
+     * @param  (callable(NovaRequest, object, string, string, ?string, ?string):mixed)|null  $storageCallback
      */
     public function __construct($name, mixed $attribute = null, ?callable $storageCallback = null)
     {

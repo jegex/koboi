@@ -3,6 +3,7 @@
 namespace Jegex\Koboi\Metrics;
 
 use Carbon\CarbonImmutable;
+use Carbon\CarbonInterface;
 use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Contracts\Database\Query\Expression;
 use Illuminate\Database\Eloquent\Model;
@@ -43,7 +44,7 @@ abstract class Value extends RangedMetric
     /**
      * Return a value result showing the growth of an count aggregate over time.
      *
-     * @param  \Illuminate\Contracts\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Model|class-string<\Illuminate\Database\Eloquent\Model>  $model
+     * @param  Builder|Model|class-string<Model>  $model
      */
     public function count(NovaRequest $request, Builder|Model|string $model, Expression|string|null $column = null, ?string $dateColumn = null): ValueResult
     {
@@ -53,7 +54,7 @@ abstract class Value extends RangedMetric
     /**
      * Return a value result showing the growth of an average aggregate over time.
      *
-     * @param  \Illuminate\Contracts\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Model|class-string<\Illuminate\Database\Eloquent\Model>  $model
+     * @param  Builder|Model|class-string<Model>  $model
      */
     public function average(NovaRequest $request, Builder|Model|string $model, Expression|string $column, ?string $dateColumn = null): ValueResult
     {
@@ -63,7 +64,7 @@ abstract class Value extends RangedMetric
     /**
      * Return a value result showing the growth of a sum aggregate over time.
      *
-     * @param  \Illuminate\Contracts\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Model|class-string<\Illuminate\Database\Eloquent\Model>  $model
+     * @param  Builder|Model|class-string<Model>  $model
      */
     public function sum(NovaRequest $request, Builder|Model|string $model, Expression|string $column, ?string $dateColumn = null): ValueResult
     {
@@ -73,7 +74,7 @@ abstract class Value extends RangedMetric
     /**
      * Return a value result showing the growth of a maximum aggregate over time.
      *
-     * @param  \Illuminate\Contracts\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Model|class-string<\Illuminate\Database\Eloquent\Model>  $model
+     * @param  Builder|Model|class-string<Model>  $model
      */
     public function max(NovaRequest $request, Builder|Model|string $model, Expression|string $column, ?string $dateColumn = null): ValueResult
     {
@@ -83,7 +84,7 @@ abstract class Value extends RangedMetric
     /**
      * Return a value result showing the growth of a minimum aggregate over time.
      *
-     * @param  \Illuminate\Contracts\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Model|class-string<\Illuminate\Database\Eloquent\Model>  $model
+     * @param  Builder|Model|class-string<Model>  $model
      */
     public function min(NovaRequest $request, Builder|Model|string $model, Expression|string $column, ?string $dateColumn = null): ValueResult
     {
@@ -93,7 +94,7 @@ abstract class Value extends RangedMetric
     /**
      * Return a value result showing the growth of a model over a given time frame.
      *
-     * @param  \Illuminate\Contracts\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Model|class-string<\Illuminate\Database\Eloquent\Model>  $model
+     * @param  Builder|Model|class-string<Model>  $model
      */
     protected function aggregate(
         NovaRequest $request,
@@ -149,7 +150,7 @@ abstract class Value extends RangedMetric
     /**
      * Calculate the previous range and calculate any short-cuts.
      *
-     * @return array<int, \Carbon\CarbonInterface>
+     * @return array<int, CarbonInterface>
      */
     protected function previousRange(string|int $range, string $timezone): array
     {
@@ -201,7 +202,7 @@ abstract class Value extends RangedMetric
     /**
      * Calculate the previous quarter range.
      *
-     * @return array<int, \Carbon\CarbonImmutable>
+     * @return array<int, CarbonImmutable>
      */
     protected function previousQuarterRange(string $timezone): array
     {
@@ -214,7 +215,7 @@ abstract class Value extends RangedMetric
     /**
      * Calculate the current range and calculate any short-cuts.
      *
-     * @return array<int, \Carbon\CarbonInterface>
+     * @return array<int, CarbonInterface>
      */
     protected function currentRange(string|int $range, string $timezone): array
     {
@@ -266,7 +267,7 @@ abstract class Value extends RangedMetric
     /**
      * Calculate the previous quarter range.
      *
-     * @return array<int, \Carbon\CarbonImmutable>
+     * @return array<int, CarbonImmutable>
      */
     protected function currentQuarterRange(string $timezone): array
     {

@@ -2,10 +2,15 @@
 
 namespace Jegex\Koboi\Fields;
 
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
 use Jegex\Koboi\Contracts\FilterableField;
 use Jegex\Koboi\Fields\Filters\BooleanFilter;
+use Jegex\Koboi\Fields\Filters\Filter;
 use Jegex\Koboi\Http\Requests\NovaRequest;
+use Jegex\Koboi\Resource;
+use Jegex\Koboi\Support\Fluent;
+use Jegex\Koboi\Support\UndefinedValue;
 
 class Boolean extends Field implements FilterableField
 {
@@ -43,7 +48,7 @@ class Boolean extends Field implements FilterableField
     /**
      * Resolve the given attribute from the given resource.
      *
-     * @param  \Jegex\Koboi\Resource|\Illuminate\Database\Eloquent\Model|object  $resource
+     * @param  \Jegex\Koboi\Resource|Model|object  $resource
      */
     #[\Override]
     protected function resolveAttribute($resource, string $attribute): ?bool
@@ -58,7 +63,7 @@ class Boolean extends Field implements FilterableField
     /**
      * Resolve the default value for the field.
      *
-     * @return \Jegex\Koboi\Support\UndefinedValue|bool|null
+     * @return UndefinedValue|bool|null
      */
     #[\Override]
     public function resolveDefaultValue(NovaRequest $request): mixed
@@ -73,7 +78,7 @@ class Boolean extends Field implements FilterableField
     /**
      * Hydrate the given attribute on the model based on the incoming request.
      *
-     * @param  \Illuminate\Database\Eloquent\Model|\Jegex\Koboi\Support\Fluent  $model
+     * @param  Model|Fluent  $model
      */
     protected function fillAttributeFromRequest(NovaRequest $request, string $requestAttribute, object $model, string $attribute): void
     {
@@ -121,7 +126,7 @@ class Boolean extends Field implements FilterableField
     /**
      * Make the field filter.
      *
-     * @return \Jegex\Koboi\Fields\Filters\Filter
+     * @return Filter
      */
     protected function makeFilter(NovaRequest $request)
     {

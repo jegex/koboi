@@ -22,7 +22,7 @@ class Dependent
     /**
      * The dependent attributes.
      *
-     * @var array<int, string|\Jegex\Koboi\Fields\Field>
+     * @var array<int, string|Field>
      */
     public array $attributes = [];
 
@@ -34,7 +34,7 @@ class Dependent
     /**
      * Create a new dependent object.
      *
-     * @param  \Jegex\Koboi\Fields\Field|array<int, string|\Jegex\Koboi\Fields\Field>|string  $attributes
+     * @param  Field|array<int, string|Field>|string  $attributes
      * @param  callable|string  $resolver
      * @param  array<int, string>|string|null  $context
      *
@@ -48,7 +48,7 @@ class Dependent
         $this->context = Arr::wrap($context ?? $this->context);
 
         $this->attributes = collect(Arr::wrap($attributes))->map(static function ($item) {
-            /** @var string|\Jegex\Koboi\Fields\Field $item */
+            /** @var string|Field $item */
             if ($item instanceof MorphTo) {
                 return [$item->attribute, "{$item->attribute}_type"];
             }

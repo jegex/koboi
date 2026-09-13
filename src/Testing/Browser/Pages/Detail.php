@@ -2,26 +2,27 @@
 
 namespace Jegex\Koboi\Testing\Browser\Pages;
 
+use Facebook\WebDriver\Exception\TimeOutException;
 use Illuminate\Database\Eloquent\Model;
-use Laravel\Dusk\Browser;
 use Jegex\Koboi\Testing\Browser\Components\ActionDropdownComponent;
 use Jegex\Koboi\Testing\Browser\Components\IndexComponent;
 use Jegex\Koboi\Testing\Browser\Components\Modals\DeleteResourceModalComponent;
 use Jegex\Koboi\Testing\Browser\Components\Modals\RestoreResourceModalComponent;
+use Laravel\Dusk\Browser;
 
 class Detail extends Page
 {
     /**
      * The Resource ID.
      *
-     * @var \Illuminate\Database\Eloquent\Model|string|int
+     * @var Model|string|int
      */
     public mixed $resourceId;
 
     /**
      * Create a new page instance.
      *
-     * @param  \Illuminate\Database\Eloquent\Model|string|int  $resourceId
+     * @param  Model|string|int  $resourceId
      */
     public function __construct(
         public string $resourceName,
@@ -36,7 +37,7 @@ class Detail extends Page
     /**
      * Run the action with the given URI key.
      *
-     * @throws \Facebook\WebDriver\Exception\TimeOutException
+     * @throws TimeOutException
      */
     public function runAction(Browser $browser, string $uriKey): void
     {
@@ -49,7 +50,7 @@ class Detail extends Page
     /**
      * Run the action with the given URI key.
      *
-     * @throws \Facebook\WebDriver\Exception\TimeOutException
+     * @throws TimeOutException
      */
     public function runInstantAction(Browser $browser, string $uriKey): void
     {
@@ -62,7 +63,7 @@ class Detail extends Page
     /**
      * Open the action modal but cancel the action.
      *
-     * @throws \Facebook\WebDriver\Exception\TimeOutException
+     * @throws TimeOutException
      */
     public function cancelAction(Browser $browser, string $uriKey): void
     {
@@ -75,7 +76,7 @@ class Detail extends Page
     /**
      * Edit the resource.
      *
-     * @throws \Facebook\WebDriver\Exception\TimeOutException
+     * @throws TimeOutException
      */
     public function edit(Browser $browser): void
     {
@@ -86,7 +87,7 @@ class Detail extends Page
     /**
      * Create the related resource.
      *
-     * @throws \Facebook\WebDriver\Exception\TimeOutException
+     * @throws TimeOutException
      */
     public function runCreateRelation(Browser $browser, string $relatedResourceName): void
     {
@@ -98,7 +99,7 @@ class Detail extends Page
     /**
      * Create the related resource.
      *
-     * @throws \Facebook\WebDriver\Exception\TimeOutException
+     * @throws TimeOutException
      */
     public function runAttachRelation(Browser $browser, string $relatedResourceName, ?string $viaRelationship = null): void
     {
@@ -110,7 +111,7 @@ class Detail extends Page
     /**
      * Open the delete selector.
      *
-     * @throws \Facebook\WebDriver\Exception\TimeOutException
+     * @throws TimeOutException
      */
     public function openControlSelector(Browser $browser): void
     {
@@ -122,7 +123,7 @@ class Detail extends Page
     /**
      * Replicate the resource.
      *
-     * @throws \Facebook\WebDriver\Exception\TimeOutException
+     * @throws TimeOutException
      */
     public function replicate(Browser $browser): void
     {
@@ -135,7 +136,7 @@ class Detail extends Page
     /**
      * Delete the resource.
      *
-     * @throws \Facebook\WebDriver\Exception\TimeOutException
+     * @throws TimeOutException
      */
     public function delete(Browser $browser): void
     {
@@ -151,7 +152,7 @@ class Detail extends Page
     /**
      * Restore the resource.
      *
-     * @throws \Facebook\WebDriver\Exception\TimeOutException
+     * @throws TimeOutException
      */
     public function restore(Browser $browser): void
     {
@@ -167,7 +168,7 @@ class Detail extends Page
     /**
      * Force delete the resource.
      *
-     * @throws \Facebook\WebDriver\Exception\TimeOutException
+     * @throws TimeOutException
      */
     public function forceDelete(Browser $browser): void
     {

@@ -2,12 +2,14 @@
 
 namespace Jegex\Koboi\Fields;
 
+use Illuminate\Database\Eloquent\Model;
 use Jegex\Koboi\Fields\Attachments\DeleteAttachments;
 use Jegex\Koboi\Fields\Attachments\DetachAnyAttachment;
 use Jegex\Koboi\Fields\Attachments\DiscardPendingAttachments;
 use Jegex\Koboi\Fields\Attachments\PendingAttachment;
 use Jegex\Koboi\Fields\Attachments\StorePendingAttachment;
 use Jegex\Koboi\Http\Requests\NovaRequest;
+use Jegex\Koboi\Support\Fluent;
 
 trait HasAttachments
 {
@@ -24,28 +26,28 @@ trait HasAttachments
     /**
      * The callback that should be executed to store file attachments.
      *
-     * @var callable(\Jegex\Koboi\Http\Requests\NovaRequest):array{path: string, url: string}
+     * @var callable(NovaRequest):array{path: string, url: string}
      */
     public $attachCallback;
 
     /**
      * The callback that should be executed to delete persisted file attachments.
      *
-     * @var (callable(\Jegex\Koboi\Http\Requests\NovaRequest):void)|\Jegex\Koboi\Fields\Attachments\DetachAnyAttachment
+     * @var (callable(NovaRequest):void)|DetachAnyAttachment
      */
     public $detachCallback;
 
     /**
      * The callback that should be executed to discard file attachments.
      *
-     * @var callable(\Jegex\Koboi\Http\Requests\NovaRequest):void
+     * @var callable(NovaRequest):void
      */
     public $discardCallback;
 
     /**
      * Specify the callback that should be used to store file attachments.
      *
-     * @param  callable(\Jegex\Koboi\Http\Requests\NovaRequest):array{path: string, url: string}  $callback
+     * @param  callable(NovaRequest):array{path: string, url: string}  $callback
      * @return $this
      */
     public function attach(callable $callback)
@@ -60,7 +62,7 @@ trait HasAttachments
     /**
      * Specify the callback that should be used to delete a single, persisted file attachment.
      *
-     * @param  callable(\Jegex\Koboi\Http\Requests\NovaRequest):void  $callback
+     * @param  callable(NovaRequest):void  $callback
      * @return $this
      */
     public function detach(callable $callback)
@@ -89,7 +91,7 @@ trait HasAttachments
     /**
      * Specify the callback that should be used to delete the field.
      *
-     * @param  callable(\Jegex\Koboi\Http\Requests\NovaRequest, mixed, ?string, ?string):mixed  $deleteCallback
+     * @param  callable(NovaRequest, mixed, ?string, ?string):mixed  $deleteCallback
      * @return $this
      */
     public function delete(callable $deleteCallback)
@@ -124,7 +126,7 @@ trait HasAttachments
     /**
      * Hydrate the given attribute on the model based on the incoming request.
      *
-     * @param  \Illuminate\Database\Eloquent\Model|\Jegex\Koboi\Support\Fluent  $model
+     * @param  Model|Fluent  $model
      */
     protected function fillAttributeWithAttachment(NovaRequest $request, string $requestAttribute, object $model, string $attribute): ?callable
     {

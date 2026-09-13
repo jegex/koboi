@@ -9,7 +9,7 @@ class DiscardPendingAttachments
     /**
      * The pending attachment model.
      *
-     * @var class-string<\Jegex\Koboi\Fields\Attachments\PendingAttachment>
+     * @var class-string<PendingAttachment>
      */
     public static $model = PendingAttachment::class;
 

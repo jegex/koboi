@@ -2,6 +2,7 @@
 
 namespace Jegex\Koboi\Fields;
 
+use Illuminate\Contracts\Database\Eloquent\Builder;
 use Jegex\Koboi\Fields\Filters\EloquentFilter;
 use Jegex\Koboi\Http\Requests\NovaRequest;
 
@@ -12,7 +13,7 @@ trait EloquentFilterable
     /**
      * Make the field filter.
      *
-     * @return \Jegex\Koboi\Fields\Filters\EloquentFilter|null
+     * @return EloquentFilter|null
      */
     protected function makeFilter(NovaRequest $request)
     {
@@ -29,7 +30,7 @@ trait EloquentFilterable
     /**
      * Define the default filterable callback.
      *
-     * @return callable(\Jegex\Koboi\Http\Requests\NovaRequest, \Illuminate\Contracts\Database\Eloquent\Builder, mixed, string):void
+     * @return callable(NovaRequest, Builder, mixed, string):void
      */
     abstract protected function defaultFilterableCallback();
 }

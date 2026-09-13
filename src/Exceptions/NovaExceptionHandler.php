@@ -4,9 +4,11 @@ namespace Jegex\Koboi\Exceptions;
 
 use Closure;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Jegex\Koboi\Nova;
 use Jegex\Koboi\Util;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
 use Throwable;
 
@@ -22,7 +24,7 @@ class NovaExceptionHandler extends ExceptionHandler
     public function register()
     {
         with(Nova::$reportCallback, function ($handler) {
-            /** @var (callable(\Throwable):(void))|(\Closure(\Throwable):(void))|null $handler */
+            /** @var (callable(Throwable):(void))|(Closure(Throwable):(void))|null $handler */
             if ($handler instanceof Closure || \is_callable($handler)) {
                 $this->reportable(static function (Throwable $e) use ($handler) {
                     \call_user_func($handler, $e);
@@ -45,9 +47,9 @@ class NovaExceptionHandler extends ExceptionHandler
     /**
      * Render Inertia Exception.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Symfony\Component\HttpKernel\Exception\HttpExceptionInterface|\Throwable  $e
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @param  Request  $request
+     * @param  HttpExceptionInterface|Throwable  $e
+     * @return Response
      */
     protected function renderInertiaException($request, $e)
     {

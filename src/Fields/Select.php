@@ -4,7 +4,9 @@ namespace Jegex\Koboi\Fields;
 
 use Illuminate\Support\Arr;
 use Jegex\Koboi\Contracts\FilterableField;
+use Jegex\Koboi\Exceptions\HelperNotSupported;
 use Jegex\Koboi\Exceptions\NovaException;
+use Jegex\Koboi\Fields\Filters\Filter;
 use Jegex\Koboi\Fields\Filters\SelectFilter;
 use Jegex\Koboi\Http\Requests\NovaRequest;
 use Jegex\Koboi\Nova;
@@ -68,8 +70,8 @@ class Select extends Field implements FilterableField
             }
 
             return collect($this->serializeOptions(false))
-                    ->where('value', $value)
-                    ->first()['label'] ?? $value;
+                ->where('value', $value)
+                ->first()['label'] ?? $value;
         });
 
         return $this;
@@ -80,7 +82,7 @@ class Select extends Field implements FilterableField
      *
      * @return $this
      *
-     * @throws \Jegex\Koboi\Exceptions\HelperNotSupported
+     * @throws HelperNotSupported
      */
     public function withSubtitles()
     {
@@ -90,7 +92,7 @@ class Select extends Field implements FilterableField
     /**
      * Make the field filter.
      *
-     * @return \Jegex\Koboi\Fields\Filters\Filter
+     * @return Filter
      */
     protected function makeFilter(NovaRequest $request)
     {

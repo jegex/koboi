@@ -4,6 +4,7 @@ namespace Jegex\Koboi\Console\Bootstrap;
 
 use Illuminate\Contracts\Foundation\Application as ApplicationContract;
 use Illuminate\Foundation\Application;
+use Illuminate\Validation\Validator;
 use Laravel\Prompts\Prompt;
 use stdClass;
 
@@ -59,7 +60,7 @@ class ConfiguresPrompts
      * @param  mixed  $field
      * @param  mixed  $value
      * @param  mixed  $rules
-     * @return \Illuminate\Validation\Validator
+     * @return Validator
      */
     protected function getPromptValidatorInstance(
         ApplicationContract $app,

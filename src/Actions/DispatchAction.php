@@ -23,7 +23,7 @@ class DispatchAction
     /**
      * Set dispatchable callback.
      *
-     * @var (callable(\Jegex\Koboi\Actions\Response):(mixed))|null
+     * @var (callable(Response):(mixed))|null
      */
     protected $dispatchableCallback;
 
@@ -141,7 +141,7 @@ class DispatchAction
     /**
      * Dispatch the given action using custom handler.
      *
-     * @param  \Closure(\Jegex\Koboi\Http\Requests\ActionRequest, \Jegex\Koboi\Actions\Response, \Jegex\Koboi\Fields\ActionFields):\Jegex\Koboi\Actions\Response  $callback
+     * @param  Closure(ActionRequest, Response, ActionFields):Response  $callback
      * @return $this
      */
     public function handleUsing(ActionRequest $request, Closure $callback)

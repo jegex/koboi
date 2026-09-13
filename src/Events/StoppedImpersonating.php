@@ -2,27 +2,29 @@
 
 namespace Jegex\Koboi\Events;
 
+use Illuminate\Contracts\Auth\Authenticatable;
+
 class StoppedImpersonating
 {
     /**
      * The impersonator user.
      *
-     * @var \Illuminate\Contracts\Auth\Authenticatable
+     * @var Authenticatable
      */
     public $impersonator;
 
     /**
      * The impersonated user.
      *
-     * @var \Illuminate\Contracts\Auth\Authenticatable
+     * @var Authenticatable
      */
     public $impersonated;
 
     /**
      * Create a new event instance.
      *
-     * @param  \Illuminate\Contracts\Auth\Authenticatable  $impersonator
-     * @param  \Illuminate\Contracts\Auth\Authenticatable  $impersonated
+     * @param  Authenticatable  $impersonator
+     * @param  Authenticatable  $impersonated
      */
     public function __construct(
         $impersonator,

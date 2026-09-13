@@ -2,6 +2,7 @@
 
 namespace Jegex\Koboi\Testing\Browser\Components;
 
+use Facebook\WebDriver\Exception\TimeOutException;
 use Illuminate\Database\Eloquent\Model;
 use Laravel\Dusk\Browser;
 
@@ -10,14 +11,14 @@ class DetailComponent extends Component
     /**
      * The Resource ID.
      *
-     * @var \Illuminate\Database\Eloquent\Model|string|int
+     * @var Model|string|int
      */
     public mixed $resourceId;
 
     /**
      * Create a new component instance.
      *
-     * @param  \Illuminate\Database\Eloquent\Model|string|int  $resourceId
+     * @param  Model|string|int  $resourceId
      */
     public function __construct(
         public string $resourceName,
@@ -29,7 +30,7 @@ class DetailComponent extends Component
     /**
      * Open the delete selector.
      *
-     * @throws \Facebook\WebDriver\Exception\TimeOutException
+     * @throws TimeOutException
      */
     public function openControlSelector(Browser $browser): void
     {

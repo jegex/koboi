@@ -2,16 +2,20 @@
 
 namespace Jegex\Koboi\Fields;
 
+use Illuminate\Contracts\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Http\Request;
 use Jegex\Koboi\Contracts\FilterableField;
 use Jegex\Koboi\Contracts\RelatableField;
+use Jegex\Koboi\Fields\Filters\Filter;
 use Jegex\Koboi\Fields\Filters\MorphToFilter;
 use Jegex\Koboi\Http\Requests\NovaRequest;
 use Jegex\Koboi\Http\Requests\ResourceIndexRequest;
 use Jegex\Koboi\Nova;
 use Jegex\Koboi\Resource;
 use Jegex\Koboi\Rules\Relatable;
+use Jegex\Koboi\Support\Fluent;
 
 use function Orchestra\Sidekick\Http\safe_int;
 use function Orchestra\Sidekick\is_safe_callable;
@@ -110,7 +114,7 @@ class MorphTo extends Field implements FilterableField, RelatableField
     /**
      * The default related class value for the field.
      *
-     * @var (callable(\Jegex\Koboi\Http\Requests\NovaRequest):(class-string<\Jegex\Koboi\Resource>))|class-string<\Jegex\Koboi\Resource>|null
+     * @var (callable(NovaRequest):(class-string<\Jegex\Koboi\Resource>))|class-string<\Jegex\Koboi\Resource>|null
      */
     public $defaultResourceCallable;
 
@@ -145,7 +149,7 @@ class MorphTo extends Field implements FilterableField, RelatableField
     /**
      * Determine if the field should be displayed for the given request.
      *
-     * @param  \Illuminate\Http\Request&\Jegex\Koboi\Http\Requests\NovaRequest  $request
+     * @param  Request&NovaRequest  $request
      * @return bool
      */
     #[\Override]
@@ -171,7 +175,7 @@ class MorphTo extends Field implements FilterableField, RelatableField
     /**
      * Resolve the field's value.
      *
-     * @param  \Jegex\Koboi\Resource|\Illuminate\Database\Eloquent\Model|object  $resource
+     * @param  \Jegex\Koboi\Resource|Model|object  $resource
      */
     #[\Override]
     public function resolve($resource, ?string $attribute = null): void
@@ -222,7 +226,7 @@ class MorphTo extends Field implements FilterableField, RelatableField
     /**
      * Resolve the field's value for display.
      *
-     * @param  \Jegex\Koboi\Resource|\Illuminate\Database\Eloquent\Model|object  $resource
+     * @param  \Jegex\Koboi\Resource|Model|object  $resource
      */
     #[\Override]
     public function resolveForDisplay($resource, ?string $attribute = null): void
@@ -241,7 +245,7 @@ class MorphTo extends Field implements FilterableField, RelatableField
     /**
      * Resolve the current resource key for the resource's morph type.
      *
-     * @param  \Jegex\Koboi\Resource|\Illuminate\Database\Eloquent\Model  $resource
+     * @param  \Jegex\Koboi\Resource|Model  $resource
      */
     protected function resolveMorphType($resource): ?string
     {
@@ -261,7 +265,7 @@ class MorphTo extends Field implements FilterableField, RelatableField
     /**
      * Resolve the resource class for the field.
      *
-     * @param  \Illuminate\Database\Eloquent\Model  $model
+     * @param  Model  $model
      */
     protected function resolveResourceClass($model): ?string
     {
@@ -298,7 +302,7 @@ class MorphTo extends Field implements FilterableField, RelatableField
     /**
      * Hydrate the given attribute on the model based on the incoming request.
      *
-     * @param  \Illuminate\Database\Eloquent\Model|\Jegex\Koboi\Support\Fluent  $model
+     * @param  Model|Fluent  $model
      * @return void
      */
     #[\Override]
@@ -331,7 +335,7 @@ class MorphTo extends Field implements FilterableField, RelatableField
     /**
      * Hydrate the given attribute on the model based on the incoming request.
      *
-     * @param  \Illuminate\Database\Eloquent\Model|\Jegex\Koboi\Support\Fluent  $model
+     * @param  Model|Fluent  $model
      */
     #[\Override]
     public function fillForAction(NovaRequest $request, object $model): void
@@ -362,7 +366,7 @@ class MorphTo extends Field implements FilterableField, RelatableField
     /**
      * Format the given morphable resource.
      *
-     * @param  \Jegex\Koboi\Resource|\Illuminate\Database\Eloquent\Model  $resource
+     * @param  \Jegex\Koboi\Resource|Model  $resource
      * @param  class-string<\Jegex\Koboi\Resource>  $relatedResource
      */
     public function formatMorphableResource(NovaRequest $request, object $resource, string $relatedResource): array
@@ -484,7 +488,7 @@ class MorphTo extends Field implements FilterableField, RelatableField
     /**
      * Set the default relation resource class to be selected.
      *
-     * @param  (callable(\Jegex\Koboi\Http\Requests\NovaRequest):(class-string<\Jegex\Koboi\Resource>))|class-string<\Jegex\Koboi\Resource>  $resourceClass
+     * @param  (callable(NovaRequest):(class-string<\Jegex\Koboi\Resource>))|class-string<\Jegex\Koboi\Resource>  $resourceClass
      * @return $this
      */
     public function defaultResource($resourceClass)
@@ -517,7 +521,7 @@ class MorphTo extends Field implements FilterableField, RelatableField
     /**
      * Make the field filter.
      *
-     * @return \Jegex\Koboi\Fields\Filters\Filter|null
+     * @return Filter|null
      */
     protected function makeFilter(NovaRequest $request)
     {
@@ -537,14 +541,14 @@ class MorphTo extends Field implements FilterableField, RelatableField
     /**
      * Define the default filterable callback.
      *
-     * @return callable(\Jegex\Koboi\Http\Requests\NovaRequest, \Illuminate\Contracts\Database\Eloquent\Builder, mixed, string):void
+     * @return callable(NovaRequest, Builder, mixed, string):void
      */
     protected function defaultFilterableCallback()
     {
         $morphToTypes = collect($this->morphToTypes)
-                            ->pluck('type')
-                            ->mapWithKeys(static fn ($type) => [$type => $type::newModel()->getMorphClass()])
-                            ->all();
+            ->pluck('type')
+            ->mapWithKeys(static fn ($type) => [$type => $type::newModel()->getMorphClass()])
+            ->all();
 
         return function (NovaRequest $request, $query, $value, $attribute) use ($morphToTypes) {
             $query->whereHasMorph(

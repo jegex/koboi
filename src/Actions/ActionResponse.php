@@ -3,10 +3,10 @@
 namespace Jegex\Koboi\Actions;
 
 use ArrayAccess;
-use JsonSerializable;
 use Jegex\Koboi\Exceptions\HelperNotSupported;
 use Jegex\Koboi\Makeable;
 use Jegex\Koboi\URL;
+use JsonSerializable;
 use Stringable;
 
 class ActionResponse implements ArrayAccess, JsonSerializable
@@ -190,7 +190,7 @@ class ActionResponse implements ArrayAccess, JsonSerializable
      *
      * @return $this
      *
-     * @throws \Jegex\Koboi\Exceptions\HelperNotSupported
+     * @throws HelperNotSupported
      */
     public function usingNewTab()
     {

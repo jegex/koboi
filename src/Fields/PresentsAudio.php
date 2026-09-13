@@ -9,14 +9,14 @@ trait PresentsAudio
     /**
      * The "preload" attribute callback.
      *
-     * @var (callable(\Jegex\Koboi\Http\Requests\NovaRequest):string)|string|null
+     * @var (callable(NovaRequest):string)|string|null
      */
     public $preloadAudioCallback;
 
     /**
      * Set "preload" option for the field.
      *
-     * @param  (callable(\Jegex\Koboi\Http\Requests\NovaRequest):string)|string  $preloadAudioCallback
+     * @param  (callable(NovaRequest):string)|string  $preloadAudioCallback
      * @return $this
      */
     public function preload(callable|string $preloadAudioCallback)

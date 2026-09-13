@@ -13,7 +13,7 @@ trait HandlesRoutes
     /**
      * The initial path Nova should route to when visiting the base.
      *
-     * @var (\Closure(\Illuminate\Http\Request):(string|null))|string
+     * @var (Closure(Request):(string|null))|string
      */
     public static Closure|string $initialPath = '/dashboards/main';
 
@@ -46,8 +46,8 @@ trait HandlesRoutes
     public static function router(?array $middleware = null, ?string $prefix = null): RouteRegistrar
     {
         return Route::domain(config('nova.domain', null))
-                    ->prefix(static::url($prefix))
-                    ->middleware($middleware ?? config('nova.middleware', []));
+            ->prefix(static::url($prefix))
+            ->middleware($middleware ?? config('nova.middleware', []));
     }
 
     /**
@@ -61,7 +61,7 @@ trait HandlesRoutes
     /**
      * Set the initial route path when visiting the base Nova url.
      *
-     * @param  (\Closure(\Illuminate\Http\Request):(string|null))|string  $path
+     * @param  (Closure(Request):(string|null))|string  $path
      */
     public static function initialPath(Closure|string $path): static
     {

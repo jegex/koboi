@@ -2,9 +2,12 @@
 
 namespace Jegex\Koboi\Jobs;
 
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\Pivot;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Jegex\Koboi\Contracts\Deletable;
 use Jegex\Koboi\DeleteField;
+use Jegex\Koboi\Fields\Field;
 use Jegex\Koboi\Http\Requests\DetachResourceRequest;
 use Jegex\Koboi\Nova;
 use Jegex\Koboi\Resource;
@@ -59,9 +62,9 @@ class DetachResources
     /**
      * Delete pivot relations from model.
      *
-     * @param  \Illuminate\Database\Eloquent\Relations\Pivot  $pivot
-     * @param  \Illuminate\Database\Eloquent\Model  $model
-     * @param  \Illuminate\Database\Eloquent\Model  $parent
+     * @param  Pivot  $pivot
+     * @param  Model  $model
+     * @param  Model  $parent
      */
     protected function deletePivot(DetachResourceRequest $request, $pivot, $model, $parent): void
     {
@@ -83,7 +86,7 @@ class DetachResources
     /**
      * Delete the pivot fields on the given pivot model.
      *
-     * @param  \Illuminate\Database\Eloquent\Relations\Pivot  $pivot
+     * @param  Pivot  $pivot
      */
     protected function deletePivotFields(DetachResourceRequest $request, Resource $resource, $pivot): void
     {
@@ -91,7 +94,7 @@ class DetachResources
             ->whereInstanceOf(Deletable::class)
             ->filter->isPrunable()
             ->each(static function ($field) use ($request, $pivot) {
-                /** @var \Jegex\Koboi\Fields\Field&\Jegex\Koboi\Contracts\Deletable $field */
+                /** @var Field&Deletable $field */
                 DeleteField::forRequest($request, $field, $pivot)->save();
             });
     }

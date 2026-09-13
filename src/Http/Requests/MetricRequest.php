@@ -33,7 +33,7 @@ class MetricRequest extends NovaRequest
     /**
      * Get all of the possible metrics for the request.
      *
-     * @return \Illuminate\Support\Collection<int, \Jegex\Koboi\Metrics\Metric>
+     * @return Collection<int, Metric>
      */
     public function availableMetrics(): Collection
     {
@@ -44,7 +44,7 @@ class MetricRequest extends NovaRequest
         return $resource->availableCards($this)
             ->whereInstanceOf(Metric::class)
             ->map(function ($metric) use ($resource) {
-                /** @var \Jegex\Koboi\Metrics\Metric $metric */
+                /** @var Metric $metric */
                 if ($metric->refreshWhenFiltersChange === true) {
                     $request = isset($this->resourceId)
                         ? ResourceDetailRequest::createFromBase($this)
@@ -60,7 +60,7 @@ class MetricRequest extends NovaRequest
     /**
      * Get all of the possible metrics for a detail request.
      *
-     * @return \Illuminate\Support\Collection<int, \Jegex\Koboi\Metrics\Metric>
+     * @return Collection<int, Metric>
      */
     public function availableMetricsForDetail(): Collection
     {
@@ -71,7 +71,7 @@ class MetricRequest extends NovaRequest
         return $resource->availableCardsForDetail($this)
             ->whereInstanceOf(Metric::class)
             ->map(function ($metric) use ($resource) {
-                /** @var \Jegex\Koboi\Metrics\Metric $metric */
+                /** @var Metric $metric */
                 if ($metric->refreshWhenFiltersChange === true) {
                     return $metric->setAvailableFilters(
                         $resource->availableFilters(ResourceDetailRequest::createFromBase($this))

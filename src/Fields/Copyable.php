@@ -18,7 +18,7 @@ trait Copyable
      *
      * @return $this
      *
-     * @throws \Jegex\Koboi\Exceptions\HelperNotSupported
+     * @throws HelperNotSupported
      */
     public function copyable()
     {

@@ -4,6 +4,7 @@ namespace Jegex\Koboi;
 
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Contracts\Auth\Authenticatable;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Str;
@@ -41,7 +42,7 @@ trait Authorizable
      *
      * @return void
      *
-     * @throws \Illuminate\Auth\Access\AuthorizationException
+     * @throws AuthorizationException
      */
     public function authorizeToViewAny(Request $request)
     {
@@ -81,7 +82,7 @@ trait Authorizable
      *
      * @return void
      *
-     * @throws \Illuminate\Auth\Access\AuthorizationException
+     * @throws AuthorizationException
      */
     public function authorizeToView(Request $request)
     {
@@ -103,7 +104,7 @@ trait Authorizable
      *
      * @return void
      *
-     * @throws \Illuminate\Auth\Access\AuthorizationException
+     * @throws AuthorizationException
      */
     public static function authorizeToCreate(Request $request)
     {
@@ -131,7 +132,7 @@ trait Authorizable
      *
      * @return void
      *
-     * @throws \Illuminate\Auth\Access\AuthorizationException
+     * @throws AuthorizationException
      */
     public function authorizeToUpdate(Request $request)
     {
@@ -153,7 +154,7 @@ trait Authorizable
      *
      * @return void
      *
-     * @throws \Illuminate\Auth\Access\AuthorizationException
+     * @throws AuthorizationException
      */
     public function authorizeToReplicate(Request $request)
     {
@@ -198,7 +199,7 @@ trait Authorizable
      *
      * @return void
      *
-     * @throws \Illuminate\Auth\Access\AuthorizationException
+     * @throws AuthorizationException
      */
     public function authorizeToDelete(Request $request)
     {
@@ -238,7 +239,7 @@ trait Authorizable
     /**
      * Determine if the user can add / associate models of the given type to the resource.
      *
-     * @param  \Illuminate\Database\Eloquent\Model|string  $model
+     * @param  Model|string  $model
      * @return bool
      */
     public function authorizedToAdd(NovaRequest $request, $model)
@@ -260,7 +261,7 @@ trait Authorizable
     /**
      * Determine if the user can attach any models of the given type to the resource.
      *
-     * @param  \Illuminate\Database\Eloquent\Model|string  $model
+     * @param  Model|string  $model
      * @return bool
      */
     public function authorizedToAttachAny(NovaRequest $request, $model)
@@ -282,7 +283,7 @@ trait Authorizable
     /**
      * Determine if the user can attach models of the given type to the resource.
      *
-     * @param  \Illuminate\Database\Eloquent\Model|string  $model
+     * @param  Model|string  $model
      * @return bool
      */
     public function authorizedToAttach(NovaRequest $request, $model)
@@ -304,7 +305,7 @@ trait Authorizable
     /**
      * Determine if the user can detach models of the given type to the resource.
      *
-     * @param  \Illuminate\Database\Eloquent\Model|string  $model
+     * @param  Model|string  $model
      * @param  string  $relationship
      * @return bool
      */
@@ -391,7 +392,7 @@ trait Authorizable
     /**
      * Determine if the current user has a given ability.
      *
-     * @throws \Illuminate\Auth\Access\AuthorizationException
+     * @throws AuthorizationException
      */
     public function authorizeTo(Request $request, string $ability): void
     {

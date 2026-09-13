@@ -128,7 +128,7 @@ class NovaCoreServiceProvider extends ServiceProvider
                 'Password Reset Broker' => AboutCommand::format(config('nova.passwords'), console: static fn ($value) => $value ?? 'null'),
 
                 'Global Search' => AboutCommand::format(Nova::$withGlobalSearch, console: $formatEnabledStatus),
-                'Global Debounce' => AboutCOmmand::format(Nova::$debounce, console: static fn ($value) => "{$value}s"),
+                'Global Debounce' => AboutCommand::format(Nova::$debounce, console: static fn ($value) => "{$value}s"),
             ];
         });
     }

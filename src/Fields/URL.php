@@ -2,6 +2,7 @@
 
 namespace Jegex\Koboi\Fields;
 
+use Jegex\Koboi\Exceptions\HelperNotSupported;
 use Jegex\Koboi\Exceptions\NovaException;
 use Jegex\Koboi\Http\Requests\NovaRequest;
 
@@ -34,7 +35,7 @@ class URL extends Text
      *
      * @return never
      *
-     * @throws \Jegex\Koboi\Exceptions\HelperNotSupported
+     * @throws HelperNotSupported
      */
     public function copyable()
     {

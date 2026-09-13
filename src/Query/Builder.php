@@ -5,17 +5,21 @@ namespace Jegex\Koboi\Query;
 use Illuminate\Contracts\Database\Eloquent\Builder as EloquentBuilder;
 use Illuminate\Contracts\Database\Query\Builder as BaseBuilder;
 use Illuminate\Database\Eloquent\Collection as EloquentCollection;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\LazyCollection;
 use Illuminate\Support\Traits\Conditionable;
 use Jegex\Koboi\Contracts\QueryBuilder;
 use Jegex\Koboi\Http\Requests\NovaRequest;
+use Jegex\Koboi\Resource;
 use Jegex\Koboi\TrashedStatus;
 use Laravel\Scout\Builder as ScoutBuilder;
 use Laravel\Scout\Contracts\PaginatesEloquentModels;
+use Laravel\Scout\Searchable;
 use RuntimeException;
 use WeakMap;
 
@@ -36,7 +40,7 @@ class Builder implements QueryBuilder
     /**
      * Optional callbacks before model query execution.
      *
-     * @var array<int, callable(\Illuminate\Contracts\Database\Eloquent\Builder):void>
+     * @var array<int, callable(EloquentBuilder):void>
      */
     protected array $queryCallbacks = [];
 
@@ -66,7 +70,7 @@ class Builder implements QueryBuilder
         $this->setOriginalQueryBuilder($this->queryBuilder = $query);
 
         $this->tap(static function ($query) use ($key) {
-            /** @var \Illuminate\Contracts\Database\Eloquent\Builder $query */
+            /** @var EloquentBuilder $query */
             $query->whereKey($key);
         });
 
@@ -76,7 +80,7 @@ class Builder implements QueryBuilder
     /**
      * Build a "search" query for the given resource.
      *
-     * @param  array<int, \Jegex\Koboi\Query\ApplyFilter>  $filters
+     * @param  array<int, ApplyFilter>  $filters
      * @param  array<string, string>  $orderings
      * @return $this
      */
@@ -100,7 +104,7 @@ class Builder implements QueryBuilder
 
                 if ($query instanceof HasMany) {
                     $this->tap(function ($queryBuilder) use ($query) {
-                        /** @var \Illuminate\Contracts\Database\Eloquent\Builder $queryBuilder */
+                        /** @var EloquentBuilder $queryBuilder */
                         $queryBuilder->whereIn(
                             $this->resourceClass::newModel()->getQualifiedKeyName(),
                             $query->select($query->getModel()->getKeyName())
@@ -108,7 +112,7 @@ class Builder implements QueryBuilder
                     });
                 } elseif ($query instanceof MorphToMany || $query instanceof BelongsToMany) {
                     $this->tap(function ($queryBuilder) use ($query) {
-                        /** @var \Illuminate\Contracts\Database\Eloquent\Builder $queryBuilder */
+                        /** @var EloquentBuilder $queryBuilder */
                         $queryBuilder->whereIn(
                             $this->resourceClass::newModel()->getQualifiedKeyName(),
                             $query->allRelatedIds()
@@ -119,7 +123,7 @@ class Builder implements QueryBuilder
 
             if (! $hasSearchKeyword && ! $hasOrderings) {
                 $this->tap(function ($query) {
-                    /** @var \Illuminate\Contracts\Database\Eloquent\Builder $query */
+                    /** @var EloquentBuilder $query */
                     $this->resourceClass::defaultOrderings($query);
                 });
             }
@@ -130,7 +134,7 @@ class Builder implements QueryBuilder
         }
 
         $this->tap(function ($query) use ($request, $search, $filters, $orderings, $withTrashed) {
-            /** @var \Illuminate\Contracts\Database\Eloquent\Builder $query */
+            /** @var EloquentBuilder $query */
             $this->resourceClass::buildIndexQuery(
                 $request, $query, $search, $filters, $orderings, $withTrashed
             );
@@ -142,7 +146,7 @@ class Builder implements QueryBuilder
     /**
      * Pass the query to a given callback.
      *
-     * @param  callable(\Illuminate\Contracts\Database\Eloquent\Builder):void  $callback
+     * @param  callable(EloquentBuilder):void  $callback
      * @return $this
      */
     public function tap(callable $callback)
@@ -172,7 +176,7 @@ class Builder implements QueryBuilder
     public function limit(?int $limit)
     {
         return $this->tap(static function ($query) use ($limit) {
-            /** @var \Illuminate\Contracts\Database\Eloquent\Builder $query */
+            /** @var EloquentBuilder $query */
             $query->limit($limit);
         });
     }
@@ -241,7 +245,7 @@ class Builder implements QueryBuilder
         $modelQueryBuilder = $this->handleQueryCallbacks($originalQueryBuilder);
 
         if ($sql === $modelQueryBuilder->toSql() && array_diff($bindings, $modelQueryBuilder->getBindings()) === []) {
-            /** @var \Illuminate\Pagination\LengthAwarePaginator $paginated */
+            /** @var LengthAwarePaginator $paginated */
             $paginated = $queryBuilder->paginate($perPage);
 
             $items = $paginated->items();
@@ -263,7 +267,7 @@ class Builder implements QueryBuilder
         /** @var array<int, string|int> $scoutResultKeys */
         $scoutResultKeys = $queryBuilder->keys()->all();
 
-        /** @var \Illuminate\Database\Eloquent\Model&\Laravel\Scout\Searchable $model */
+        /** @var Model&Searchable $model */
         $model = $this->resourceClass::newModel();
 
         $paginated = tap($model->queryScoutModelsByIds(
@@ -337,7 +341,7 @@ class Builder implements QueryBuilder
     protected function handleQueryCallbacks(EloquentBuilder|ScoutBuilder $queryBuilder): EloquentBuilder|ScoutBuilder
     {
         $callback = function ($query) {
-            /** @var \Illuminate\Contracts\Database\Eloquent\Builder $query */
+            /** @var EloquentBuilder $query */
             collect($this->queryCallbacks)
                 ->filter()
                 ->each(static function ($callback) use ($query) {

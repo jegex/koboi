@@ -51,7 +51,7 @@ class Column
     /**
      * Create Column instance from raw expression or fluent string.
      *
-     * @param  \Illuminate\Database\Query\Expression|string  $column
+     * @param  Expression|string  $column
      */
     public static function from(ExpressionContract|string $column): static|SearchableJson|SearchableRelation
     {
