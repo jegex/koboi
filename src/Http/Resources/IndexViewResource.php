@@ -4,7 +4,6 @@ namespace Jegex\Koboi\Http\Resources;
 
 use Illuminate\Auth\Access\AuthorizationException;
 use Jegex\Koboi\Http\Requests\ResourceIndexRequest;
-use Jegex\Koboi\Resource;
 
 class IndexViewResource extends Resource
 {

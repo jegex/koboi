@@ -5,7 +5,6 @@ namespace Jegex\Koboi\Http\Resources;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Jegex\Koboi\Http\Requests\ResourceUpdateOrUpdateAttachedRequest;
-use Jegex\Koboi\Resource;
 use Jegex\Koboi\Resource as NovaResource;
 
 class UpdatePivotFieldResource extends Resource
