@@ -28,7 +28,7 @@
         "laravel/sentinel": "^1.1.0",
         "laravel/serializable-closure": "^1.3|^2.0.0",
         "nesbot/carbon": "^2.62.1|^3.4",
-        "openspout/openspout": "^4.24",
+        "openspout/openspout": "^5.13",
         "orchestra/sidekick": "^1.2.18",
         "spatie/once": "^3.0",
         "symfony/console": "^6.4.14|^7.0.3|^8.0.0",
